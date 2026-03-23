@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter - TradeSovereign Student Zone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css2/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .tab-btns { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+        .tab-btn { padding:0.65rem 1rem; border:none; border-radius:8px; background:var(--bg-light); cursor:pointer; }
+        .tab-btn.active { background:var(--primary); color:white; }
+        .tab-content { background:white; border-radius:10px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo"><a href="/">TradeSovereign</a></div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/student-zone/">Student Zone</a></li>
+                    <li><a href="/trading-zone/">Trading Zone</a></li>
+                    <li><a href="/trading-zone/blog.html">Blog</a></li>
+                    <li><a href="/trading-zone/shop.html">Shop</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 3rem 0;">
+            <div class="container"><h1 id="chapter-heading">Chapter</h1><p id="chapter-subtitle">Learning resources</p></div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="tab-btns" id="tab-btns"></div>
+                <div class="tab-content" id="tab-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div><div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fas fa-phone"></i> +91 98765 43210</li></ul></div></div><div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div></div></footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const classValue = params.get('class') || '6';
+        const subjectValue = params.get('subject') || 'mathematics';
+        const chapterIndex = Number(params.get('chapter')) || 1;
+
+        const humanSubject = subjectValue.replace(/-/g,' ').replace(/\b[a-z]/g, x => x.toUpperCase());
+        document.getElementById('chapter-heading').innerText = `${humanSubject} - Class ${classValue} - Chapter ${chapterIndex}`;
+        document.getElementById('chapter-subtitle').innerText = 'Note: customise content as needed.';
+
+        const tabs = ['Overview', 'Practice', 'MCQs', 'Summary'];
+        const tabContent = {
+            'Overview': `This is the overview of chapter ${chapterIndex} for ${humanSubject}.`,
+            'Practice': `Practice questions and answers for chapter ${chapterIndex}.`,
+            'MCQs': `Try 5 MCQs on chapter ${chapterIndex}.`,
+            'Summary': `Quick summary for chapter ${chapterIndex}.`
+        };
+
+        const tabBtns = document.getElementById('tab-btns');
+        const content = document.getElementById('tab-content');
+
+        tabs.forEach(tab => {
+            const button = document.createElement('button');
+            button.className = 'tab-btn';
+            button.textContent = tab;
+            button.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+                button.classList.add('active');
+                content.innerHTML = `<h3>${tab}</h3><p>${tabContent[tab]}</p>`;
+            };
+            tabBtns.appendChild(button);
+        });
+        tabBtns.firstElementChild.click();
+    </script>
+</body>
+</html>

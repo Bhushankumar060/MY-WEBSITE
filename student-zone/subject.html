@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject - TradeSovereign Student Zone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css2/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .chapter-list { list-style:none; padding:0; margin:2rem 0; }
+        .chapter-item { margin-bottom:1rem; }
+        .chapter-link { display:block; background:white; border-radius:10px; padding:1.2rem; color:var(--text-dark); text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .chapter-link:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo"><a href="/">TradeSovereign</a></div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/student-zone/">Student Zone</a></li>
+                    <li><a href="/trading-zone/">Trading Zone</a></li>
+                    <li><a href="/trading-zone/blog.html">Blog</a></li>
+                    <li><a href="/trading-zone/shop.html">Shop</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 3rem 0;">
+            <div class="container"><h1 id="subject-title">Subject</h1><p>Pick a chapter to continue.</p></div>
+        </section>
+        <section class="features"><div class="container"><ul id="chapter-list" class="chapter-list"></ul></div></section>
+    </main>
+
+    <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div><div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fas fa-phone"></i> +91 98765 43210</li></ul></div></div><div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div></div></footer>
+
+    <script>
+        const url = new URL(window.location.href);
+        const classValue = url.searchParams.get('class') || '6';
+        const subjectValue = url.searchParams.get('subject') || 'mathematics';
+
+        const labelSubject = subjectValue.replace(/-/g,' ').replace(/\b[a-z]/g, c => c.toUpperCase());
+        document.getElementById('subject-title').innerText = `${labelSubject} - Class ${classValue}`;
+
+        const chapterData = {
+            'mathematics': ['Number Systems','Algebra','Geometry','Statistics','Probability'],
+            'science': ['Matter','Life Processes','Control and Coordination','Electricity','Light'],
+            'social-science': ['History','Geography','Civics','Economics'],
+            'english': ['Grammar','Literature','Writing','Comprehension'],
+            'hindi': ['व्याकरण','साहित्य','लेखन','समझ'],
+            'physics': ['Motion','Force','Energy','Electricity','Magnetism'],
+            'chemistry': ['Matter','Atoms','Molecules','Acids and Bases','Metals'],
+            'biology': ['Life Processes','Control and Coordination','Reproduction','Heredity','Environment']
+        };
+
+        const chapters = chapterData[subjectValue] || ['Chapter 1','Chapter 2','Chapter 3'];
+        const listEl = document.getElementById('chapter-list');
+
+        chapters.forEach((chap, idx) => {
+            const li = document.createElement('li');
+            li.className = 'chapter-item';
+            li.innerHTML = `<a class='chapter-link' href='chapter.html?class=${classValue}&subject=${subjectValue}&chapter=${idx+1}'><h3>Chapter ${idx+1}: ${chap}</h3><p>Notes, MCQs, practice questions and solutions.</p></a>`;
+            listEl.appendChild(li);
+        });
+    </script>
+</body>
+</html>

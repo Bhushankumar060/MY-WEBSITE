@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Tools | TradeSovereign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo"><a href="/">TradeSovereign</a></div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/student-zone/">Student Zone</a></li>
+                    <li><a href="/trading-zone/">Trading Zone</a></li>
+                    <li><a href="/trading-zone/blog.html">Blog</a></li>
+                    <li><a href="/trading-zone/shop.html">Shop</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 3rem 0;">
+            <div class="container">
+                <h1>Trading Tools</h1>
+                <p>Position size calculator, risk/reward calculator, and trading journal template.</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="tool-card">
+                    <h2>Position Size Calculator</h2>
+                    <div class="input-group">
+                        <label>Account Balance ($):</label>
+                        <input type="number" id="balance" value="10000">
+                    </div>
+                    <div class="input-group">
+                        <label>Risk % per trade:</label>
+                        <input type="number" id="riskPercent" value="2">
+                    </div>
+                    <div class="input-group">
+                        <label>Stop Loss (pips):</label>
+                        <input type="number" id="stopLoss" value="50">
+                    </div>
+                    <div class="result" id="positionResult">Position Size: 0 lots</div>
+                </div>
+
+                <div class="tool-card">
+                    <h2>Risk/Reward Calculator</h2>
+                    <div class="input-group">
+                        <label>Entry Price:</label>
+                        <input type="number" id="entry" step="0.0001" value="1.1000">
+                    </div>
+                    <div class="input-group">
+                        <label>Stop Loss Price:</label>
+                        <input type="number" id="stop" step="0.0001" value="1.0950">
+                    </div>
+                    <div class="input-group">
+                        <label>Take Profit Price:</label>
+                        <input type="number" id="target" step="0.0001" value="1.1100">
+                    </div>
+                    <div class="result" id="rrResult">Risk: $0 | Reward: $0 | Ratio: 0:1</div>
+                </div>
+
+                <div class="tool-card">
+                    <h2>Trading Journal Template</h2>
+                    <p>Track your trades and analyze performance with our Excel/Google Sheets template.</p>
+                    <a href="#" class="btn btn-primary">Download Template</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div>
+                <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div>
+                <div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fab fa-twitter"></i> @tradesovereign</li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        function updatePositionSize() {
+            const balance = parseFloat(document.getElementById('balance').value);
+            const riskPercent = parseFloat(document.getElementById('riskPercent').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            const riskAmount = balance * riskPercent / 100;
+            // Simplified: pip value for 1 lot = $10 (for forex majors)
+            const positionSize = riskAmount / (stopLoss * 10);
+            document.getElementById('positionResult').innerHTML = `Position Size: ${positionSize.toFixed(2)} lots (Risk: $${riskAmount.toFixed(2)})`;
+        }
+
+        function updateRR() {
+            const entry = parseFloat(document.getElementById('entry').value);
+            const stop = parseFloat(document.getElementById('stop').value);
+            const target = parseFloat(document.getElementById('target').value);
+            const risk = Math.abs(entry - stop);
+            const reward = Math.abs(target - entry);
+            const ratio = reward / risk;
+            document.getElementById('rrResult').innerHTML = `Risk: ${risk.toFixed(4)} | Reward: ${reward.toFixed(4)} | Ratio: ${ratio.toFixed(2)}:1`;
+        }
+
+        document.getElementById('balance').addEventListener('input', updatePositionSize);
+        document.getElementById('riskPercent').addEventListener('input', updatePositionSize);
+        document.getElementById('stopLoss').addEventListener('input', updatePositionSize);
+        document.getElementById('entry').addEventListener('input', updateRR);
+        document.getElementById('stop').addEventListener('input', updateRR);
+        document.getElementById('target').addEventListener('input', updateRR);
+        updatePositionSize();
+        updateRR();
+    </script>
+</body>
+</html>

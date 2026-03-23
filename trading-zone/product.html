@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product | TradeSovereign Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .product-gallery img {
+            width: 100%;
+            border-radius: 12px;
+        }
+        .product-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--secondary-light);
+            margin: 1rem 0;
+        }
+        .product-features {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo"><a href="/">TradeSovereign</a></div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/student-zone/">Student Zone</a></li>
+                    <li><a href="/trading-zone/">Trading Zone</a></li>
+                    <li><a href="/trading-zone/blog.html">Blog</a></li>
+                    <li><a href="/trading-zone/shop.html">Shop</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 3rem 0;">
+            <div class="container">
+                <h1>Complete Trading Journal</h1>
+                <p>Track, analyze, and improve your trading performance.</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container product-detail">
+                <div class="product-gallery">
+                    <img src="https://picsum.photos/id/20/500/400" alt="Product">
+                </div>
+                <div class="product-info">
+                    <h2>Complete Trading Journal (Excel + Notion)</h2>
+                    <div class="product-price">$19</div>
+                    <p>This comprehensive trading journal helps you log every trade, analyze performance, and identify patterns to improve your consistency.</p>
+                    <h3>What's included:</h3>
+                    <ul class="product-features">
+                        <li>Excel spreadsheet with automated metrics</li>
+                        <li>Notion template for daily journaling</li>
+                        <li>Performance dashboard (win rate, R:R, etc.)</li>
+                        <li>Printable version included</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="margin-top:1rem;">Buy Now on Gumroad</a>
+                </div>
+            </div>
+
+            <div class="container">
+                <h3>Frequently Asked Questions</h3>
+                <div style="margin-top:1rem;">
+                    <p><strong>Q: How do I download?</strong><br>A: After purchase, you'll receive a link to download immediately.</p>
+                    <p><strong>Q: Can I use it on Mac/PC?</strong><br>A: Yes, Excel works on both, and Notion is cloud-based.</p>
+                    <p><strong>Q: Is there a refund policy?</strong><br>A: Digital products are non-refundable, but contact us if you have any issues.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div>
+                <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div>
+                <div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fab fa-twitter"></i> @tradesovereign</li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script src="../js/common.js"></script>
+</body>
+</html>

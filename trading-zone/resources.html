@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Resources | Trading Zone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: var(--secondary-light);
+            color: white;
+            border-color: var(--secondary-light);
+        }
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo"><a href="/">TradeSovereign</a></div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/student-zone/">Student Zone</a></li>
+                    <li><a href="/trading-zone/">Trading Zone</a></li>
+                    <li><a href="/trading-zone/blog.html">Blog</a></li>
+                    <li><a href="/trading-zone/shop.html">Shop</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 3rem 0;">
+            <div class="container">
+                <h1>Free Trading Resources</h1>
+                <p>Download PDFs, cheat sheets, templates, and more.</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="filter-buttons" id="filter-buttons">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="pdf">PDF Guides</button>
+                    <button class="filter-btn" data-category="template">Templates</button>
+                    <button class="filter-btn" data-category="cheatsheet">Cheat Sheets</button>
+                </div>
+                <div id="resources-grid" class="resource-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div>
+                <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div>
+                <div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fab fa-twitter"></i> @tradesovereign</li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        const resources = [
+            { title: "Forex Trading Guide", category: "pdf", description: "Complete beginner's guide to forex trading.", download: "#" },
+            { title: "Candlestick Patterns Cheat Sheet", category: "cheatsheet", description: "Quick reference for 20 candlestick patterns.", download: "#" },
+            { title: "Daily Trading Journal Template", category: "template", description: "Excel template to track your trades.", download: "#" },
+            { title: "Risk Management PDF", category: "pdf", description: "Learn how to manage risk effectively.", download: "#" },
+            { title: "Fibonacci Retracement Cheat Sheet", category: "cheatsheet", description: "How to use Fibonacci levels.", download: "#" },
+            { title: "Trade Plan Template", category: "template", description: "Structured template for your trading plan.", download: "#" },
+        ];
+
+        function renderResources(category) {
+            const filtered = category === 'all' ? resources : resources.filter(r => r.category === category);
+            const grid = document.getElementById('resources-grid');
+            grid.innerHTML = filtered.map(r => `
+                <div class="resource-card">
+                    <h3>${r.title}</h3>
+                    <p>${r.description}</p>
+                    <a href="${r.download}" class="btn btn-primary" style="margin-top:1rem; display:inline-block;">Download</a>
+                </div>
+            `).join('');
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderResources(btn.getAttribute('data-category'));
+            });
+        });
+        renderResources('all');
+    </script>
+</body>
+</html>
