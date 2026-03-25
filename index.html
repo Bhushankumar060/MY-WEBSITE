@@ -3,57 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeSovereign v9.0 | Ultimate EdTech & Trading Ecosystem</title>
+    <title>TradeSovereign v9.1 | Ultimate AI & Trading Infrastructure</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: { primary: '#10b981', secondary: '#6366f1', dark: '#020617', surface: '#0f172a' },
+                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
                     fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
                 }
             }
         }
     </script>
 
-    <!-- Three.js -->
+    <!-- Three.js (Deferred) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.min.js"></script>
     
     <style>
         body { font-family: 'Space Grotesk', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.6; }
         .glass-nav { background: rgba(2, 6, 23, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .liquid-glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        .liquid-card { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .liquid-card:hover { border-color: #10b981; transform: translateY(-10px); background: rgba(16, 185, 129, 0.05); }
+        .text-glow { text-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
         
-        /* Neubrutalism v9.0 Fusion */
-        .ts-button { position: relative; transition: all 0.2s; }
-        .ts-button:active { transform: translate(2px, 2px); }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-primary selection:text-dark">
 
-    <!-- Three.js Torus Knot Background -->
-    <div id="canvas-container"></div>
+    <!-- 3D Sovereign Matrix Background -->
+    <div id="matrix-canvas"></div>
 
     <!-- Header -->
     <header class="fixed w-full z-50 glass-nav h-24 flex items-center px-8">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center text-center sm:text-left">
             <a href="#" class="text-3xl font-black font-heading tracking-tighter uppercase flex items-center gap-3">
                 <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
                     <i class="fa-solid fa-crown text-primary text-xl"></i>
                 </div>
-                Sovereign <span class="text-primary opacity-50 font-medium">v9.0</span>
+                Sovereign <span class="text-primary opacity-50 font-medium">v9.1</span>
             </a>
             
             <nav class="hidden lg:flex items-center gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
@@ -61,75 +57,72 @@
                 <a href="trader-dashboard.html" class="hover:text-white transition-all">Trading</a>
                 <a href="store.html" class="hover:text-white transition-all">Store</a>
                 <a href="my-purchases.html" class="hover:text-white transition-all">My Vault</a>
-                <a href="admin.html" class="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-white hover:bg-primary hover:text-dark transition-all">Command_Center</a>
+                <a href="admin.html" class="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-white hover:bg-primary hover:text-dark transition-all">Admin_Portal</a>
             </nav>
         </div>
     </header>
 
     <main class="relative z-10">
-        
-        <!-- Hero Section -->
-        <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
-            <div class="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8 animate-pulse">
-                System_Online // v9.0 Production Build
+        <!-- Hero -->
+        <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+            <div class="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+                RESTORE_STATUS // MASTER_BUILD_V9.1
             </div>
             <h1 class="text-6xl md:text-9xl font-black font-heading leading-tight tracking-tighter uppercase mb-8">
-                Master the <br><span class="text-primary text-glow italic">Intelligence</span> Matrix
+                The Future of <br><span class="text-primary text-glow italic">Intelligence</span>
             </h1>
             <p class="max-w-2xl text-lg md:text-xl text-slate-400 font-medium mb-12">
-                High-authority adaptive learning integrated with institutional trading agents. The ultimate ecosystem for the sovereign mind.
+                Reconstructed for absolute structural integrity. Adaptive education meets institutional trading orchestration in a unified Sovereign ecosystem.
             </p>
             <div class="flex flex-col sm:flex-row gap-6">
-                <a href="student-dashboard.html" class="px-10 py-5 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all shadow-2xl shadow-primary/20">Initialize Learning</a>
-                <a href="trader-dashboard.html" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">Terminal Access</a>
+                <a href="student-dashboard.html" class="px-12 py-5 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all shadow-2xl shadow-primary/20">Init_Curriculum</a>
+                <a href="trader-dashboard.html" class="px-12 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">Open_Terminal</a>
             </div>
         </section>
 
-        <!-- Dynamic Ticker -->
-        <div class="w-full bg-primary/5 border-y border-white/5 py-4 overflow-hidden whitespace-nowrap">
-            <div class="inline-block animate-marquee">
-                <span class="text-[10px] font-black uppercase tracking-[0.4em] mx-10 text-primary">Adaptive Quizzing Activated</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.4em] mx-10 text-primary">Market Sentiment: Bullish</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.4em] mx-10 text-primary">Lumi AI Core Online</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.4em] mx-10 text-primary">Institutional Order Flow Active</span>
+        <!-- Ticker -->
+        <div class="w-full bg-primary/5 border-y border-white/5 py-5 overflow-hidden whitespace-nowrap">
+            <div class="animate-marquee">
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sentinel Algorithm Active</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Lumi AI Training Core Online</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Institutional Liquidity Captured</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sovereign Encryption: AES-256</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sentinel Algorithm Active</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Lumi AI Training Core Online</span>
             </div>
         </div>
 
-        <!-- Capability Triptych -->
-        <section class="max-w-7xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="liquid-glass p-10 rounded-[3rem] space-y-6 group">
-                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Lumi AI Tutor</h3>
-                <p class="text-slate-400 font-medium">Interactive Class 1–12 curriculum with real-time adaptive generation and intelligent tracking.</p>
+        <!-- Features -->
+        <section class="max-w-7xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="liquid-card p-12 rounded-[3.5rem] space-y-6">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3 class="text-2xl font-black uppercase tracking-tighter">Educational Pulse</h3>
+                <p class="text-slate-400 font-medium">Class 1-12 curriculum powered by adaptive AI logic and premium resource distribution.</p>
             </div>
-            <div class="liquid-glass p-10 rounded-[3rem] space-y-6 group border-primary/20">
-                <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-dark text-3xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-bolt"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">TradeOS Terminal</h3>
-                <p class="text-slate-200 font-medium">Professional market feeds with Chaplin-driven macro forecasting and institutional logic.</p>
+            <div class="liquid-card p-12 rounded-[3.5rem] space-y-6 border-primary/20">
+                <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-dark text-3xl"><i class="fa-solid fa-wave-square"></i></div>
+                <h3 class="text-2xl font-black uppercase tracking-tighter">Trading Terminal</h3>
+                <p class="text-slate-200 font-medium">Real-time institutional tradeOS with Chaplin AI for high-authority market forecasting.</p>
             </div>
-            <div class="liquid-glass p-10 rounded-[3rem] space-y-6 group">
-                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-vault"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Sovereign Vault</h3>
-                <p class="text-slate-400 font-medium">Bank-grade asset library for strategy packs, video courses, and premium PDF distribution.</p>
+            <div class="liquid-card p-12 rounded-[3.5rem] space-y-6">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl"><i class="fa-solid fa-fingerprint"></i></div>
+                <h3 class="text-2xl font-black uppercase tracking-tighter">Unified Vault</h3>
+                <p class="text-slate-400 font-medium">One-click SSO access to all premium assets, store acquisitions, and personal progress.</p>
             </div>
         </section>
-
     </main>
 
-    <footer class="py-20 border-t border-white/5 relative z-10 text-center">
-        <p class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">Sovereign Platform © 2026 // Production Release v9.0</p>
+    <footer class="py-24 border-t border-white/5 relative z-10 text-center bg-dark">
+        <p class="text-[11px] font-black uppercase tracking-[0.6em] text-slate-500">Sovereign Platform © 2026 // MASTER RESTORE BUILD V9.1</p>
     </footer>
 
-    <!-- Three.js Scene Implementation -->
+    <!-- Three.js Implementation -->
     <script>
-        function initSovereignMatrix() {
-            if (typeof THREE === 'undefined') {
-                console.error("THREE_NOT_LOADED: Retrying in 1s...");
-                setTimeout(initSovereignMatrix, 1000);
-                return;
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof THREE === 'undefined') return;
 
-            const container = document.getElementById('canvas-container');
+            const container = document.getElementById('matrix-canvas');
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -138,68 +131,41 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
 
-            // Torus Knot Geometry - Executive Green
-            const geometry = new THREE.TorusKnotGeometry(12, 3.5, 150, 20);
+            const geometry = new THREE.TorusKnotGeometry(12, 4, 150, 20);
             const material = new THREE.MeshPhongMaterial({ 
                 color: 0x10b981, 
                 wireframe: true,
                 transparent: true,
-                opacity: 0.12,
+                opacity: 0.1,
                 emissive: 0x064e3b,
-                emissiveIntensity: 0.5
+                emissiveIntensity: 0.2
             });
             const torusKnot = new THREE.Mesh(geometry, material);
             scene.add(torusKnot);
 
-            // Lighting
             const light = new THREE.PointLight(0xffffff, 100, 100);
-            light.position.set(10, 10, 10);
+            light.position.set(10, 10, 50);
             scene.add(light);
-            scene.add(new THREE.AmbientLight(0x404040, 2));
+            scene.add(new THREE.AmbientLight(0x404040, 3));
 
-            camera.position.z = 40;
+            camera.position.z = 45;
 
-            // Animation Loop
             let frame = 0;
             function animate() {
                 requestAnimationFrame(animate);
-                frame += 0.01;
-                torusKnot.rotation.x = frame * 0.2;
+                frame += 0.005;
+                torusKnot.rotation.x = frame * 0.5;
                 torusKnot.rotation.y = frame * 0.3;
-                
-                // Subtle pulse
-                const pulse = Math.sin(frame) * 0.05 + 1;
-                torusKnot.scale.set(pulse, pulse, pulse);
-                
                 renderer.render(scene, camera);
             }
             animate();
 
-            // Responsive
-            window.addEventListener('resize', () => {
+            window.onresize = () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            // Mouse Interactivity (via GSAP if available)
-            window.addEventListener('mousemove', (e) => {
-                const moveX = (e.clientX - window.innerWidth / 2) * 0.0005;
-                const moveY = (e.clientY - window.innerHeight / 2) * 0.0005;
-                if (window.gsap) {
-                    gsap.to(torusKnot.rotation, { 
-                        x: torusKnot.rotation.x + moveY, 
-                        y: torusKnot.rotation.y + moveX, 
-                        duration: 1.5,
-                        ease: "power2.out"
-                    });
-                }
-            });
-        }
-
-        // Boot system
-        window.onload = initSovereignMatrix;
+            };
+        });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </body>
 </html>

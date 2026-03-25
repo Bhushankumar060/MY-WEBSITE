@@ -3,165 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Student Hub | Adaptive Learning Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <title>Sovereign Student | Adaptive Learning Matrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#6366f1', dark: '#0a0a0b', surface: '#16161a', border: '#1f1f23' },
+                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
                     fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #0a0a0b; color: #e4e4e7; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
-        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .active-tab { background: #6366f1; color: white; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-        .class-card:hover { transform: translateY(-4px); border-color: #6366f1; }
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #0a0a0b; }
-        ::-webkit-scrollbar-thumb { background: #1f1f23; border-radius: 10px; }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Space Grotesk', sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .course-card { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .course-card:hover { transform: scale(1.02); border-color: #10b981; }
+        .grade-badge { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen pb-20">
 
-    <!-- Header Navigation -->
-    <header class="h-20 border-b border-border glass-panel fixed w-full z-50 px-8 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
-                <i class="fa-solid fa-graduation-cap text-primary"></i>
+    <!-- Navbar -->
+    <nav class="h-24 flex items-center px-8 border-b border-white/5 bg-dark">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-black font-heading tracking-tighter uppercase flex items-center gap-3">
+                <i class="fa-solid fa-crown text-primary"></i> Sovereign <span class="opacity-50">Pulse</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary rounded-full"></span> XP: 1,240
+                </div>
+                <a href="index.html" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-house"></i></a>
             </div>
-            <h1 class="text-xl font-black font-heading tracking-tighter uppercase">Student <span class="text-primary">Hub</span></h1>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Intelligent_Path_Active
-            </div>
-            <a href="index.html" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-house"></i></a>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 pt-16">
+        <header class="mb-16">
+            <h1 class="text-5xl font-black font-heading tracking-tighter uppercase mb-4">Educational <span class="text-primary italic">Matrix</span></h1>
+            <p class="text-slate-400 font-medium">Select your grade level to initialize the v9.1 adaptive curriculum.</p>
+        </header>
+
+        <!-- Grade Selection Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-20">
+            <script>
+                for (let i = 1; i <= 12; i++) {
+                    document.write(`
+                        <button class="glass p-6 rounded-3xl text-center course-card group">
+                            <p class="text-[10px] font-black text-slate-500 uppercase mb-2">Level</p>
+                            <p class="text-3xl font-black group-hover:text-primary transition-colors">${i}</p>
+                            <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">Initialize_Data</p>
+                        </button>
+                    `);
+                }
+            </script>
         </div>
-    </header>
 
-    <div class="flex-grow pt-28 pb-12 px-8 flex flex-col md:flex-row gap-10 max-w-[1600px] mx-auto w-full">
-        
-        <!-- Left Sidebar: Progress & Navigation -->
-        <aside class="w-full md:w-80 flex flex-col gap-6">
-            <div class="glass-panel p-6 rounded-3xl space-y-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-lg font-black text-white">US</div>
-                    <div>
-                        <p class="font-bold text-white" id="user-display-name">Guest Student</p>
-                        <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest">Premium Level 01</p>
-                    </div>
-                </div>
-                
-                <div class="space-y-2">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-2">Knowledge Progress</p>
-                    <div class="bg-dark/50 rounded-2xl p-4 border border-white/5">
-                        <div class="flex justify-between text-[10px] font-bold mb-2">
-                            <span>TOTAL_COMPLETION</span>
-                            <span>34%</span>
-                        </div>
-                        <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                            <div class="h-full bg-primary w-1/3 shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
-                        </div>
-                    </div>
+        <!-- Subjects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-atom"></i></div>
+                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-atom"></i></div>
+                <h3 class="text-2xl font-black uppercase tracking-tighter">Physics Matrix</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Quantum mechanics, thermodynamics, and high-authority physical constants.</p>
+                <div class="pt-4 flex items-center justify-between">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-primary">8 Modules Available</span>
+                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
 
-            <nav class="glass-panel p-2 rounded-3xl flex flex-col gap-1">
-                <button class="flex items-center gap-4 p-4 rounded-2xl font-bold bg-primary text-white transition-all shadow-lg shadow-primary/20">
-                    <i class="fa-solid fa-layer-group"></i> My Curriculum
-                </button>
-                <button class="flex items-center gap-4 p-4 rounded-2xl font-bold hover:bg-white/5 transition-all text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-book-open"></i> Resource Library
-                </button>
-                <button class="flex items-center gap-4 p-4 rounded-2xl font-bold hover:bg-white/5 transition-all text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-medal"></i> Achievements
-                </button>
-            </nav>
-        </aside>
-
-        <!-- Main Workspace -->
-        <main class="flex-grow space-y-10">
-            
-            <!-- Class Selection Grid -->
-            <section id="class-selection">
-                <h2 class="text-3xl font-black font-heading uppercase text-white tracking-tighter mb-8">Select Your <span class="text-primary italic">Grade</span></h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <!-- Grade 1-12 mapped dynamically -->
-                    <script>
-                        for(let i=1; i<=12; i++) {
-                            document.write(`
-                                <div class="class-card glass-panel p-6 rounded-2xl cursor-pointer transition-all flex flex-col items-center justify-center gap-3 group">
-                                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-xl font-black text-slate-500 group-hover:text-primary group-hover:bg-primary/10 transition-colors">${i}</div>
-                                    <p class="font-bold text-slate-400 uppercase text-[10px] tracking-widest">Class ${i}</p>
-                                </div>
-                            `);
-                        }
-                    </script>
-                </div>
-            </section>
-
-            <!-- Active Course Preview -->
-            <section class="glass-panel p-10 rounded-[3rem] relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-8">
-                    <i class="fa-solid fa-atom text-8xl text-primary/5 group-hover:rotate-45 transition-transform duration-700"></i>
-                </div>
-                <div class="relative z-10 max-w-xl space-y-6">
-                    <span class="px-4 py-2 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-full text-[10px] font-black uppercase tracking-widest">Active_Path</span>
-                    <h3 class="text-5xl font-black font-heading leading-tight text-white uppercase tracking-tighter">Advanced Mathematics <br>& Theoretical Physics</h3>
-                    <p class="text-slate-400 font-medium">Class 12 • 4 Chapters • Real-time AI Tutoring Enabled</p>
-                    <button class="px-8 py-4 bg-primary text-white font-black uppercase tracking-widest rounded-2xl hover:bg-indigo-500 transition-all shadow-xl shadow-primary/20">Resume Learning →</button>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Right Toolbelt: AI Tutor -->
-        <aside class="w-full md:w-96 flex flex-col gap-6">
-            <div class="glass-panel rounded-[2rem] flex flex-col h-[600px] overflow-hidden border border-primary/20">
-                <div class="p-6 border-b border-border bg-primary/5 flex items-center gap-4">
-                    <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold text-white">Lumi Intelligence</p>
-                        <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest">Adaptive AI Tutor</p>
-                    </div>
-                </div>
-                
-                <div id="ai-chat-display" class="flex-grow p-6 overflow-y-auto space-y-4 text-sm font-medium">
-                    <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 text-slate-300">
-                        Hello! I am Lumi. I see you are working on Class 12 Physics. Would you like me to explain the principle of Quantum Entanglement?
-                    </div>
-                </div>
-
-                <div class="p-4 bg-dark/40 border-t border-border flex gap-3">
-                    <input type="text" placeholder="Ask Lumi..." class="flex-grow bg-white/5 border border-white/5 rounded-2xl px-4 py-3 text-sm font-medium outline-none focus:border-primary transition-all">
-                    <button class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white hover:bg-indigo-500 transition-all">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                </div>
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group">
+               <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-dna"></i></div>
+               <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-dna"></i></div>
+               <h3 class="text-2xl font-black uppercase tracking-tighter">Biological Logic</h3>
+               <p class="text-slate-400 text-sm leading-relaxed">Evolutionary systems, cellular architecture, and genetic intelligence protocols.</p>
+               <div class="pt-4 flex items-center justify-between">
+                   <span class="text-[10px] font-black uppercase tracking-widest text-primary">12 Modules Available</span>
+                   <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
+               </div>
             </div>
-        </aside>
 
-    </div>
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group border-primary/20">
+               <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain"></i></div>
+               <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-dark text-2xl"><i class="fa-solid fa-brain"></i></div>
+               <h3 class="text-2xl font-black uppercase tracking-tighter">Lumi AI Assistant</h3>
+               <p class="text-slate-100 text-sm leading-relaxed font-bold italic">"Ready to optimize your cognitive growth through 1-on-1 institutional mentoring."</p>
+               <div class="pt-4">
+                   <button class="w-full py-4 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all">Launch_AI_Session</button>
+               </div>
+            </div>
+        </div>
+    </main>
 
-    <!-- Firebase SDK Logic -->
-    <script type="module">
-        import { auth, onAuthStateChanged } from './js/firebase-config.js';
-        
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('user-display-name').innerText = user.displayName || user.email.split('@')[0];
-            } else {
-                // Not logged in? We can allow guest view or redirect
-            }
+    <footer class="mt-32 text-center text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">
+        Sovereign Student Node v9.1 // Production_Authenticated
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("STUDENT_MATRIX_INITIALIZED");
+            // Add global event listeners here if needed for dynamic grade loading
         });
     </script>
 </body>

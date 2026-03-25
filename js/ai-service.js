@@ -1,68 +1,55 @@
 /**
- * TradeSovereign v9.0 – AI Orchestration Service
- * 
- * Handles all LLM requests via OpenRouter API.
- * Features: High-authority system prompts, graceful fallbacks, and multi-agent routing.
+ * SOVEREIGN v9.1 - AI INTELLIGENCE HUB
+ * Handles multi-agent routing (Lumi, Chaplin) with dynamic Firestore key retrieval.
  */
 
-import { db, getDoc, doc } from './firebase-config.js';
+const AIService = {
+    apiKey: null,
 
-/**
- * Fetches the OpenRouter API key from Firestore admin settings.
- */
-async function getApiKey() {
-    try {
-        const snap = await getDoc(doc(db, "admin", "settings"));
-        if (snap.exists()) {
-            return snap.data().apiKeys?.openrouter || null;
+    async init() {
+        if (this.apiKey) return;
+        try {
+            // Retrieve from Firestore admin/settings
+            const doc = await db.collection('admin').doc('settings').get();
+            if (doc.exists) {
+                this.apiKey = doc.data().OPENROUTER_API_KEY;
+                console.log("AI_SERVICE: Dynamic Key Loaded.");
+            } else {
+                console.error("AI_SERVICE: Settings doc not found. Using fallback if available.");
+            }
+        } catch (e) {
+            console.error("AI_SERVICE_INIT_ERROR:", e);
         }
-    } catch (e) {
-        console.error("AI_SERVICE_ERROR: Could not retrieve API key.", e);
-    }
-    return null;
-}
+    },
 
-/**
- * Generic chat completion requester.
- */
-export async function getAICompletion(messages, agent = 'lumi') {
-    const apiKey = await getApiKey();
-    if (!apiKey) {
-        return "I apologize, but my intelligence core is currently offline. Please configure the API Matrix in the Admin Command Center.";
-    }
+    async chat(agent, message) {
+        await this.init();
+        if (!this.apiKey) throw new Error("AI_KEY_MISSING");
 
-    // Agent-specific system instructions
-    const systemPrompts = {
-        lumi: "You are Lumi, a highly intelligent and encouraging AI Tutor for the TradeSovereign platform. You specialize in Classes 1-12 curriculum. Keep explanations clear, modular, and visual.",
-        chaplin: "You are Chaplin, a high-authority AI orchestrator and market forecaster. You are concise, strategic, and use institutional trading terminology. Your goal is to guide the Admin or Trader to successful executions.",
-        trader: "You are the TradeOS Market Agent. Analyze data feeds with precision. Identify liquidity zones and institutional order blocks. Be brief."
-    };
-
-    const finalMessages = [
-        { role: "system", content: systemPrompts[agent] || systemPrompts.lumi },
-        ...messages
-    ];
-
-    try {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${apiKey}`,
+                "Authorization": `Bearer ${this.apiKey}`,
                 "Content-Type": "application/json",
                 "HTTP-Referer": window.location.origin,
-                "X-Title": "TradeSovereign v9.0"
+                "X-Title": "TradeSovereign v9.1"
             },
             body: JSON.stringify({
-                model: "openai/gpt-3.5-turbo", // Default model, admin can override via settings later
-                messages: finalMessages,
-                temperature: 0.7
+                model: "openai/gpt-3.5-turbo",
+                messages: [
+                    { role: "system", content: this.getPrompt(agent) },
+                    { role: "user", content: message }
+                ]
             })
         });
 
         const data = await response.json();
-        return data.choices?.[0]?.message?.content || "TRANSMISSION_ERROR: AI failed to respond.";
-    } catch (error) {
-        console.error("AI_SERVICE_FETCH_ERROR:", error);
-        return "CONNECTION_INTERRUPTED: Check network or API quota.";
+        return data.choices[0].message.content;
+    },
+
+    getPrompt(agent) {
+        if (agent === 'lumi') return "You are Lumi, a high-authority AI tutor for students class 1-12. Be adaptive, encouraging, and highly educational.";
+        if (agent === 'chaplin') return "You are Chaplin, an institutional trading forecaster. Provide macro-driven, objective, and strategic market analysis.";
+        return "You are a Sovereign AI assistant.";
     }
-}
+};
