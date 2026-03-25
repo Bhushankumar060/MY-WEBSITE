@@ -122,56 +122,83 @@
 
     <!-- Three.js Scene Implementation -->
     <script>
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
+        function initSovereignMatrix() {
+            if (typeof THREE === 'undefined') {
+                console.error("THREE_NOT_LOADED: Retrying in 1s...");
+                setTimeout(initSovereignMatrix, 1000);
+                return;
+            }
 
-        // Torus Knot Geometry
-        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x10b981, 
-            wireframe: true,
-            transparent: true,
-            opacity: 0.15
-        });
-        const torusKnot = new THREE.Mesh(geometry, material);
-        scene.add(torusKnot);
-
-        // Lighting
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(1, 1, 1).normalize();
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
-
-        camera.position.z = 30;
-
-        // Animation Loop
-        function animate() {
-            requestAnimationFrame(animate);
-            torusKnot.rotation.x += 0.005;
-            torusKnot.rotation.y += 0.005;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Responsive
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
 
-        // Mouse Interactivity
-        window.addEventListener('mousemove', (e) => {
-            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-            gsap.to(torusKnot.rotation, { x: torusKnot.rotation.x + moveY * 0.1, y: torusKnot.rotation.y + moveX * 0.1, duration: 2 });
-        });
+            // Torus Knot Geometry - Executive Green
+            const geometry = new THREE.TorusKnotGeometry(12, 3.5, 150, 20);
+            const material = new THREE.MeshPhongMaterial({ 
+                color: 0x10b981, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.12,
+                emissive: 0x064e3b,
+                emissiveIntensity: 0.5
+            });
+            const torusKnot = new THREE.Mesh(geometry, material);
+            scene.add(torusKnot);
+
+            // Lighting
+            const light = new THREE.PointLight(0xffffff, 100, 100);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+            scene.add(new THREE.AmbientLight(0x404040, 2));
+
+            camera.position.z = 40;
+
+            // Animation Loop
+            let frame = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                frame += 0.01;
+                torusKnot.rotation.x = frame * 0.2;
+                torusKnot.rotation.y = frame * 0.3;
+                
+                // Subtle pulse
+                const pulse = Math.sin(frame) * 0.05 + 1;
+                torusKnot.scale.set(pulse, pulse, pulse);
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Responsive
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Mouse Interactivity (via GSAP if available)
+            window.addEventListener('mousemove', (e) => {
+                const moveX = (e.clientX - window.innerWidth / 2) * 0.0005;
+                const moveY = (e.clientY - window.innerHeight / 2) * 0.0005;
+                if (window.gsap) {
+                    gsap.to(torusKnot.rotation, { 
+                        x: torusKnot.rotation.x + moveY, 
+                        y: torusKnot.rotation.y + moveX, 
+                        duration: 1.5,
+                        ease: "power2.out"
+                    });
+                }
+            });
+        }
+
+        // Boot system
+        window.onload = initSovereignMatrix;
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </body>
