@@ -1,0 +1,17 @@
+/* SOVEREIGN v9.2 - THREE.JS BACKGROUND STYLES */
+#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+#matrix-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}

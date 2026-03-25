@@ -1,0 +1,43 @@
+/* SOVEREIGN v9.2 - CORE STYLES */
+:root {
+    --primary: #10b981;
+    --dark: #020617;
+    --surface: #0f172a;
+    --glass: rgba(15, 23, 42, 0.6);
+    --border: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    background-color: var(--dark);
+    color: #f8fafc;
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.glass-nav {
+    background: rgba(2, 6, 23, 0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+
+.text-glow {
+    text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+.card-hover {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-hover:hover {
+    border-color: var(--primary);
+    transform: translateY(-10px);
+    background: rgba(16, 185, 129, 0.05);
+}

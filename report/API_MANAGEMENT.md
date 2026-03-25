@@ -1,17 +1,22 @@
-# API Matrix & Rotation Framework
+# Sovereign API Management v9.2
 
-TradeSovereign relies on massive 3rd-party data aggregation. Because exposing raw API keys inside static HTML is a critical security vulnerability, the V4 architecture introduces the **API Management Matrix**.
+This guide outlines the dynamic orchestration of API credentials within the Sovereign Platform.
 
-## Currently Monitored External Endpoints:
-1. **Polygon.io** (WebSockets) -> Live TradeOS crypto/stock pricing.
-2. **OpenAI GPT-4o** -> Drives the "Lumi" Student Tutor.
-3. **Finnhub** -> Live Trader sentiment analysis.
-4. **Alpha Vantage** -> Technical indicator compilation.
+## 1. Dynamic Key Retrieval
+Sovereign v9.2 uses a **Cloud Service Mesh** to retrieve all critical API keys from your Firestore `admin/settings` document. This ensures that no sensitive keys are ever hardcoded in the frontend.
 
-## How to Rotate Keys (Without touching code)
-1. Within the `admin.html` dashboard, navigate to **Infrastructure -> API Matrix**.
-2. You will see a list of connected endpoints accompanied by live Quota tracking and latency pings.
-3. To rotate a key securely, locate the API, enter the new `sk_...` or `pk_...` string into the obfuscated text field, and click **Rotate Key**. 
-4. The system will dispatch an automated serverless function test. If successful, the new key immediately takes over. No server restart required.
+## 2. Required Firestore Fields
+Ensure your `admin/settings` document contains the following fields:
+- `OPENROUTER_API_KEY`: For AI (Lumi & Chaplin).
+- `RAZORPAY_KEY_ID`: For Checkout.
+- `SUPABASE_URL`: For Transactions.
+- `SUPABASE_ANON_KEY`: For Transactions.
 
-*Monitoring quotas here prevents surprise billing overages from AI API providers.*
+## 3. Updating Credentials
+To update a key globally:
+1. Log in to the Cloud Console (Firestore).
+2. Edit the field in the `admin/settings` document.
+3. The platform will automatically pull the new key on the next reload.
+
+---
+**Build ID**: SOV_V9.2_PRO_REF

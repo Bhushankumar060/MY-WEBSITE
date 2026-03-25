@@ -1,29 +1,24 @@
-# Troubleshooting & Fallback Matrix
+# Sovereign Troubleshooting v9.2
 
-This document provides exact, zero-code resolutions for the most critical failure states an administrator might encounter.
+This guide outlines the recovery protocols for common issues in the Sovereign Platform.
 
-## 1. The Screen is Completely Blank (White Screen of Death)
-**Symptom:** You navigate to `admin.html` and nothing loads.
-**Resolution:**
-1. This is almost exclusively an unhandled script breaking the DOM.
-2. Check the `Monitoring Logs` via your Firebase Console external link if the UI is down.
-3. If the error mentions `MFA Token Invalid`, flush your browser cache and request a new TOTP key.
+## 1. 3D Background Loading Fault
+- **Cause**: High-performance Three.js engine blocked by browser or slow CDN.
+- **Fix**: Check your internet connection or verify the `js/three-bg.js` link in your HTML.
+- **Recovery**: Falling back to a static glassmorphic background is automatic.
 
-## 2. Students Cannot See Newly Uploaded PDFs
-**Symptom:** You dropped a PDF into Blob Storage, but the Student Zone shows "No Resources Available."
-**Resolution:**
-1. Files uploaded to raw Firebase Storage must be mapped to a Firestore document to appear.
-2. Head to **CMS Engine**. Ensure that the specific PDF URI is actively linked under `Class X > Subject Y > Chapter Z`.
+## 2. SSO Login Rejection
+- **Cause**: Invalid Firebase credentials or lack of network connectivity.
+- **Fix**: Ensure your email and vault passphrase are correct.
+- **Recovery**: Check your Firebase Console -> Authentication to verify your user exists.
 
-## 3. "AI Tutor Is Offline" Error
-**Symptom:** Students report the Lumi Chatbot returns a red error box.
-**Resolution:**
-1. Head to **Infrastructure -> Feature Flags** and ensure the "Lumi AI Tutor" switch is ON.
-2. If it is ON, check **Monitoring Logs** for `HTTP 429 Quota Exceeded`.
-3. If quota is exceeded, navigate to **API Matrix** and rotate the OpenAI GPT-4 key to a billing-active string.
+## 3. Payment Key Missing
+- **Cause**: `admin/settings` doc in Firestore is missing the `RAZORPAY_KEY_ID`.
+- **Fix**: Re-populate the doc in the Firestore console.
+- **Recovery**: Any missing keys will trigger a `SYSTEM_OFFLINE` alert.
 
-## 4. Admin Access Denied (403 Forbidden)
-**Symptom:** You attempt to load the dashboard but get a server block.
-**Resolution:**
-1. Your IP Address has likely changed dynamically.
-2. You must log into your Vercel/Netlify/Hostinger control panel and update the `.htaccess` or middleware IP whitelist manually to include your new dynamic IP. This is a hard-coded security lock that prevents remote hijackers even if they possess your laptop.
+## 4. Global Error Monitor
+Access the `admin/monitoring/logs` collection in Firestore to view high-authority stack traces for any runtime crashes.
+
+---
+**Build ID**: SOV_V9.2_PRO_REF

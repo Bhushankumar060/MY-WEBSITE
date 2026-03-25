@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Student | Adaptive Learning Matrix</title>
+    <title>Sovereign Student | Pro-Grade Learning Matrix</title>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,25 +19,25 @@
             }
         }
     </script>
+
+    <!-- Sovereign Pro-Grade CSS Mesh -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
     <style>
-        body { background-color: #020617; color: #f8fafc; font-family: 'Space Grotesk', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .course-card { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .course-card:hover { transform: scale(1.02); border-color: #10b981; }
         .grade-badge { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; }
     </style>
 </head>
 <body class="min-h-screen pb-20">
 
     <!-- Navbar -->
-    <nav class="h-24 flex items-center px-8 border-b border-white/5 bg-dark">
+    <nav class="h-24 flex items-center px-8 border-b border-white/5 bg-dark sticky top-0 z-50">
         <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
             <a href="index.html" class="text-2xl font-black font-heading tracking-tighter uppercase flex items-center gap-3">
-                <i class="fa-solid fa-crown text-primary"></i> Sovereign <span class="opacity-50">Pulse</span>
+                <i class="fa-solid fa-crown text-primary"></i> Sovereign <span class="opacity-50 text-primary">Pulse</span>
             </a>
             <div class="flex items-center gap-6">
                 <div class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-2 h-2 bg-primary rounded-full"></span> XP: 1,240
+                    <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span> SYSTEM_V9.2
                 </div>
                 <a href="index.html" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-house"></i></a>
             </div>
@@ -45,7 +47,7 @@
     <main class="max-w-7xl mx-auto px-8 pt-16">
         <header class="mb-16">
             <h1 class="text-5xl font-black font-heading tracking-tighter uppercase mb-4">Educational <span class="text-primary italic">Matrix</span></h1>
-            <p class="text-slate-400 font-medium">Select your grade level to initialize the v9.1 adaptive curriculum.</p>
+            <p class="text-slate-400 font-medium">Select your grade level to initialize the v9.2 adaptive curriculum.</p>
         </header>
 
         <!-- Grade Selection Grid -->
@@ -53,7 +55,7 @@
             <script>
                 for (let i = 1; i <= 12; i++) {
                     document.write(`
-                        <button class="glass p-6 rounded-3xl text-center course-card group">
+                        <button class="glass p-6 rounded-3xl text-center card-hover group grade-btn" data-grade="${i}">
                             <p class="text-[10px] font-black text-slate-500 uppercase mb-2">Level</p>
                             <p class="text-3xl font-black group-hover:text-primary transition-colors">${i}</p>
                             <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">Initialize_Data</p>
@@ -65,49 +67,44 @@
 
         <!-- Subjects Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group">
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover">
                 <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-atom"></i></div>
                 <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-atom"></i></div>
                 <h3 class="text-2xl font-black uppercase tracking-tighter">Physics Matrix</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Quantum mechanics, thermodynamics, and high-authority physical constants.</p>
-                <div class="pt-4 flex items-center justify-between">
+                <p class="text-slate-400 text-sm leading-relaxed font-bold">Quantum mechanics and high-authority constants.</p>
+                <div class="pt-4 flex items-center justify-between border-t border-white/5">
                     <span class="text-[10px] font-black uppercase tracking-widest text-primary">8 Modules Available</span>
                     <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
 
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group">
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover">
                <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-dna"></i></div>
                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-dna"></i></div>
                <h3 class="text-2xl font-black uppercase tracking-tighter">Biological Logic</h3>
-               <p class="text-slate-400 text-sm leading-relaxed">Evolutionary systems, cellular architecture, and genetic intelligence protocols.</p>
-               <div class="pt-4 flex items-center justify-between">
+               <p class="text-slate-400 text-sm leading-relaxed font-bold">Evolutionary systems and genetic protocols.</p>
+               <div class="pt-4 flex items-center justify-between border-t border-white/5">
                    <span class="text-[10px] font-black uppercase tracking-widest text-primary">12 Modules Available</span>
                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
                </div>
             </div>
 
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group border-primary/20">
+            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover border-primary/20">
                <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain"></i></div>
                <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-dark text-2xl"><i class="fa-solid fa-brain"></i></div>
                <h3 class="text-2xl font-black uppercase tracking-tighter">Lumi AI Assistant</h3>
-               <p class="text-slate-100 text-sm leading-relaxed font-bold italic">"Ready to optimize your cognitive growth through 1-on-1 institutional mentoring."</p>
+               <p class="text-slate-100 text-sm leading-relaxed font-bold italic">"Ready to optimize your cognitive growth."</p>
                <div class="pt-4">
-                   <button class="w-full py-4 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all">Launch_AI_Session</button>
+                   <button onclick="StudentController.openLumiSession()" class="w-full py-4 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all shadow-xl shadow-primary/20">Launch_AI_Session</button>
                </div>
             </div>
         </div>
     </main>
 
-    <footer class="mt-32 text-center text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">
-        Sovereign Student Node v9.1 // Production_Authenticated
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("STUDENT_MATRIX_INITIALIZED");
-            // Add global event listeners here if needed for dynamic grade loading
-        });
-    </script>
+    <!-- Sovereign Pro-Grade JS Mesh -->
+    <script src="js/utils.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/error-logger.js"></script>
 </body>
 </html>

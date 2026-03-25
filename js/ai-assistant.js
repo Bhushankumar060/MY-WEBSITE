@@ -1,79 +1,55 @@
 /**
- * TradeSovereign v8.0 – AI Assistant Service
- *
- * Reads the OpenRouter API key from Firestore admin/settings at runtime.
- * This means the key is NEVER hard-coded. The admin rotates it any time
- * from the Admin Panel → API Matrix tab, and it takes effect instantly.
- *
- * Supports:
- *   - Lumi AI Tutor (student zone)
- *   - Chaplin Trading Assistant (trader zone)
+ * SOVEREIGN v9.2 - AI ASSISTANT ORCHESTRATION
+ * Interfaces with OpenRouter to provide Lumi (Tutor) and Chaplin (Trader) intelligence.
  */
 
-import { db, auth } from './firebase-config.js';
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+const AIAssistant = {
+    apiKey: null,
 
-let OPENROUTER_API_KEY = null;
-
-// ─── Init: pull key from Firestore on page load ───────────────────────────
-export async function initAIAssistant() {
-    if (!auth.currentUser) return;
-    try {
-        const settingsDoc = await getDoc(doc(db, 'admin', 'settings'));
-        if (settingsDoc.exists()) {
-            OPENROUTER_API_KEY = settingsDoc.data().openrouterApiKey || null;
+    async init() {
+        if (this.apiKey) return;
+        try {
+            // Retrieve from Firestore admin/settings
+            const doc = await db.collection('admin').doc('settings').get();
+            if (doc.exists) {
+                this.apiKey = doc.data().OPENROUTER_API_KEY;
+                console.log("AI_ASSISTANT: Dynamic Cloud-Key Loaded.");
+            }
+        } catch (e) {
+            console.error("AI_INIT_ERROR:", e);
         }
-    } catch (err) {
-        console.warn('[AI] Could not load API key from Firestore:', err.message);
-    }
-}
+    },
 
-// ─── Core AI call via OpenRouter ──────────────────────────────────────────
-export async function askAI(prompt, systemPrompt = "You are a helpful AI assistant.") {
-    if (!OPENROUTER_API_KEY) {
-        return "⚠️ AI assistant is not configured. Please ask the admin to set the OpenRouter API key in the Admin Panel → API Matrix.";
-    }
+    async ask(agent, prompt) {
+        await this.init();
+        if (!this.apiKey) throw new Error("AI_KEY_UNAVAILABLE");
 
-    try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
             headers: {
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'Content-Type':  'application/json',
-                'HTTP-Referer':  window.location.origin,
-                'X-Title':       'TradeSovereign'
+                "Authorization": `Bearer ${this.apiKey}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": window.location.origin,
+                "X-Title": "TradeSovereign v9.2"
             },
             body: JSON.stringify({
-                model:    'openai/gpt-4o',
+                model: "openai/gpt-3.5-turbo",
                 messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user',   content: prompt }
+                    { role: "system", content: this.getRole(agent) },
+                    { role: "user", content: prompt }
                 ]
             })
         });
 
         const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
         return data.choices[0].message.content;
+    },
 
-    } catch (error) {
-        console.error('[AI] Error:', error);
-        return "Sorry, the AI assistant is temporarily unavailable. Please try again later.";
+    getRole(agent) {
+        const roles = {
+            lumi: "You are Lumi, a high-authority AI tutor for students class 1-12. Be adaptive, encouraging, and highly educational.",
+            chaplin: "You are Chaplin, an institutional trading forecaster. Provide macro-driven, objective, and strategic market analysis."
+        };
+        return roles[agent] || "You are a Sovereign AI assistant.";
     }
-}
-
-// ─── Preconfigured Personas ──────────────────────────────────────────────
-export const PERSONAS = {
-    lumi: "You are Lumi, a friendly AI tutor for K-12 students. Explain concepts clearly and encourage curiosity. Keep answers concise and age-appropriate.",
-    chaplin: "You are Chaplin, an expert AI trading assistant. Provide sharp technical analysis, strategy suggestions, and PineScript or Python code when asked. Be professional and data-driven."
 };
-
-// ─── Student Tutor ────────────────────────────────────────────────────────
-export async function askLumi(prompt) {
-    return askAI(prompt, PERSONAS.lumi);
-}
-
-// ─── Trading Assistant ────────────────────────────────────────────────────
-export async function askChaplin(prompt) {
-    return askAI(prompt, PERSONAS.chaplin);
-}

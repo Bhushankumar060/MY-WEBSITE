@@ -3,37 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Vault | Premium Strategic Assets</title>
+    <title>Sovereign Vault | Premium Strategic Assets (v9.2)</title>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
-                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #020617; color: #f8fafc; font-family: 'Space Grotesk', sans-serif; }
-        .vault-card { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 32px; transition: all 0.3s; }
-        .vault-card:hover { border-color: #10b981; transform: translateY(-5px); background: rgba(16, 185, 129, 0.05); }
-        .status-badge { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; }
-    </style>
+    
+    <!-- Sovereign Pro-Grade CSS Mesh -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body class="min-h-screen pb-20">
 
     <!-- Navbar -->
-    <nav class="h-24 px-8 border-b border-white/5 flex items-center justify-between glass-nav sticky top-0 bg-dark/80 z-50">
+    <nav class="h-24 px-8 border-b border-white/5 flex items-center justify-between glass-nav sticky top-0 z-50 bg-dark/80">
         <a href="index.html" class="text-2xl font-black font-heading tracking-tighter flex items-center gap-3">
-            <i class="fa-solid fa-crown text-primary"></i> SOVEREIGN <span class="opacity-50">VAULT</span>
+            <i class="fa-solid fa-crown text-primary"></i> SOVEREIGN <span class="opacity-50 text-primary">VAULT</span>
         </a>
         <div class="flex items-center gap-4">
-            <div class="status-badge px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span> SECURE_UPLINK_V9.1
+            <div class="px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-primary/20 bg-primary/10 text-primary flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span> SECURE_UPLINK_V9.2
             </div>
             <a href="index.html" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-house"></i></a>
         </div>
@@ -42,73 +32,24 @@
     <main class="max-w-7xl mx-auto px-8 pt-16">
         <header class="mb-16">
             <h1 class="text-5xl font-black font-heading tracking-tighter uppercase mb-4">The <span class="text-primary italic">Asset</span> Matrix</h1>
-            <p class="text-slate-400 font-medium">Bank-grade distribution of strategy packs, institutional video courses, and adaptive documentation.</p>
+            <p class="text-slate-400 font-medium">Bank-grade distribution of strategy packs and educational resources.</p>
         </header>
 
         <!-- Category Filters -->
         <div class="flex gap-4 mb-12 overflow-x-auto pb-4">
             <button class="px-8 py-3 bg-primary text-dark font-black uppercase text-[10px] tracking-widest rounded-full">All_Assets</button>
-            <button class="px-8 py-3 bg-white/5 border border-white/10 text-slate-400 font-black uppercase text-[10px] tracking-widest rounded-full hover:bg-white/10 transition-all">Trading_Strategies</button>
-            <button class="px-8 py-3 bg-white/5 border border-white/10 text-slate-400 font-black uppercase text-[10px] tracking-widest rounded-full hover:bg-white/10 transition-all">Course_Modules</button>
-            <button class="px-8 py-3 bg-white/5 border border-white/10 text-slate-400 font-black uppercase text-[10px] tracking-widest rounded-full hover:bg-white/10 transition-all">AI_Intelligence</button>
+            <button class="px-8 py-3 bg-white/5 border border-white/10 text-slate-400 font-black uppercase text-[10px] tracking-widest rounded-full hover:bg-white/10">Trading_Strategies</button>
         </div>
 
         <!-- Asset Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <!-- Strategic Asset 1 -->
-            <div class="vault-card p-10 space-y-6 group">
-                <div class="flex justify-between items-start">
-                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-file-pdf"></i></div>
-                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Institutional_Grade</span>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors">Sentinel Alpha Pack</h3>
-                    <p class="text-slate-400 text-sm font-medium">The definitive institutional strategy for NIFTY/BANKNIFTY mean reversion.</p>
-                </div>
-                <div class="pt-6 border-t border-white/5 flex items-center justify-between">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-primary"><i class="fa-solid fa-cloud-arrow-down mr-2"></i> Download_PDF</span>
-                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-download"></i></button>
-                </div>
-            </div>
-
-            <!-- Strategic Asset 2 -->
-            <div class="vault-card p-10 space-y-6 group">
-                <div class="flex justify-between items-start">
-                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-video"></i></div>
-                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Video_Course</span>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors">Quantum Orderflow</h3>
-                    <p class="text-slate-400 text-sm font-medium">9-part video series on reading institutional buy clusters and iceberg orders.</p>
-                </div>
-                <div class="pt-6 border-t border-white/5 flex items-center justify-between">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-primary"><i class="fa-solid fa-play mr-2"></i> Stream_Module</span>
-                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-play"></i></button>
-                </div>
-            </div>
-
-            <!-- Strategic Asset 3 -->
-            <div class="vault-card p-10 space-y-6 group">
-                <div class="flex justify-between items-start">
-                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-robot"></i></div>
-                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Execution_Logic</span>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-black uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors">Chaplin Logic Bridge</h3>
-                    <p class="text-slate-400 text-sm font-medium">Direct script for integrating Chaplin AI signals into personal charting terminals.</p>
-                </div>
-                <div class="pt-6 border-t border-white/5 flex items-center justify-between">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-primary"><i class="fa-solid fa-code mr-2"></i> Get_Script</span>
-                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-code"></i></button>
-                </div>
-            </div>
+        <div id="vault-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- Data from js/purchases.js -->
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("VAULT_INITIALIZED_RESTORE_V9.1");
-        });
-    </script>
+    <!-- Sovereign Pro-Grade JS Mesh -->
+    <script src="js/utils.js"></script>
+    <script src="js/purchases.js"></script>
+    <script src="js/error-logger.js"></script>
 </body>
 </html>

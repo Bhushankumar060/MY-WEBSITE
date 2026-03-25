@@ -1,17 +1,27 @@
-# Enterprise Security Architecture (v4.0)
+# Sovereign Security Setup v9.2
 
-As a financial and educational platform, TradeSovereign enforces strict zero-trust parameters.
+This guide outlines the critical security configurations for the Sovereign Platform.
 
-## 1. Multi-Factor Authentication (MFA)
-Accessing `/admin.html` is impossible via standard password authentication. The login portal requires a **6-digit Time-based One-Time Password (TOTP)** sent directly to the root administrator's registered device.
+## 1. Firebase Firestore Rules
+Apply these in your Firebase Console -> Firestore -> Rules.
 
-## 2. IP Whitelisting
-To prevent rogue access, the platform checks the requesting origin signature. You can view currently whitelisted IPs directly via the **Security Center** tab inside the dashboard. Connection requests from unknown IPs will result in an immediate 403 Forbidden rejection.
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Only the designated admin can read/write settings
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.email == 'YOUR_ADMIN_EMAIL@gmail.com';
+    }
+  }
+}
+```
 
-## 3. Content Security Policies (CSP)
-We utilize hardened HTTP headers natively injected into our `head` tags:
-- `Strict-Transport-Security` ensures the platform only ever resolves over HTTPS.
-- `X-Frame-Options: DENY` prevents clickjacking embedded malicious iframes.
-- `Content-Security-Policy` guarantees that only authorized CDNs (Tailwind, FontAwesome, Google Fonts, GSAP) can run scripts. 
+## 2. Supabase RLS Policies
+Ensure 'purchases' table has 'authenticated insert' permission enabled.
 
-*Any detected breach logs instantly to the Monitoring Dashboard.*
+## 3. Global Error Logging
+All runtime errors are captured by `js/error-logger.js` and stored in `admin/monitoring/logs` in Firestore for real-time audit capability.
+
+---
+**Build ID**: SOV_V9.2_PRO_REF
