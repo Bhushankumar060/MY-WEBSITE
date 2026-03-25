@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Build artifacts
+build/
+dist/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Zip files
+*.zip
+
+# Python scripts (deployment helpers)
+deploy_hostinger.py
+check_host.py
+find_root.py
+fix_deploy.py
+monitor.py
+upload_hostinger.py
+verify_deploy.py
+deploy.sh
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,88 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter - TradeSovereign Student Zone</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css2/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
+    <title>AI Workspace | TradeSovereign v3</title>
+    <!-- Fonts & Tailwind -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#FF4500', secondary: '#7DF9FF', dark: '#0a0a0a', surface: '#1c1c1c' },
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] },
+                    boxShadow: { 'neo': '8px 8px 0px rgba(0,0,0,1)', 'neo-dark': '6px 6px 0px rgba(255,255,255,1)' }
+                }
+            }
+        }
+    </script>
     <style>
-        .tab-btns { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
-        .tab-btn { padding:0.65rem 1rem; border:none; border-radius:8px; background:var(--bg-light); cursor:pointer; }
-        .tab-btn.active { background:var(--primary); color:white; }
-        .tab-content { background:white; border-radius:10px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+        body { font-family: 'Space Grotesk', sans-serif; }
+        .neo-border { border: 4px solid #000; }
+        .dark .neo-border { border: 4px solid #fff; }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        }
+        .dark .bg-grid {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        
+        /* Modern Tabs styling */
+        .ts-tab.active { background-color: #000; color: #fff; }
+        .dark .ts-tab.active { background-color: #fff; color: #000; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: floatUp 0.4s ease; }
+        @keyframes floatUp { from{ opacity: 0; transform: translateY(10px); } to{ opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo"><a href="/">TradeSovereign</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/student-zone/">Student Zone</a></li>
-                    <li><a href="/trading-zone/">Trading Zone</a></li>
-                    <li><a href="/trading-zone/blog.html">Blog</a></li>
-                    <li><a href="/trading-zone/shop.html">Shop</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
-                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+<body class="bg-[#f4f4f0] text-gray-900 dark:bg-dark dark:text-gray-100 bg-grid min-h-screen pt-20">
+
+    <!-- Header navigation stripped for workspace focus -->
+    <header class="fixed top-0 w-full z-50 bg-white dark:bg-dark border-b-4 border-black dark:border-white transition-colors duration-300">
+        <div class="flex items-center justify-between px-6 h-16">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center justify-center w-8 h-8 bg-black text-white dark:bg-white dark:text-black neo-border hover:bg-primary transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h1 class="font-bold uppercase tracking-wider text-sm truncate max-w-[200px] md:max-w-md" id="breadcrumb">Class > Subject > Chapter</h1>
+            </div>
+            <div class="flex gap-4">
+                <button class="bg-[#FFE900] text-black px-4 py-1 neo-border shadow-[4px_4px_0px_#000] font-bold text-xs uppercase hidden md:block">
+                    Auto-Generate Quiz <i class="fa-solid fa-wand-magic-sparkles ml-1"></i>
+                </button>
+                <div class="w-8 h-8 bg-primary rounded-full neo-border shadow-neo flex items-center justify-center text-white"><i class="fa-solid fa-user"></i></div>
             </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero" style="padding: 3rem 0;">
-            <div class="container"><h1 id="chapter-heading">Chapter</h1><p id="chapter-subtitle">Learning resources</p></div>
-        </section>
+    <main class="flex-grow w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8">
+        
+        <!-- Left Column: Heavy Content Reader -->
+        <div class="w-full md:w-2/3 flex flex-col gap-6">
+            <!-- Chapter Title & Overview Block -->
+            <div class="bg-white dark:bg-surface p-6 neo-border shadow-neo dark:shadow-neo-dark">
+                <h1 class="text-4xl md:text-5xl font-heading font-black tracking-tighter uppercase mb-4" id="chapter-title">Loading Chapter...</h1>
+                
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button data-tab="video" class="ts-tab active neo-border px-4 py-2 font-bold uppercase text-sm hover:bg-gray-100 transition-colors">Lecture Video</button>
+                    <button data-tab="notes" class="ts-tab bg-white dark:bg-surface neo-border px-4 py-2 font-bold uppercase text-sm hover:bg-gray-100 transition-colors">Study Material</button>
+                    <button data-tab="quiz" class="ts-tab bg-white dark:bg-surface neo-border px-4 py-2 font-bold uppercase text-sm hover:bg-gray-100 transition-colors">GenUI Quiz <i class="fa-solid fa-brain"></i></button>
+                </div>
 
-        <section class="features">
-            <div class="container">
-                <div class="tab-btns" id="tab-btns"></div>
-                <div class="tab-content" id="tab-content"></div>
+                <!-- Content Panels -->
+                <div id="video" class="tab-content active w-full">
+                    <div class="aspect-video w-full bg-black neo-border relative flex items-center justify-center overflow-hidden">
+                        <i class="fa-brands fa-youtube text-6xl text-red-600 absolute z-10 opacity-80 pointer-events-none hover:scale-110 transition-transform"></i>
+                        <iframe width="100%" height="100%" class="relative opacity-60" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div id="notes" class="tab-content w-full prose dark:prose-invert max-w-none">
+                    <div class="p-6 bg-[#f4f4f0] dark:bg-dark neo-border shadow-neo relative">
+                        <div class="absolute right-4 top-4 bg-secondary text-black text-xs font-bold uppercase px-2 py-1 neo-border shadow-[2px_2px_0px_#000]">AI Verified</div>
+                        <h2 class="text-2xl font-black uppercase mb-4">Core Principles</h2>
+                        <ul class="font-medium space-y-2 list-none">
+                            <li class="pl-4 border-l-4 border-primary"><i class="fa-solid fa-check text-primary mr-2"></i> Derived via foundational mathematics proofs.</li>
+                            <li class="pl-4 border-l-4 border-primary"><i class="fa-solid fa-check text-primary mr-2"></i> Ensure variables are integrated relative to X axis.</li>
+                        </ul>
+                        <button class="mt-8 bg-black text-white px-6 py-3 font-bold uppercase neo-border shadow-[4px_4px_0px_#FF4500] hover:translate-y-1 hover:shadow-[0px_0px_0px_#000] transition-all">Download Master PDF</button>
+                    </div>
+                </div>
+
+                <div id="quiz" class="tab-content w-full">
+                    <div class="bg-primary text-white p-6 neo-border shadow-neo">
+                        <div class="flex justify-between items-center mb-6 border-b-2 border-white pb-2">
+                            <h3 class="font-black text-xl uppercase">Bloom's Taxonomy Challenge</h3>
+                            <span class="bg-black px-2 py-1 text-xs neo-border text-white">Question 1/5</span>
+                        </div>
+                        <p class="text-xl font-bold mb-6">What happens when velocity is dynamically altered in relation to standard gravitational matrices?</p>
+                        
+                        <div class="space-y-3">
+                            <button class="w-full bg-white text-black text-left p-4 neo-border font-bold hover:bg-gray-200 transition-colors border-2 hover:border-black active:bg-secondary">A) Momentum achieves equilibrium.</button>
+                            <button class="w-full bg-white text-black text-left p-4 neo-border font-bold hover:bg-gray-200 transition-colors border-2 hover:border-black active:bg-secondary">B) Potential energy diverges immediately.</button>
+                            <button class="w-full bg-black text-white text-left p-4 neo-border font-bold hover:bg-gray-800 transition-colors border-2 border-white shadow-[4px_4px_0px_#fff]">C) Accelerated state triggers kinematic drift. (Correct)</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Right Column: D2L Lumi-Style AI Tutor -->
+        <div class="w-full md:w-1/3">
+            <div class="bg-white dark:bg-surface neo-border shadow-neo dark:shadow-neo-dark h-[80vh] sticky top-24 flex flex-col border-t-8 border-t-secondary">
+                
+                <div class="p-4 border-b-4 border-black bg-black text-white flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-microchip text-2xl text-secondary animate-pulse"></i>
+                        <h2 class="font-heading font-black text-xl uppercase tracking-wider">Lumi Tutor</h2>
+                    </div>
+                    <span class="bg-primary px-2 text-xs font-bold neo-border">GPT-4o active</span>
+                </div>
+
+                <div class="flex-grow p-4 overflow-y-auto space-y-4 bg-gray-50 dark:bg-dark">
+                    <!-- AI Dialog -->
+                    <div class="bg-white dark:bg-surface p-4 neo-border shadow-[4px_4px_0px_#FF4500] border-l-4 border-l-primary relative">
+                        <div class="w-6 h-6 bg-primary rounded-full absolute -left-3 top-3 border-2 border-black"></div>
+                        <p class="text-sm font-bold">Hello! I'm your integrated Lumi intelligence module. I've automatically analyzed the 45-minute video and the linked PDF.</p>
+                        <p class="text-sm mt-2 font-medium">Do you need me to summarize the specific derivation at minute 12:45, or generate personalized flashcards based on your incorrect answers from the previous chapter?</p>
+                    </div>
+
+                    <!-- User input mock -->
+                    <div class="bg-[#FFE900] text-black p-4 neo-border shadow-[4px_4px_0px_#000] self-end max-w-[85%] ml-auto">
+                        <p class="text-sm font-bold">Explain the derivation simply like I'm in 5th grade please.</p>
+                    </div>
+
+                    <!-- AI processing mock -->
+                    <div class="bg-white dark:bg-surface p-4 neo-border shadow-[4px_4px_0px_#7DF9FF] border-l-4 border-l-secondary relative">
+                        <p class="text-sm text-gray-500 font-bold"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing Curriculum Data...</p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white dark:bg-surface border-t-4 border-black">
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Command Lumi AI..." class="flex-grow bg-[#f4f4f0] dark:bg-dark text-sm p-3 neo-border focus:outline-none focus:border-primary">
+                        <button class="w-12 h-12 bg-black text-white flex items-center justify-center neo-border hover:bg-primary transition-colors hover:shadow-[4px_4px_0px_#000]">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                    <div class="mt-3 flex gap-2 overflow-x-auto pb-1 hide-scroll">
+                        <button class="whitespace-nowrap bg-gray-100 dark:bg-gray-800 px-3 py-1 neo-border text-xs font-bold hover:bg-[#FFE900] hover:text-black">Generate Summary</button>
+                        <button class="whitespace-nowrap bg-gray-100 dark:bg-gray-800 px-3 py-1 neo-border text-xs font-bold hover:bg-[#FFE900] hover:text-black">Create 5 Flashcards</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div><div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fas fa-phone"></i> +91 98765 43210</li></ul></div></div><div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div></div></footer>
-
     <script>
+        // Init URL parsing
         const params = new URLSearchParams(window.location.search);
-        const classValue = params.get('class') || '6';
-        const subjectValue = params.get('subject') || 'mathematics';
-        const chapterIndex = Number(params.get('chapter')) || 1;
+        const urlClass = params.get('class') || '10';
+        const urlSubject = params.get('subject') || 'Mechanics';
+        const chapterId = params.get('id') || 'Kinematics Introduction';
+        
+        document.getElementById('breadcrumb').innerText = `Class ${urlClass} > ${urlSubject} > ${chapterId}`;
+        document.getElementById('chapter-title').innerText = chapterId;
 
-        const humanSubject = subjectValue.replace(/-/g,' ').replace(/\b[a-z]/g, x => x.toUpperCase());
-        document.getElementById('chapter-heading').innerText = `${humanSubject} - Class ${classValue} - Chapter ${chapterIndex}`;
-        document.getElementById('chapter-subtitle').innerText = 'Note: customise content as needed.';
-
-        const tabs = ['Overview', 'Practice', 'MCQs', 'Summary'];
-        const tabContent = {
-            'Overview': `This is the overview of chapter ${chapterIndex} for ${humanSubject}.`,
-            'Practice': `Practice questions and answers for chapter ${chapterIndex}.`,
-            'MCQs': `Try 5 MCQs on chapter ${chapterIndex}.`,
-            'Summary': `Quick summary for chapter ${chapterIndex}.`
-        };
-
-        const tabBtns = document.getElementById('tab-btns');
-        const content = document.getElementById('tab-content');
+        // Tab Navigation Magic
+        const tabs = document.querySelectorAll('.ts-tab');
+        const contents = document.querySelectorAll('.tab-content');
 
         tabs.forEach(tab => {
-            const button = document.createElement('button');
-            button.className = 'tab-btn';
-            button.textContent = tab;
-            button.onclick = () => {
-                document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-                button.classList.add('active');
-                content.innerHTML = `<h3>${tab}</h3><p>${tabContent[tab]}</p>`;
-            };
-            tabBtns.appendChild(button);
+            tab.addEventListener('click', () => {
+                // Wipe active states visually
+                tabs.forEach(t => {
+                    t.classList.remove('active', 'bg-black', 'text-white');
+                    t.classList.add('bg-white', 'dark:bg-surface');
+                });
+                contents.forEach(c => c.classList.remove('active'));
+
+                // Apply active UI using Neubrutalist toggle overrides
+                tab.classList.add('active');
+                tab.classList.remove('bg-white', 'dark:bg-surface');
+                
+                // Show content
+                const target = document.getElementById(tab.getAttribute('data-tab'));
+                if(target) target.classList.add('active');
+            });
         });
-        tabBtns.firstElementChild.click();
     </script>
 </body>
 </html>

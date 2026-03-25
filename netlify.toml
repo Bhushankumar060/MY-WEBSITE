@@ -1,0 +1,31 @@
+# Netlify Configuration — TradeSovereign v5
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# ── Security Headers on ALL pages ───────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security   = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options             = "DENY"
+    X-Content-Type-Options      = "nosniff"
+    X-XSS-Protection            = "1; mode=block"
+    Referrer-Policy             = "strict-origin-when-cross-origin"
+    Permissions-Policy          = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy     = "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseapp.com https://*.googleapis.com"
+
+# ── IP Whitelist for Admin Panel ──────────────────────────────────────────────
+# To restrict admin.html to specific IPs, uncomment and update below:
+# [[redirects]]
+#   from = "/admin.html"
+#   to   = "/403.html"
+#   status = 403
+#   conditions = {Role = ["anonymous"]}
+
+# ── Redirect all 404s to index ────────────────────────────────────────────────
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

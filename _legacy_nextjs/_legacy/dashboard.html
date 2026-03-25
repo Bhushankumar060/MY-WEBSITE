@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | TradeSovereign LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { gold: { DEFAULT: '#D4AF37' }, dark: { 900: '#0B0F19' } } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F19; color: #F3F4F6; }
+        .glass-panel { background: rgba(31, 41, 55, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Simple Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gold-DEFAULT/20 px-6 h-16 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold tracking-tight text-[#D4AF37] flex items-center gap-2">
+            <i class="fas fa-crown"></i> TradeSovereign
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="/courses.html" class="text-sm text-gray-300 hover:text-white">Courses</a>
+            <span class="text-sm text-gray-400 border-l border-white/10 pl-4 user-name-display">Loading...</span>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
+        <div class="mb-10">
+            <h1 class="text-3xl font-bold mb-2">Welcome back, <span class="text-[#D4AF37] user-name-display">Student</span></h1>
+            <p class="text-gray-400 divide">Resume your learning and track your progress below.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <!-- Stats -->
+            <div class="glass-panel rounded-2xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl"><i class="fas fa-book"></i></div>
+                <div><h3 class="text-2xl font-bold">2</h3><p class="text-sm text-gray-400">Enrolled Courses</p></div>
+            </div>
+            <div class="glass-panel rounded-2xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xl"><i class="fas fa-check-circle"></i></div>
+                <div><h3 class="text-2xl font-bold">14</h3><p class="text-sm text-gray-400">Lessons Completed</p></div>
+            </div>
+            <div class="glass-panel rounded-2xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl"><i class="fas fa-trophy"></i></div>
+                <div><h3 class="text-2xl font-bold">85%</h3><p class="text-sm text-gray-400">Avg Quiz Score</p></div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-6 border-b border-white/10 pb-2">My Courses</h2>
+        <div class="grid md:grid-cols-2 gap-6" id="myCoursesGrid">
+            <!-- Mock active course -->
+            <div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="font-bold text-lg w-3/4">Intro to Price Action Trading</h3>
+                    <span class="text-xs bg-gold-DEFAULT/20 text-gold-DEFAULT px-2 py-1 rounded">In Progress</span>
+                </div>
+                <div class="w-full bg-dark-900 rounded-full h-2.5 mb-2 mt-4">
+                  <div class="bg-gold-DEFAULT h-2.5 rounded-full" style="width: 45%"></div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-400 mb-6">
+                    <span>45% Completed</span>
+                    <span>12/26 Lessons</span>
+                </div>
+                <!-- To continue, user can just go back to courses page for now or direct link if id known -->
+                <a href="/courses.html" class="text-sm text-gold-DEFAULT font-medium hover:underline">Continue Learning →</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             // In a real flow, App.js verifies token. If not, redirect.
+             setTimeout(()=>{
+                 if(!App.token) {
+                     window.location.href = '/courses.html';
+                 }
+             }, 500); // Wait for init
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum | TradeSovereign LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { gold: { DEFAULT: '#D4AF37' } } } } }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F19; color: #F3F4F6; }
+        .glass-panel { background: rgba(31, 41, 55, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .gold-btn { background: linear-gradient(135deg, #D4AF37, #AA8C2C); color: #0B0F19; font-weight: bold; transition: transform 0.2s; }
+        .gold-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <header class="glass-panel border-b border-gold-DEFAULT/20 px-6 h-16 flex items-center justify-between sticky top-0 z-50">
+        <a href="/" class="text-xl font-bold tracking-tight text-[#D4AF37] flex items-center gap-2">
+            <i class="fas fa-crown"></i> TradeSovereign
+        </a>
+        <nav class="hidden md:flex gap-8">
+            <a href="/courses.html" class="text-gray-300 hover:text-white">Courses</a>
+            <a href="/forum.html" class="text-gold-DEFAULT font-medium">Community</a>
+        </nav>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-6 py-12 w-full">
+        <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">TradeSovereign <span class="text-[#D4AF37]">Inner Circle</span></h1>
+                <p class="text-gray-400">Discuss courses, share trade setups, and network with elite students.</p>
+            </div>
+            <button class="gold-btn px-6 py-2 rounded-lg" onclick="alert('Thread creation is locked to Premium members.')"><i class="fas fa-plus mr-2"></i> New Discussion</button>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Pinned Thread -->
+            <div class="glass-panel p-4 rounded-xl flex items-center gap-4 hover:bg-white/5 transition cursor-pointer border-l-4 border-l-[#D4AF37]">
+                <div class="w-12 h-12 bg-dark-900 rounded-full flex justify-center items-center text-[#D4AF37] shrink-0 border border-white/10">
+                    <i class="fas fa-thumbtack"></i>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-white mb-1">Welcome to the Premium Community! Read first.</h3>
+                    <p class="text-sm text-gray-400">By System Admin • 2 hours ago • Announcements</p>
+                </div>
+                <div class="text-center text-gray-500 text-sm hidden sm:block w-24">
+                    <i class="fas fa-comment-dots mb-1"></i><br>42 replies
+                </div>
+            </div>
+
+            <!-- Thread -->
+            <div class="glass-panel p-4 rounded-xl flex items-center gap-4 hover:bg-white/5 transition cursor-pointer">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex justify-center items-center text-white font-bold shrink-0 shadow-lg">
+                    T
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-white mb-1 hover:text-[#D4AF37] transition">Bitcoin Support at 60k? Chart Analysis</h3>
+                    <p class="text-sm text-gray-400">By TraderX • 5 mins ago • Technical Analysis</p>
+                </div>
+                <div class="text-center text-gray-500 text-sm hidden sm:block w-24">
+                    <i class="fas fa-comment-dots mb-1"></i><br>5 replies
+                </div>
+            </div>
+
+            <!-- Thread -->
+            <div class="glass-panel p-4 rounded-xl flex items-center gap-4 hover:bg-white/5 transition cursor-pointer">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex justify-center items-center text-white font-bold shrink-0 shadow-lg">
+                    A
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-white mb-1 hover:text-[#D4AF37] transition">Help with Lesson 4 Quiz in Price Action course</h3>
+                    <p class="text-sm text-gray-400">By ApexStudent • 1 hour ago • Course Q&A</p>
+                </div>
+                <div class="text-center text-gray-500 text-sm hidden sm:block w-24">
+                    <i class="fas fa-comment-dots mb-1"></i><br>2 replies
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="text-center mt-12">
+            <button class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-gray-300 transition">Load More Discussions</button>
+        </div>
+    </main>
+</body>
+</html>

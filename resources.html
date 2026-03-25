@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Resources Library | TradeSovereign</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' },
+                        dark: { bg: '#0f172a', surface: '#1e293b', border: '#334155' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .dark .glass-panel { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="fixed w-full z-50 glass-panel shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="text-2xl font-extrabold text-brand-600 dark:text-brand-500 tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-crown"></i> TradeSovereign
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="student-zone/index.html" class="font-medium text-gray-600 hover:text-brand-600 dark:text-gray-300 dark:hover:text-white transition-colors">Student Zone</a>
+                    <a href="trading-zone/index.html" class="font-medium text-gray-600 hover:text-brand-600 dark:text-gray-300 dark:hover:text-white transition-colors">Trading Zone</a>
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none">
+                        <i id="theme-icon" class="fa-solid fa-moon text-gray-600 dark:text-gray-300 text-lg"></i>
+                    </button>
+                    <a href="index.html" class="px-5 py-2.5 rounded-full border border-gray-300 dark:border-gray-600 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">Go Home</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-28 pb-20">
+        <!-- Hero Search Section -->
+        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+            <div class="inline-block p-4 rounded-full bg-brand-100 text-brand-600 dark:bg-brand-900/50 dark:text-brand-400 mb-4">
+                <i class="fa-solid fa-magnifying-glass text-3xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gray-900 dark:text-white">Global Resource Library</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">Search across all classes, subjects, and trading articles in our massive database.</p>
+            
+            <div class="relative max-w-2xl mx-auto">
+                <input type="text" id="resource-search" placeholder="E.g., Class 10 Physics Motion, Forex Strategies..." class="w-full text-lg px-6 py-4 pl-14 rounded-full border-2 border-gray-200 dark:border-dark-border bg-white dark:bg-dark-surface dark:text-white focus:border-brand-500 focus:ring-0 outline-none shadow-lg transition-all">
+                <i class="fa-solid fa-search absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+            </div>
+            
+            <div class="flex flex-wrap items-center justify-center gap-3 mt-6">
+                <button class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-brand-100 hover:text-brand-700 dark:hover:bg-brand-900 dark:hover:text-brand-400 transition-colors">Class 10 Solutions</button>
+                <button class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-brand-100 hover:text-brand-700 dark:hover:bg-brand-900 dark:hover:text-brand-400 transition-colors">RSI Indicators</button>
+                <button class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-brand-100 hover:text-brand-700 dark:hover:bg-brand-900 dark:hover:text-brand-400 transition-colors">Previous Year Papers</button>
+            </div>
+        </section>
+
+        <!-- Search Results area -->
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 mb-6 pb-4">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Recommended Results</h2>
+                <div class="flex gap-2 text-sm text-gray-500">
+                    <span class="font-medium py-1 px-2 border-b-2 border-brand-500 text-brand-600 dark:text-brand-400">All</span>
+                    <span class="py-1 px-2 hover:text-gray-800 dark:hover:text-white cursor-pointer">PDFs</span>
+                    <span class="py-1 px-2 hover:text-gray-800 dark:hover:text-white cursor-pointer">Videos</span>
+                </div>
+            </div>
+
+            <div class="space-y-4" id="results-container">
+                <!-- Mock Results -->
+                <a href="#" class="group block p-6 bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-dark-border shadow-sm hover:shadow-md hover:border-brand-500 dark:hover:border-brand-500 transition-all">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-red-50 text-red-500 dark:bg-red-900/30">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-bold px-2 py-0.5 rounded uppercase">Class 10</span>
+                                <span class="bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 text-xs font-bold px-2 py-0.5 rounded uppercase">Physics</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Motion & Gravity - Complete Chapter Notes</h3>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Full comprehensive summary including derivation of Newton's equations of motion.</p>
+                        </div>
+                        <div class="text-gray-400 py-4"><i class="fa-solid fa-download"></i></div>
+                    </div>
+                </a>
+
+                <a href="#" class="group block p-6 bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-dark-border shadow-sm hover:shadow-md hover:border-emerald-500 dark:hover:border-emerald-500 transition-all">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-blue-50 text-blue-500 dark:bg-blue-900/30">
+                            <i class="fa-solid fa-play text-xl"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold px-2 py-0.5 rounded uppercase">Trading</span>
+                                <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-bold px-2 py-0.5 rounded uppercase">Masterclass</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Advanced Order Flow Reading</h3>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">45-minute video breakdown of institutional order flow footprint charts.</p>
+                        </div>
+                        <div class="text-gray-400 py-4"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating AI Widget Component (Injected for Students natively) -->
+    <div id="ai-widget-container" class="fixed bottom-6 right-6 z-[999]">
+        <button id="ai-toggle-btn" class="w-16 h-16 rounded-full bg-gradient-to-tr from-brand-600 to-purple-500 text-white shadow-xl shadow-brand-500/40 flex items-center justify-center hover:scale-110 transition-transform focus:outline-none ring-4 ring-white dark:ring-dark-bg">
+            <i class="fa-solid fa-robot text-2xl animate-pulse"></i>
+        </button>
+        
+        <div id="ai-chat-panel" class="absolute bottom-20 right-0 w-80 md:w-96 bg-white dark:bg-dark-surface rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-border overflow-hidden transition-all duration-300 origin-bottom-right scale-0 opacity-0 flex flex-col h-[500px]">
+            <div class="bg-gradient-to-r from-brand-600 to-purple-600 p-4 text-white flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">TradeSovereign AI</h4>
+                        <p class="text-xs text-brand-100">GPT-4o Assistant</p>
+                    </div>
+                </div>
+                <button id="ai-close-btn" class="text-white hover:text-gray-200 focus:outline-none">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="flex-grow p-4 overflow-y-auto space-y-4 bg-gray-50 dark:bg-dark-bg custom-scrollbar" id="chat-messages">
+                <!-- AI Welcom Message -->
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center flex-shrink-0 mt-1">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-800 text-sm text-gray-700 dark:text-gray-300">
+                        Hello! I'm your AI learning assistant. You can ask me to explain concepts, solve problems, or guide you through the markets. How can I help today?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-3 bg-white dark:bg-dark-surface border-t border-gray-200 dark:border-dark-border">
+                <form id="ai-chat-form" class="flex gap-2">
+                    <input type="text" id="ai-input" placeholder="Type your question..." autocomplete="off" class="flex-grow bg-gray-100 dark:bg-gray-800 border-none rounded-xl px-4 py-2 text-sm text-gray-800 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
+                    <button type="submit" class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center hover:bg-brand-500 transition-colors flex-shrink-0">
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        // Theme Setup
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(document.getElementById('theme-icon')) document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(document.getElementById('theme-icon')) document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
+            }
+        };
+        const toggleTheme = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+        if(document.getElementById('theme-toggle')) document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) applyTheme(savedTheme);
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+
+        // AI Widget Logic
+        const aiToggleBtn = document.getElementById('ai-toggle-btn');
+        const aiCloseBtn = document.getElementById('ai-close-btn');
+        const aiChatPanel = document.getElementById('ai-chat-panel');
+        const aiChatForm = document.getElementById('ai-chat-form');
+        const aiInput = document.getElementById('ai-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        const toggleChat = () => {
+            if (aiChatPanel.classList.contains('scale-0')) {
+                aiChatPanel.classList.remove('scale-0', 'opacity-0');
+                aiChatPanel.classList.add('scale-100', 'opacity-100');
+                aiInput.focus();
+            } else {
+                aiChatPanel.classList.remove('scale-100', 'opacity-100');
+                aiChatPanel.classList.add('scale-0', 'opacity-0');
+            }
+        };
+
+        aiToggleBtn.addEventListener('click', toggleChat);
+        aiCloseBtn.addEventListener('click', toggleChat);
+
+        aiChatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = aiInput.value.trim();
+            if(!text) return;
+            
+            // Add user message
+            const usrDiv = document.createElement('div');
+            usrDiv.className = 'flex gap-3 flex-row-reverse';
+            usrDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i class="fa-solid fa-user text-sm"></i>
+                </div>
+                <div class="bg-brand-600 text-white p-3 rounded-2xl rounded-tr-sm shadow-sm text-sm">
+                    ${text}
+                </div>
+            `;
+            chatMessages.appendChild(usrDiv);
+            aiInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Simulate AI Response (Prompt instructs OpenAI API to be used in real version)
+            setTimeout(() => {
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'flex gap-3';
+                aiDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center flex-shrink-0 mt-1">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-800 text-sm text-gray-700 dark:text-gray-300">
+                        *Simulated GPT-4o Response:* I've found resources matching "${text}". Ensure you provide an OPENAI_API_KEY in the environment for live completions.
+                    </div>
+                `;
+                chatMessages.appendChild(aiDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

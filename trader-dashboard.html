@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeOS Terminal | Institutional Strategic Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#f59e0b', dark: '#020617', green: '#10b981', red: '#ef4444' },
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Space Grotesk', sans-serif; overflow: hidden; }
+        .terminal-grid { background-image: linear-gradient(rgba(245, 158, 11, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 158, 11, 0.05) 1px, transparent 1px); background-size: 30px 30px; }
+        .glass-terminal { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .ticker-glow { text-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="h-screen flex flex-col terminal-grid">
+
+    <!-- Terminal Header -->
+    <header class="h-16 border-b border-white/5 px-6 flex items-center justify-between glass-terminal">
+        <div class="flex items-center gap-4">
+            <div class="w-8 h-8 bg-primary/20 rounded flex items-center justify-center border border-primary/30">
+                <i class="fa-solid fa-chart-line text-primary"></i>
+            </div>
+            <h1 class="text-sm font-black font-heading tracking-widest uppercase">TradeOS <span class="text-primary italic">Terminal</span> v9.1</h1>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/5 text-[9px] font-bold uppercase tracking-widest text-primary ticker-glow">
+                <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span> POLYGON_LINK_ONLINE
+            </div>
+            <a href="index.html" class="text-slate-500 hover:text-white transition-colors text-xs uppercase font-black">Exit_System</a>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="flex-grow flex overflow-hidden">
+        
+        <!-- Sidebar: Assets & Alerts -->
+        <aside class="w-64 border-r border-white/5 flex flex-col glass-terminal">
+            <div class="p-4 border-b border-white/5">
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">Watchlist</p>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
+                        <span class="text-xs font-bold text-white">BTC/USD</span>
+                        <span class="text-xs font-black text-green">+$4,203</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
+                        <span class="text-xs font-bold text-white">RELIANCE</span>
+                        <span class="text-xs font-black text-red">-₹12.4</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto space-y-4">
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Live_Alerts</p>
+                <div class="text-[10px] font-mono text-primary bg-primary/5 p-3 rounded-lg border border-primary/10">
+                    [SYSTEM] Institutional buy order detected at ₹2,540. Support holding.
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center: Dynamic Charts -->
+        <main class="flex-grow flex flex-col">
+            <div class="flex-grow p-6 relative">
+                <!-- TradingView Widget Placeholder -->
+                <div class="w-full h-full bg-dark/60 rounded-3xl border border-white/5 flex flex-col items-center justify-center text-slate-600 gap-4 overflow-hidden">
+                    <i class="fa-solid fa-chart-area text-6xl opacity-20"></i>
+                    <p class="font-black uppercase tracking-[0.4em] text-xs">Awaiting_Data_Feed</p>
+                    <!-- Mock Chart Lines -->
+                    <div class="absolute inset-x-0 bottom-20 px-10">
+                         <div class="h-1 bg-primary/20 w-full relative">
+                            <div class="absolute top-0 left-0 h-full bg-primary w-2/3 shadow-[0_0_20px_#f59e0b]"></div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade Bar -->
+            <div class="h-24 glass-terminal border-t border-white/5 p-4 flex items-center gap-6">
+                <div class="flex flex-col">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-slate-500">Available_Capital</span>
+                    <span class="text-xl font-heading font-black text-white">₹1,24,000.00</span>
+                </div>
+                <div class="ml-auto flex gap-4">
+                    <button class="px-8 py-3 bg-green text-dark font-black uppercase tracking-widest rounded-xl hover:bg-emerald-400 transition-all">Buy_Matrix</button>
+                    <button class="px-8 py-3 bg-red text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-600 transition-all">Short_Entry</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Side: AI Chaplin Forecaster -->
+        <aside class="w-96 border-l border-white/5 flex flex-col glass-terminal">
+            <div class="p-6 border-b border-white/5 bg-primary/5">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-dark">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white">AI Chaplin</p>
+                        <p class="text-[10px] text-primary uppercase font-black tracking-widest">Macro Forecaster</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="chaplin-feed" class="flex-grow p-6 overflow-y-auto space-y-6">
+                <div class="space-y-2">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Forecaster_Output</p>
+                    <div class="p-5 bg-dark/80 rounded-2xl border border-white/5 text-xs leading-relaxed text-slate-300 font-medium">
+                        Based on the current volatility matrix, the nifty cluster is showing a 68% probability of a breakout above the 22,500 psychological barrier. Volume Profile is skewed institutional.
+                    </div>
+                </div>
+
+                <div class="p-5 bg-primary/10 rounded-2xl border border-primary/20">
+                    <h4 class="text-[10px] font-black uppercase text-primary mb-3">Today's_Strategy</h4>
+                    <p class="text-xs font-bold text-white">Mean Reversion on Support-3. Avoid long-bias until London open.</p>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <a href="resources.html" class="w-full flex items-center justify-center gap-3 p-4 bg-white/5 border border-white/5 rounded-2xl text-[10px] font-black hover:bg-white/10 transition-all uppercase tracking-widest">
+                    <i class="fa-solid fa-folder-open text-primary"></i> Access Strategy Vault
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Ticker Footer -->
+    <footer class="h-10 bg-dark/80 border-t border-white/5 flex items-center px-6 gap-8 overflow-hidden">
+        <div class="flex items-center gap-2">
+            <span class="text-[9px] font-black text-slate-500 uppercase">Latency:</span>
+            <span class="text-[9px] font-black text-green uppercase">12ms</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-[9px] font-black text-slate-500 uppercase">Status:</span>
+            <span class="text-[9px] font-black text-primary uppercase">Production_Live</span>
+        </div>
+        <div class="flex-grow h-full flex items-center overflow-hidden">
+             <marquee class="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                 DOW_JONES +0.45% /// NASDAQ -0.12% /// NIFTY50 +1.28% /// RELIANCE -0.4% /// TATASTEEL +2.34% /// BTC +1.1% /// ETH -0.4%
+             </marquee>
+        </div>
+    </footer>
+
+</body>
+</html>

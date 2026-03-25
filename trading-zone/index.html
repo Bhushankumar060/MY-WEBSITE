@@ -1,145 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Zone | TradeSovereign</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
-    <style>
-        .hero {
-            background: linear-gradient(135deg, #0B1120, #3B82F6);
+    <title>TradeOS Intelligence | TradeSovereign v3</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#FF4500', secondary: '#7DF9FF', dark: '#0a0a0a', surface: '#1c1c1c' },
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] },
+                    boxShadow: { 'neo': '8px 8px 0px rgba(0,0,0,1)', 'neo-hover': '12px 12px 0px rgba(0,0,0,1)', 'neo-dark': '6px 6px 0px rgba(125,249,255,1)' }
+                }
+            }
         }
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+    </script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        .neo-border { border: 4px solid #000; }
+        .dark .neo-border { border: 4px solid #7DF9FF; }
+        .bg-grid { background-size: 50px 50px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px); }
+        .dark .bg-grid { background-image: linear-gradient(to right, rgba(125, 249, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(125, 249, 255, 0.05) 1px, transparent 1px); }
+
+        .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; border-bottom: 4px solid #000; }
+        .dark .ticker-wrap { border-bottom: 4px solid #7DF9FF; }
+        .ticker { display: inline-block; animation: ticker 25s linear infinite; }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+
+        /* Liquid Glass */
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            border-bottom: 4px solid #000;
+        }
+        .dark .liquid-glass {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(25px);
+            border-bottom: 4px solid #7DF9FF;
         }
     </style>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo"><a href="/">TradeSovereign</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/student-zone/">Student Zone</a></li>
-                    <li><a href="/trading-zone/">Trading Zone</a></li>
-                    <li><a href="/trading-zone/blog.html">Blog</a></li>
-                    <li><a href="/trading-zone/shop.html">Shop</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
-                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+<body class="bg-[#f4f4f0] text-gray-900 dark:bg-dark dark:text-gray-100 transition-colors duration-500 bg-grid min-h-screen pt-20 flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 w-full z-50 liquid-glass transition-colors duration-300">
+        
+        <!-- Neubrutalist Live Ticker -->
+        <div class="ticker-wrap h-10 bg-black text-[#FFE900] font-bold uppercase tracking-widest flex items-center">
+            <div class="ticker" id="ticker-content">
+                <span class="inline-block px-8"><i class="fa-solid fa-bolt mr-2 text-primary"></i> BTC/USD: $64,230 (A.I. FLASH: BUY)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> ETH/USD: $3,450 (A.I. FLASH: HOLD)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> NVDA: $890.10 (A.I. FLASH: BUY)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> TSLA: $175.20 (A.I. FLASH: SELL)</span>
+                
+                <!-- Clone for infinite loop -->
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> BTC/USD: $64,230 (A.I. FLASH: BUY)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> ETH/USD: $3,450 (A.I. FLASH: HOLD)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> NVDA: $890.10 (A.I. FLASH: BUY)</span>
+                <span class="inline-block px-8 border-l-2 border-white"><i class="fa-solid fa-bolt mr-2 text-primary"></i> TSLA: $175.20 (A.I. FLASH: SELL)</span>
             </div>
+        </div>
+
+        <div class="max-w-[1600px] mx-auto px-4 flex justify-between items-center h-20">
+            <a href="../index.html" class="text-2xl font-heading font-black tracking-tighter uppercase flex items-center gap-3 text-black dark:text-white">
+                <div class="w-10 h-10 bg-secondary neo-border flex flex-col justify-center items-center shadow-[4px_4px_0px_#000]">
+                    <i class="fa-solid fa-chart-pie text-black"></i>
+                </div>
+                TradeOS <span class="text-primary text-sm version-span">v8.0</span>
+            </a>
+            <nav class="hidden md:flex space-x-6 items-center font-bold uppercase tracking-wider text-sm">
+                <a href="../index.html" class="hover:text-primary transition-colors">Home</a>
+                <a href="../store.html" class="hover:text-secondary transition-colors">Store</a>
+                <a href="../student-zone/index.html" class="hover:text-primary transition-colors">Students</a>
+                <button id="theme-toggle" class="w-10 h-10 bg-black text-white dark:bg-white dark:text-black rounded-full neo-border shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#7DF9FF] hover:translate-x-[2px] hover:translate-y-[2px] transition-transform">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </nav>
         </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Trading Zone</h1>
-                <p>Free resources, trading tools, blog articles, and premium digital products.</p>
-                <div class="hero-buttons">
-                    <a href="resources.html" class="btn btn-primary">Free Resources <i class="fas fa-download"></i></a>
-                    <a href="tools.html" class="btn btn-secondary">Trading Tools <i class="fas fa-calculator"></i></a>
+    <main class="flex-grow w-full max-w-[1600px] mx-auto p-4 lg:p-8 mt-16 grid grid-cols-1 xl:grid-cols-4 gap-8">
+        
+        <!-- Letf Col: Multi-timeframe Chart -->
+        <div class="xl:col-span-3 flex flex-col gap-8">
+            <!-- TV Chart with Neubrutal Framing -->
+            <div class="bg-white dark:bg-surface p-2 neo-border shadow-neo dark:shadow-neo-dark min-h-[600px] relative gsap-fade group">
+                <div class="absolute -top-4 -left-4 bg-[#FFE900] text-black px-4 py-1 neo-border font-bold uppercase shadow-[2px_2px_0px_#000] z-10 flex items-center gap-2 group-hover:-translate-y-2 transition-transform">
+                    <i class="fa-solid fa-bolt text-primary"></i> Multi-Timeframe Matrix
+                </div>
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container h-full w-full">
+                    <div id="tv_chart_main" class="h-[600px] w-full border-2 border-black dark:border-secondary"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                    new TradingView.widget(
+                    {
+                        "autosize": true,
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "15",
+                        "timezone": "exchange",
+                        "theme": "dark", // Locked to dark for contrast against bright borders
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "backgroundColor": "#050505",
+                        "gridColor": "rgba(42, 46, 57, 1)",
+                        "hide_legend": false,
+                        "container_id": "tv_chart_main",
+                        "studies": [
+                            "RSI@tv-basicstudies",
+                            "MACD@tv-basicstudies"
+                        ]
+                    });
+                    </script>
                 </div>
             </div>
-        </section>
 
-        <section class="features">
-            <div class="container">
-                <div class="resource-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-file-pdf"></i>
-                        <h3>PDF Library</h3>
-                        <p>Free guides, cheat sheets, and trading eBooks.</p>
-                        <a href="resources.html" class="feature-link">Browse →</a>
+            <!-- Chaplin AI Assistant Strategy Builder -->
+            <div class="bg-secondary p-8 neo-border shadow-neo dark:shadow-neo-dark text-black relative gsap-fade">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/3 text-center">
+                        <i class="fa-solid fa-robot text-8xl mb-4 animate-bounce"></i>
+                        <h2 class="font-heading font-black uppercase text-3xl">TradeOS Chaplin</h2>
+                        <p class="font-bold text-sm">Predictive Forecaster & Builder</p>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Trading Tools</h3>
-                        <p>Position size, risk/reward calculators, and journal templates.</p>
-                        <a href="tools.html" class="feature-link">Use Tools →</a>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-store"></i>
-                        <h3>Premium Shop</h3>
-                        <p>Advanced journals, courses, and indicators.</p>
-                        <a href="shop.html" class="feature-link">Shop Now →</a>
+                    <div class="w-full md:w-2/3 bg-white neo-border p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+                        <h3 class="font-bold uppercase text-primary border-b-4 border-black pb-2 mb-4 flex justify-between items-center">
+                            <span><i class="fa-solid fa-code mr-2"></i>AI Command Terminal</span>
+                            <span id="chaplin-status" class="text-[10px] bg-black text-white px-2 py-0.5">READY</span>
+                        </h3>
+                        <div id="chaplin-output" class="bg-black text-[#7DF9FF] p-4 font-mono text-xs neo-border overflow-y-auto h-[150px] relative mb-4">
+                            Welcome to the Chaplin Forge. Enter a strategy prompt (e.g., "Generate a Scalping Bot for BTC") or ask for market analysis.
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" id="chaplin-input" placeholder="Enter Command..." 
+                                class="flex-grow bg-white border-4 border-black p-3 font-bold uppercase outline-none focus:bg-yellow-50">
+                            <button id="chaplin-send" class="bg-black text-white px-6 font-black uppercase hover:bg-primary transition-colors neo-border">
+                                RUN
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="latest-blog">
-            <div class="container">
-                <h2>Featured Trading Articles</h2>
-                <div class="blog-grid">
-                    <div class="blog-card">
-                        <img src="https://picsum.photos/id/104/300/200" alt="Blog">
-                        <h3>5 Common Mistakes New Traders Make</h3>
-                        <p>Avoid these pitfalls to protect your capital.</p>
-                        <a href="post.html" class="read-more">Read more →</a>
-                    </div>
-                    <div class="blog-card">
-                        <img src="https://picsum.photos/id/106/300/200" alt="Blog">
-                        <h3>Trading Psychology: Stay Disciplined</h3>
-                        <p>Master your emotions and stick to your plan.</p>
-                        <a href="post.html" class="read-more">Read more →</a>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <a href="blog.html" class="btn btn-outline">View All Posts</a>
-                </div>
-            </div>
-        </section>
+        <script type="module">
+            import { initAIAssistant, askChaplin } from '../js/ai-assistant.js';
+            import { showToast } from '../js/common.js';
 
-        <section class="features">
-            <div class="container">
-                <h2>Trader Learning Path</h2>
-                <div class="resource-grid">
-                    <div class="feature-card"><i class="fas fa-user-graduate"></i><h3>Beginner</h3><p>Basic concepts, trading types, and risk fundamentals.</p><a href="resources.html" class="feature-link">Start →</a></div>
-                    <div class="feature-card"><i class="fas fa-rocket"></i><h3>Intermediate</h3><p>Backtesting, strategy building, and trade journaling.</p><a href="resources.html" class="feature-link">Learn →</a></div>
-                    <div class="feature-card"><i class="fas fa-award"></i><h3>Advanced</h3><p>Position sizing, psychology, and professional indicators.</p><a href="resources.html" class="feature-link">Advance →</a></div>
+            document.addEventListener('DOMContentLoaded', async () => {
+                await initAIAssistant();
+                
+                const btn    = document.getElementById('chaplin-send');
+                const inp    = document.getElementById('chaplin-input');
+                const out    = document.getElementById('chaplin-output');
+                const status = document.getElementById('chaplin-status');
+
+                const runChaplin = async () => {
+                    const q = inp.value.trim();
+                    if (!q) return;
+
+                    inp.value = "";
+                    status.innerText = "PROCESSING...";
+                    status.className = "text-[10px] bg-primary text-white px-2 py-0.5 animate-pulse";
+                    out.innerHTML = `<span class="opacity-50 italic">Chaplin is forging your request...</span>`;
+
+                    try {
+                        const ans = await askChaplin(q);
+                        out.innerText = ans;
+                        status.innerText = "ONLINE";
+                        status.className = "text-[10px] bg-green-500 text-white px-2 py-0.5";
+                        showToast("Strategy Forged", "success");
+                    } catch (err) {
+                        status.innerText = "ERROR";
+                        status.className = "text-[10px] bg-red-500 text-white px-2 py-0.5";
+                        out.innerText = "Command failed. Check your API Hub.";
+                    }
+                };
+
+                btn.addEventListener('click', runChaplin);
+                inp.addEventListener('keypress', (e) => { if(e.key === 'Enter') runChaplin(); });
+            });
+        </script>
+
+        <!-- Right Col: AI Agent Workflows & Signals -->
+        <div class="xl:col-span-1 flex flex-col gap-8">
+            
+            <!-- No-Code Agent Builder -->
+            <div class="bg-black text-white p-6 neo-border shadow-neo dark:shadow-neo-dark relative gsap-fade">
+                <h3 class="font-heading font-black text-xl uppercase mb-6 text-primary"><i class="fa-solid fa-network-wired mr-2"></i>No-Code AI Agents</h3>
+                
+                <div class="space-y-4 relative">
+                    <!-- Workflow Line connecting nodes -->
+                    <div class="absolute left-6 top-10 bottom-10 w-1 bg-white dark:bg-secondary"></div>
+
+                    <!-- Node 1 -->
+                    <div class="bg-white text-black p-4 neo-border flex items-center gap-4 relative z-10 shadow-[4px_4px_0px_#FF4500]">
+                        <div class="w-8 h-8 bg-[#FFE900] neo-border rounded-full flex items-center justify-center flex-shrink-0">1</div>
+                        <div>
+                            <p class="font-bold text-sm uppercase">Fetch 5m Data</p>
+                            <span class="text-xs text-gray-500 font-bold">BINANCE:ETHUSDT</span>
+                        </div>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div class="bg-white text-black p-4 neo-border flex items-center gap-4 relative z-10 shadow-[4px_4px_0px_#7DF9FF]">
+                        <div class="w-8 h-8 bg-secondary neo-border rounded-full flex items-center justify-center flex-shrink-0">2</div>
+                        <div>
+                            <p class="font-bold text-sm uppercase">Chaplin Analysis</p>
+                            <span class="text-xs text-gray-500 font-bold">RSI < 30 + Spread alignment</span>
+                        </div>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="bg-white text-black p-4 neo-border flex items-center gap-4 relative z-10 shadow-[4px_4px_0px_#FFE900]">
+                        <div class="w-8 h-8 bg-black text-white neo-border rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-play"></i></div>
+                        <div>
+                            <p class="font-bold text-sm uppercase">Execute Trade</p>
+                            <span class="text-xs text-gray-500 font-bold">Limit Order @ 3420</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="w-full mt-6 py-3 bg-primary text-white font-bold uppercase neo-border hover:shadow-[0px_0px_0px_#000] shadow-[6px_6px_0px_#fff] transition-all">Build New Agent</button>
+            </div>
+
+            <!-- Trade OS Terminal Feed (Finnhub Mock) -->
+            <div class="bg-white dark:bg-surface p-6 neo-border shadow-neo dark:shadow-neo-dark flex-grow gsap-fade relative overflow-hidden">
+                <i class="fa-solid fa-newspaper text-8xl absolute -right-6 -top-4 text-black opacity-5 dark:text-white dark:opacity-10 pointer-events-none"></i>
+                <h3 class="font-heading font-black text-xl uppercase mb-6 flex items-center gap-2"><i class="fa-solid fa-rss text-primary"></i> Finnhub Sentiment</h3>
+                
+                <div class="space-y-4">
+                    <div class="border-l-4 border-black dark:border-secondary pl-4 py-1">
+                        <span class="bg-black text-secondary px-2 py-0.5 text-xs font-bold uppercase neo-border inline-block mb-1">Bullish 92%</span>
+                        <p class="font-bold text-sm dark:text-gray-200">Ethereum Dencun Upgrade completes successfully on mainnet.</p>
+                        <p class="text-xs text-gray-400 font-bold mt-1">2 mins ago</p>
+                    </div>
+                    <div class="border-l-4 border-primary pl-4 py-1">
+                        <span class="bg-primary text-white px-2 py-0.5 text-xs font-bold uppercase neo-border inline-block mb-1">Bearish 74%</span>
+                        <p class="font-bold text-sm dark:text-gray-200">CPI Data comes in hotter than expected at 3.2%.</p>
+                        <p class="text-xs text-gray-400 font-bold mt-1">15 mins ago</p>
+                    </div>
+                    <div class="border-l-4 border-gray-400 pl-4 py-1">
+                        <span class="bg-gray-200 text-gray-800 px-2 py-0.5 text-xs font-bold uppercase neo-border inline-block mb-1">Neutral 50%</span>
+                        <p class="font-bold text-sm dark:text-gray-200">Federal Reserve announces pause on interest rate hikes.</p>
+                        <p class="text-xs text-gray-400 font-bold mt-1">1 hour ago</p>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section class="features" id="contact" style="padding-top:2rem;">
-            <div class="container">
-                <h2>Contact Trader Support</h2>
-                <p>Share your resource ideas and ask for custom trading templates.</p>
-                <form id="contact-form" style="max-width:650px; margin:0 auto;">
-                    <label>Name</label>
-                    <input type="text" name="name" required style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
-                    <label>Email</label>
-                    <input type="email" name="email" required style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;">
-                    <label>Message</label>
-                    <textarea name="message" rows="4" required style="width:100%; padding:0.75rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:8px;"></textarea>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </section>
+            
+        </div>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div>
-                <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div>
-                <div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fab fa-twitter"></i> @tradesovereign</li></ul></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div>
-        </div>
-    </footer>
+    <!-- Global Utilities & Theme -->
+    <script type="module" src="/js/common.js"></script>
 
-    <script src="../js/common.js"></script>
+    <script>
+        // Init GSAP
+        gsap.from('.gsap-fade', {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "back.out(1.5)"
+        });
+    </script>
 </body>
 </html>

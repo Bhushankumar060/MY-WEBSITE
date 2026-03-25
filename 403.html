@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 Forbidden | TradeSovereign v8.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#FF4500', secondary: '#7DF9FF', dark: '#0a0a0a', surface: '#1c1c1c' },
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] },
+                    boxShadow: { 'neo': '8px 8px 0px rgba(0,0,0,1)' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; overflow: hidden; }
+        .neo-border { border: 4px solid #000; }
+        .bg-grid { background-size: 50px 50px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px); }
+    </style>
+</head>
+<body class="bg-[#f4f4f0] text-gray-900 bg-grid min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-12 neo-border shadow-neo max-w-lg w-full text-center relative overflow-hidden">
+        <!-- Danger pattern -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0tMSwxIGwyLC0yIE0wLDQgbDQsLTQgTTMsNSBsMiwtMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+')] opacity-10 pointer-events-none"></div>
+        
+        <i class="fa-solid fa-shield-cat text-6xl text-primary mb-6 relative z-10"></i>
+        <h1 class="text-5xl font-heading font-black uppercase text-black mb-2 relative z-10">403</h1>
+        <h2 class="text-2xl font-bold uppercase tracking-widest text-gray-400 mb-6 relative z-10">Access Denied</h2>
+        
+        <div class="bg-gray-100 p-4 neo-border border-2 text-sm font-mono text-left mb-6 relative z-10">
+            <p class="text-red-500 font-bold">> SECURITY_VIOLATION_DETECTED</p>
+            <p class="text-gray-600">> Attempted access to privileged command vector.</p>
+            <p class="text-gray-600">> Current Role: <span id="role-display" class="font-bold text-black">Unknown</span></p>
+            <p class="text-gray-600">> Required Role: <span class="font-bold text-black border-b-2 border-primary">Admin</span></p>
+        </div>
+
+        <button onclick="window.location.href='/student-zone/index.html'" class="w-full bg-black text-white font-black uppercase tracking-widest py-4 neo-border hover:bg-primary transition-colors relative z-10 shadow-[4px_4px_0px_#FF4500]">
+            Return to Authorized Zone
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const role = localStorage.getItem('user_role') || 'Guest';
+            const bypass = localStorage.getItem('admin_bypass') === 'true';
+            document.getElementById('role-display').innerText = bypass ? `${role} (Bypass Active)` : role;
+            
+            if (bypass) {
+                console.log("%c[DEV] Admin Bypass Detected. Attempting Re-entry...", "color: #7DF9FF; font-weight: bold;");
+            }
+        });
+    </script>
+</body>
+</html>

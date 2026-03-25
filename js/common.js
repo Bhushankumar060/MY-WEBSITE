@@ -1,92 +1,106 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    if (menuToggle && nav) {
-        menuToggle.addEventListener('click', () => {
-            nav.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            if (nav.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-                nav.style.display = 'block'; // for simple toggle
-                // Better to use CSS, but simple JS for demonstration
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-                nav.style.display = '';
-            }
-        });
-        // For responsiveness: if window resizes >768, reset nav display
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                nav.style.display = '';
-                nav.classList.remove('active');
-                menuToggle.querySelector('i').classList.remove('fa-times');
-                menuToggle.querySelector('i').classList.add('fa-bars');
-            }
-        });
-    }
+/**
+ * TradeSovereign v8.0 – Global Utilities
+ * 
+ * Handles:
+ *  - Unified Dark/Light Mode (system-aware + persistent)
+ *  - Premium Toast Notifications (RBAC feedback, API alerts)
+ *  - Mobile Navigation Toggles
+ *  - Global SEO & Versioning Helpers
+ */
 
-    // Dark mode toggle
-    const themeToggle = document.querySelector('.theme-toggle');
+document.addEventListener('DOMContentLoaded', () => {
+    initThemeControl();
+    initMobileNav();
+    updateGlobalVersioning();
+});
+
+// ─── 1. Unified Theme Control ──────────────────────────────────────────────
+export function initThemeControl() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon   = document.getElementById('theme-icon');
+
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+    };
+
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            const icon = themeToggle.querySelector('i');
-            if (isDark) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.querySelector('i').classList.remove('fa-moon');
-            themeToggle.querySelector('i').classList.add('fa-sun');
-        }
-    }
-
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            const msgDiv = this.parentElement.querySelector('.form-message');
-            if (email) {
-                msgDiv.textContent = 'Thanks for subscribing! We’ll be in touch.';
-                msgDiv.style.color = 'green';
-                this.reset();
-                // You could send to an API endpoint here
-            } else {
-                msgDiv.textContent = 'Please enter a valid email address.';
-                msgDiv.style.color = 'red';
-            }
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+            showToast(`Mode: ${newTheme.toUpperCase()}`, 'info');
         });
     }
 
-    // Simple fade-in on scroll (optional)
-    const fadeElements = document.querySelectorAll('.feature-card, .blog-card');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
-            }
+    // Init: LocalStorage > System Preference
+    const saved = localStorage.getItem('theme');
+    if (saved) applyTheme(saved);
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+}
+
+// ─── 2. Premium Toast Notifications ────────────────────────────────────────
+export function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container') || createToastContainer();
+    const toast = document.createElement('div');
+    
+    const colors = {
+        success: 'bg-green-500',
+        error:   'bg-primary',
+        info:    'bg-secondary text-black',
+        warning: 'bg-[#FFE900] text-black'
+    };
+
+    toast.className = `${colors[type] || colors.info} neo-border p-4 shadow-neo flex items-center gap-3 font-bold uppercase text-xs tracking-widest animate-bounce-in min-w-[250px] mb-3`;
+    toast.innerHTML = `
+        <i class="fa-solid ${type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info'} text-lg"></i>
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(50px)';
+        setTimeout(() => toast.remove(), 500);
+    }, 4000);
+}
+
+function createToastContainer() {
+    const c = document.createElement('div');
+    c.id = 'toast-container';
+    c.className = 'fixed bottom-8 right-8 z-[9999] flex flex-col items-end';
+    document.body.appendChild(c);
+    return c;
+}
+
+// ─── 3. Mobile Navigation ──────────────────────────────────────────────────
+export function initMobileNav() {
+    const burger = document.querySelector('.mobile-burger');
+    const menu   = document.querySelector('.mobile-menu');
+    if (burger && menu) {
+        burger.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            burger.classList.toggle('bg-primary');
         });
-    }, { threshold: 0.1 });
-    fadeElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(el);
-    });
-});
+    }
+}
+
+// ─── 4. Sync All versions locally ──────────────────────────────────────────
+function updateGlobalVersioning() {
+    const v = "v8.0";
+    // Update logo spans
+    document.querySelectorAll('.version-span').forEach(el => el.innerText = v);
+    // Safety check for title
+    if (!document.title.includes(v)) {
+        document.title = document.title.replace(/v[0-9](\.[0-9])?/g, v);
+    }
+}
+
+// Global hook for easy access
+window.tsToast = showToast;

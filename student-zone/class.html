@@ -1,71 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class - TradeSovereign Student Zone</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css2/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
+    <title>Class Overview | TradeSovereign Student Zone</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' },
+                        dark: { bg: '#0f172a', surface: '#1e293b', border: '#334155' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .subject-card { background: white; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; }
-        .subject-card:hover { transform: translateY(-3px); }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .dark .glass-panel { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo"><a href="/">TradeSovereign</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/student-zone/">Student Zone</a></li>
-                    <li><a href="/trading-zone/">Trading Zone</a></li>
-                    <li><a href="/trading-zone/blog.html">Blog</a></li>
-                    <li><a href="/trading-zone/shop.html">Shop</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
-                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="fixed w-full z-50 glass-panel shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-2xl font-extrabold text-brand-600 dark:text-brand-500 tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-crown"></i> TradeSovereign
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="font-medium text-brand-600 dark:text-brand-400">Student Zone</a>
+                    <a href="../trading-zone/index.html" class="font-medium text-gray-600 hover:text-brand-600 dark:text-gray-300 dark:hover:text-white transition-colors">Trading Zone</a>
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none">
+                        <i id="theme-icon" class="fa-solid fa-moon text-gray-600 dark:text-gray-300 text-lg"></i>
+                    </button>
+                    <a href="index.html" class="px-5 py-2.5 rounded-full border border-gray-300 dark:border-gray-600 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">Go Back</a>
+                </nav>
             </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero" style="padding: 3rem 0;">
-            <div class="container"><h1 id="class-title">Class</h1><p>Choose your subject to continue.</p></div>
+    <main class="flex-grow pt-28 pb-20">
+        <!-- Hero -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+            <div class="inline-block p-4 rounded-full bg-brand-100 text-brand-600 dark:bg-brand-900/50 dark:text-brand-400 mb-4">
+                <i class="fa-solid fa-book-open text-3xl"></i>
+            </div>
+            <h1 id="class-title" class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gray-900 dark:text-white">Class Overview</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">Select a subject to dive into chapters, video lessons, and PDF notes.</p>
         </section>
-        <section class="features"><div class="container"><div id="subject-grid" class="subject-grid"></div></div></section>
+
+        <!-- Subjects Grid -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-4">Subjects</h2>
+            <div id="subject-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically injected -->
+            </div>
+        </section>
     </main>
 
-    <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div><div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fas fa-phone"></i> +91 98765 43210</li></ul></div></div><div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div></div></footer>
+    <footer class="bg-white dark:bg-dark-surface border-t border-gray-200 dark:border-dark-border py-8 mt-auto transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400 text-sm">
+            &copy; 2026 TradeSovereign. All rights reserved.
+        </div>
+    </footer>
 
+    <!-- Logic -->
     <script>
+        // Theme Setup
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
+            }
+        };
+        const toggleTheme = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) applyTheme(savedTheme);
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+
+        // Dynamic Subjects Rendering
         const url = new URL(window.location.href);
-        const classValue = url.searchParams.get('class') || '6';
-        document.getElementById('class-title').innerText = `Class ${classValue}`;
+        const classValue = url.searchParams.get('class') || '10';
+        document.getElementById('class-title').innerText = `Class ${classValue} Dashboard`;
 
         const subjectsByClass = {
-            '6': ['Mathematics','Science','Social Science','English','Hindi'],
-            '7': ['Mathematics','Science','Social Science','English','Hindi'],
-            '8': ['Mathematics','Science','Social Science','English','Hindi'],
-            '9': ['Mathematics','Science','Social Science','English','Hindi'],
-            '10': ['Mathematics','Science','Social Science','English','Hindi'],
-            '11': ['Mathematics','Physics','Chemistry','Biology','English'],
-            '12': ['Mathematics','Physics','Chemistry','Biology','English']
+            '1': ['Mathematics', 'English', 'EVS', 'Hindi'],
+            '2': ['Mathematics', 'English', 'EVS', 'Hindi'],
+            '3': ['Mathematics', 'Science', 'English', 'Hindi'],
+            '4': ['Mathematics', 'Science', 'English', 'Hindi', 'Social Science'],
+            '5': ['Mathematics', 'Science', 'English', 'Hindi', 'Social Science'],
+            '6': ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi'],
+            '7': ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi'],
+            '8': ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi'],
+            '9': ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi'],
+            '10': ['Mathematics', 'Science', 'Social Science', 'English', 'Hindi'],
+            '11': ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Accountancy', 'Economics', 'Business Studies', 'English'],
+            '12': ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Accountancy', 'Economics', 'Business Studies', 'English']
         };
 
-        const subjectList = subjectsByClass[classValue] || subjectsByClass['6'];
+        const icons = {
+            'mathematics': 'fa-calculator',
+            'science': 'fa-flask',
+            'social science': 'fa-globe-asia',
+            'english': 'fa-language',
+            'hindi': 'fa-om',
+            'evs': 'fa-leaf',
+            'physics': 'fa-atom',
+            'chemistry': 'fa-vial',
+            'biology': 'fa-dna',
+            'accountancy': 'fa-file-invoice-dollar',
+            'economics': 'fa-chart-pie',
+            'business studies': 'fa-briefcase'
+        };
+
+        const subjectList = subjectsByClass[classValue] || subjectsByClass['10'];
         const grid = document.getElementById('subject-grid');
 
         subjectList.forEach(sub => {
+            const lowSub = sub.toLowerCase();
+            const iconClass = icons[lowSub] || 'fa-book';
+            const slug = lowSub.replace(/ /g, '-');
+            
             const el = document.createElement('a');
-            el.className = 'subject-card';
-            el.href = `subject.html?class=${classValue}&subject=${sub.toLowerCase().replace(/ /g,'-')}`;
-            el.innerHTML = `<h3>${sub}</h3><p>Chapter notes, practice questions and assessments.</p>`;
+            el.className = 'group flex items-start gap-4 p-6 bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-dark-border hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-lg transition-all transform hover:-translate-y-1';
+            el.href = `subject.html?class=${classValue}&subject=${slug}`;
+            
+            el.innerHTML = `
+                <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid ${iconClass} text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">${sub}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Access structured chapters, lecture videos, and smart notes for ${sub}.</p>
+                </div>
+            `;
             grid.appendChild(el);
         });
     </script>

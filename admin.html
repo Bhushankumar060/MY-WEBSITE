@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Command Center | TradeSovereign v8.0</title>
+    <!-- Enterprise Security Headers Mock -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: '#10b981', // Emerald for High Authority
+                        secondary: '#f59e0b', // Amber for Warnings/Alerts
+                        dark: '#020617', // Deep Slate
+                        surface: '#0f172a', // Slate 900
+                        border: '#1e293b',  // Slate 800
+                        accent: '#ffffff' 
+                    },
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; overflow: hidden; background-color: #020617; color: #f8fafc; }
+        .executive-border { border: 1px solid #1e293b; }
+        .bg-dot-grid { background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 20px 20px; }
+        .ts-tab.active { background-color: #1e293b; color: #10b981; border-left: 4px solid #10b981; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from{ opacity: 0; transform: translateY(4px); } to{ opacity: 1; transform: translateY(0); } }
+        
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-dark text-slate-200 antialiased h-screen overflow-hidden">
+
+    <div id="admin-dashboard" class="flex h-screen overflow-hidden hidden">
+        
+        <!-- Sidebar Architecture -->
+        <aside class="w-72 bg-surface flex-shrink-0 flex flex-col h-full border-r border-border z-20 shadow-xl">
+            <div class="h-20 flex items-center px-6 border-b border-border font-black font-heading text-xl uppercase gap-3 text-primary tracking-tighter">
+                <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                Sovereign <span class="text-white opacity-50 font-medium">OS</span>
+            </div>
+            
+            <div class="flex-grow flex flex-col p-4 overflow-y-auto gap-1 text-sm">
+                <!-- Administrative core -->
+                <p class="font-bold text-slate-500 text-[10px] tracking-[0.2em] uppercase mb-2 mt-4 px-3">System Core</p>
+                <button data-target="tab-analytics" class="ts-tab active w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-chart-line w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>Analytics Hub</span>
+                </button>
+                <button data-target="tab-students" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-user-graduate w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>Student Matrix</span>
+                </button>
+                
+                <p class="font-bold text-slate-500 text-[10px] tracking-[0.2em] uppercase mb-2 mt-6 px-3">Assets & Data</p>
+                <button data-target="tab-uploads" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-cloud-arrow-up w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>Resources Vault</span>
+                </button>
+                <button data-target="tab-store" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-bag-shopping w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>Store Manager</span>
+                </button>
+
+                <p class="font-bold text-slate-500 text-[10px] tracking-[0.2em] uppercase mb-2 mt-6 px-3">Intelligence</p>
+                <button data-target="tab-api" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-key w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>API Gateway</span>
+                </button>
+                <button data-target="tab-commander" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group bg-primary/5 border border-primary/20 mt-2">
+                    <i class="fa-solid fa-robot w-5 text-primary"></i> 
+                    <span class="text-primary">Admin Chaplin</span>
+                </button>
+
+                <p class="font-bold text-slate-500 text-[10px] tracking-[0.2em] uppercase mb-2 mt-auto px-3">Identity</p>
+                <button data-target="tab-profile" class="ts-tab w-full flex items-center gap-3 p-3 rounded-lg font-bold transition-all hover:bg-white/5 text-left group">
+                    <i class="fa-solid fa-shield-halved w-5 text-slate-400 group-hover:text-primary transition-colors"></i> 
+                    <span>Security Settings</span>
+                </button>
+            </div>
+            
+            <div class="p-4 border-t border-border bg-dark/40">
+                <div class="flex items-center gap-3 p-3 glass-card rounded-xl">
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-xs font-black text-dark">AD</div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-white truncate w-32" id="admin-email-display">Admin Hub</span>
+                        <span class="text-[10px] text-primary uppercase font-black tracking-widest">Authority Level 5</span>
+                    </div>
+                    <button onclick="logoutAdmin()" class="ml-auto text-slate-500 hover:text-red-400 transition-colors"><i class="fa-solid fa-power-off"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="flex-grow flex flex-col overflow-hidden relative">
+            <header class="h-20 bg-dark border-b border-border flex items-center justify-between px-8 z-10">
+                <div class="flex flex-col">
+                    <h1 class="text-xl font-black font-heading uppercase tracking-widest text-white">Administrative Vector</h1>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">Sector 4 // High Authority Only</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-bold text-slate-400">
+                        <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span> SYSTEM_ONLINE
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-grow p-8 overflow-y-auto w-full relative bg-dot-grid">
+                
+                <!-- 1. Analytics Hub -->
+                <div id="tab-analytics" class="tab-content active w-full max-w-7xl mx-auto space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                            <i class="fa-solid fa-users text-primary text-xl mb-4"></i>
+                            <p class="font-bold uppercase text-[10px] tracking-widest text-slate-500">Active Students</p>
+                            <p class="text-4xl font-heading font-black text-white mt-1">12,402</p>
+                            <div class="absolute -right-4 -bottom-4 text-primary/5 text-8xl transition-all group-hover:scale-110">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                            <i class="fa-solid fa-bolt text-primary text-xl mb-4"></i>
+                            <p class="font-bold uppercase text-[10px] tracking-widest text-slate-500">API Throughput</p>
+                            <p class="text-4xl font-heading font-black text-white mt-1">892k</p>
+                            <div class="absolute -right-4 -bottom-4 text-primary/5 text-8xl transition-all group-hover:scale-110">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+                            <i class="fa-solid fa-indian-rupee-sign text-primary text-xl mb-4"></i>
+                            <p class="font-bold uppercase text-[10px] tracking-widest text-slate-500">Revenue (MTD)</p>
+                            <p class="text-4xl font-heading font-black text-white mt-1">₹4.2M</p>
+                            <div class="absolute -right-4 -bottom-4 text-primary/5 text-8xl transition-all group-hover:scale-110">
+                                <i class="fa-solid fa-coins"></i>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl relative border-primary/30 group">
+                            <i class="fa-solid fa-shield-check text-primary text-xl mb-4"></i>
+                            <p class="font-bold uppercase text-[10px] tracking-widest text-slate-500">Security Pulse</p>
+                            <p class="text-4xl font-heading font-black text-white mt-1">99%</p>
+                            <div class="absolute -right-4 -bottom-4 text-primary/5 text-8xl transition-all group-hover:scale-110">
+                                <i class="fa-solid fa-shield"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-3xl border-l-4 border-primary">
+                        <h3 class="font-black uppercase tracking-tighter text-xl text-white mb-6">Intelligence Stream</h3>
+                        <div class="h-48 bg-dark/60 rounded-xl p-6 font-mono text-xs overflow-y-auto border border-white/5 space-y-2">
+                            <p class="text-slate-500">[OS_PROTOCOL] Executing market-sentiment scan...</p>
+                            <p class="text-primary font-bold">> DETECTED: 82% surge in premium subscriptions from "Student Zone" following Lumi AI v8.0 deployment.</p>
+                            <p class="text-amber-400 font-bold">> ADVISORY: Capacity for OpenRouter API predicted to exceed quota in 4.2 days.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Student Matrix -->
+                <div id="tab-students" class="tab-content w-full max-w-7xl mx-auto space-y-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-3xl font-black font-heading uppercase text-white tracking-widest">Student <span class="text-primary">Matrix</span></h2>
+                        <button class="px-4 py-2 bg-primary/10 border border-primary/20 text-primary text-xs font-bold rounded-lg hover:bg-primary/20 transition-all uppercase tracking-widest">Export_CSV</button>
+                    </div>
+                    
+                    <div class="glass-card rounded-2xl overflow-hidden border border-white/5">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-white/5 text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em]">
+                                <tr>
+                                    <th class="px-6 py-4">Student</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4">Plan</th>
+                                    <th class="px-6 py-4">Revenue</th>
+                                    <th class="px-6 py-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body" class="divide-y divide-white/5 font-medium">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 3. Resources Vault -->
+                <div id="tab-uploads" class="tab-content w-full max-w-4xl mx-auto space-y-8">
+                    <div class="text-center space-y-2">
+                        <h2 class="text-3xl font-black font-heading uppercase text-white tracking-widest">Resources <span class="text-primary">Vault</span></h2>
+                        <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Global PDF Distribution Engine</p>
+                    </div>
+
+                    <div id="dropzone" class="glass-card p-16 rounded-3xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-center group hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center text-primary text-3xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3 class="text-xl font-black uppercase text-white">DEPOSIT_ASSETS_HERE</h3>
+                        <p class="text-slate-500 font-bold mt-2">Drag and drop PDFs to sync with Firebase & Supabase</p>
+                    </div>
+
+                    <div id="pdfs-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Dynamic PDF Cards -->
+                    </div>
+                </div>
+
+                <!-- 4. Store Manager -->
+                <div id="tab-store" class="tab-content w-full max-w-5xl mx-auto space-y-8">
+                    <h2 class="text-3xl font-black font-heading uppercase text-white tracking-widest">Store <span class="text-primary">Manager</span></h2>
+                    
+                    <form id="add-product-form" class="glass-card p-8 rounded-2xl grid grid-cols-1 md:grid-cols-2 gap-6 relative overflow-hidden">
+                        <div class="md:col-span-2">
+                            <label class="font-black uppercase text-[10px] tracking-widest text-slate-500 mb-2 block">Product Title</label>
+                            <input type="text" id="prod-title" class="w-full bg-dark/60 border border-border p-4 rounded-xl text-white font-bold outline-none focus:border-primary transition-all">
+                        </div>
+                        <div>
+                            <label class="font-black uppercase text-[10px] tracking-widest text-slate-500 mb-2 block">Price (₹)</label>
+                            <input type="number" id="prod-price" class="w-full bg-dark/60 border border-border p-4 rounded-xl text-white font-bold outline-none focus:border-primary transition-all">
+                        </div>
+                        <div>
+                            <label class="font-black uppercase text-[10px] tracking-widest text-slate-500 mb-2 block">Category</label>
+                            <select id="prod-category" class="w-full bg-dark/60 border border-border p-4 rounded-xl text-white font-bold outline-none focus:border-primary transition-all">
+                                <option>Books</option>
+                                <option>Strategy Packs</option>
+                                <option>VIP Bundles</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full bg-primary text-dark font-black uppercase tracking-widest py-4 rounded-xl hover:bg-emerald-400 transition-all">PUBLISH_TO_STORE</button>
+                        </div>
+                    </form>
+
+                    <div id="admin-products-list" class="grid grid-cols-1 gap-4">
+                        <!-- Dynamic Products -->
+                    </div>
+                </div>
+
+                <!-- 5. API Gateway -->
+                <div id="tab-api" class="tab-content w-full max-w-5xl mx-auto space-y-6">
+                    <h2 class="text-3xl font-black font-heading uppercase text-white tracking-widest">API <span class="text-primary">Gateway</span></h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-primary/30 transition-all">
+                            <div>
+                                <h3 class="font-black text-lg text-white uppercase">Polygon.io</h3>
+                                <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">WebSocket: Market Ticker Service</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <input type="password" id="api-polygon" value="pk_****************" class="bg-dark/60 border border-border p-3 rounded-xl font-mono text-xs text-primary w-64">
+                                <button onclick="saveApiKey('polygon')" class="bg-primary text-dark font-black px-4 rounded-lg uppercase text-[10px] tracking-widest hover:bg-emerald-400 transition-all">UPDATE</button>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-primary/30 transition-all">
+                            <div>
+                                <h3 class="font-black text-lg text-white uppercase">OpenRouter AI</h3>
+                                <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">LLM Orchestration: Lumi & Chaplin</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <input type="password" id="api-openrouter" value="sk-or-****************" class="bg-dark/60 border border-border p-3 rounded-xl font-mono text-xs text-primary w-64">
+                                <button onclick="saveApiKey('openrouter')" class="bg-primary text-dark font-black px-4 rounded-lg uppercase text-[10px] tracking-widest hover:bg-emerald-400 transition-all">UPDATE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Admin Chaplin Commander -->
+                <div id="tab-commander" class="tab-content w-full max-w-5xl mx-auto h-[75vh] flex flex-col">
+                    <div class="flex-grow glass-card rounded-3xl flex flex-col overflow-hidden border border-primary/20 shadow-2xl">
+                        <div id="admin-chaplin-display" class="flex-grow p-8 font-mono text-xs overflow-y-auto space-y-4 text-primary bg-dark/60">
+                            <p class="text-slate-500">I am Chaplin. System orchestration initialized. Awaiting executive command.</p>
+                        </div>
+                        <div class="p-4 bg-dark/80 border-t border-white/5 flex gap-4">
+                            <input type="text" id="admin-chaplin-input" placeholder="Execute protocol..." class="flex-grow bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-primary transition-all">
+                            <button id="admin-chaplin-send" class="bg-primary text-dark font-black px-10 rounded-2xl hover:bg-emerald-400 transition-all uppercase tracking-widest">RUN</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Security Settings -->
+                <div id="tab-profile" class="tab-content w-full max-w-4xl mx-auto space-y-8">
+                     <h2 class="text-3xl font-black font-heading uppercase text-white tracking-widest">Security <span class="text-primary">Settings</span></h2>
+                     <div class="glass-card p-10 rounded-3xl space-y-8">
+                        <div>
+                            <h3 class="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4">IDENTITY_HUB</h3>
+                            <form id="email-form" class="space-y-4">
+                                <input type="email" id="hub-email" placeholder="New Authorized Email" class="w-full bg-dark/60 border border-border p-4 rounded-xl text-white font-bold outline-none focus:border-primary transition-all">
+                                <button type="submit" class="w-full bg-white/5 border border-white/10 text-white font-bold py-4 rounded-xl hover:bg-white/10 transition-colors uppercase tracking-widest text-xs">Update Authority Email</button>
+                            </form>
+                            <p id="email-status" class="mt-2 text-[10px] font-bold text-primary hidden"></p>
+                        </div>
+                        <div class="pt-8 border-t border-white/5">
+                            <h3 class="text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-4">VAULT_LOCK</h3>
+                            <form id="password-form" class="space-y-4">
+                                <input type="password" id="vault-new-password" placeholder="New System Passphrase" class="w-full bg-dark/60 border border-border p-4 rounded-xl text-white font-bold outline-none focus:border-primary transition-all">
+                                <div class="flex gap-2 h-1" id="strength-meter">
+                                    <div class="h-full w-1/4 rounded-full bg-white/10 strength-segment"></div>
+                                    <div class="h-full w-1/4 rounded-full bg-white/10 strength-segment"></div>
+                                    <div class="h-full w-1/4 rounded-full bg-white/10 strength-segment"></div>
+                                    <div class="h-full w-1/4 rounded-full bg-white/10 strength-segment"></div>
+                                </div>
+                                <button type="submit" class="w-full bg-primary text-dark font-black py-4 rounded-xl hover:bg-emerald-400 transition-all uppercase tracking-widest text-xs">Rotate Passphrase</button>
+                            </form>
+                            <p id="password-status" class="mt-2 text-[10px] font-bold text-primary hidden"></p>
+                        </div>
+                     </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Firebase Wiring -->
+    <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

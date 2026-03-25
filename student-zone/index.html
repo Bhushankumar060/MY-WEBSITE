@@ -1,72 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Zone | TradeSovereign</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/common.css">
+    <title>Intelligence Hub | TradeSovereign v3</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF4500', 
+                        secondary: '#7DF9FF', 
+                        dark: '#0a0a0a',
+                        surface: '#1c1c1c'
+                    },
+                    fontFamily: { 
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neo': '8px 8px 0px rgba(0,0,0,1)',
+                        'neo-hover': '12px 12px 0px rgba(0,0,0,1)',
+                        'neo-dark': '6px 6px 0px rgba(255,255,255,1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; }
+        .neo-border { border: 4px solid #000; }
+        .dark .neo-border { border: 4px solid #fff; }
+        
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px) saturate(150%);
+            border-bottom: 4px solid #000;
+        }
+        .dark .liquid-glass {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 4px solid #fff;
+        }
+
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        }
+        .dark .bg-grid {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo"><a href="/">TradeSovereign</a></div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/student-zone/">Student Zone</a></li>
-                    <li><a href="/trading-zone/">Trading Zone</a></li>
-                    <li><a href="/trading-zone/blog.html">Blog</a></li>
-                    <li><a href="/trading-zone/shop.html">Shop</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+<body class="bg-[#f4f4f0] text-gray-900 dark:bg-dark dark:text-gray-100 transition-colors duration-500 bg-grid min-h-screen flex flex-col pt-24">
+
+    <!-- Liquid Glass Header -->
+    <header class="fixed top-0 w-full z-50 liquid-glass transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-24">
+            <a href="../index.html" class="text-3xl font-heading font-black tracking-tighter uppercase flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary neo-border shadow-neo dark:shadow-neo-dark flex items-center justify-center text-white">
+                    <i class="fa-solid fa-shapes"></i>
+                </div>
+                TradeSovereign <span class="text-primary text-xl version-span">v8.0</span>
+            </a>
+            <nav class="hidden md:flex space-x-6 items-center font-bold uppercase tracking-wider text-sm">
+                <a href="../index.html" class="hover:text-primary transition-colors">Home</a>
+                <a href="../store.html" class="hover:text-secondary transition-colors">Store</a>
+                <a href="../trading-zone/index.html" class="hover:text-secondary transition-colors">Traders</a>
+                <button id="theme-toggle" class="w-12 h-12 rounded-full neo-border bg-white dark:bg-surface flex items-center justify-center shadow-neo hover:shadow-neo-hover dark:shadow-neo-dark transition-all focus:outline-none">
+                    <i id="theme-icon" class="fa-solid fa-moon text-xl"></i>
+                </button>
             </nav>
-            <div class="header-actions">
-                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
-                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
-            </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Student Zone</h1>
-                <p>CBSE/NCERT resources for classes 5-12, chapter guidance, MCQs, and exam prep.</p>
-                <div class="hero-buttons">
-                    <a href="class.html?class=6" class="btn btn-primary">Class 6</a>
-                    <a href="class.html?class=7" class="btn btn-secondary">Class 7</a>
-                    <a href="class.html?class=8" class="btn btn-secondary">Class 8</a>
-                    <a href="class.html?class=9" class="btn btn-secondary">Class 9</a>
-                    <a href="class.html?class=10" class="btn btn-secondary">Class 10</a>
+    <main class="flex-grow max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-4 gap-12 mt-12 pb-20">
+        
+        <!-- Sidebar: Gamification Profile -->
+        <div class="lg:col-span-1 flex flex-col gap-8 gsap-stagger">
+            <!-- Profile Card -->
+            <div class="bg-white dark:bg-surface neo-border shadow-neo dark:shadow-neo-dark p-6 relative overflow-hidden">
+                <div class="w-20 h-20 bg-[#FFE900] neo-border rounded-full flex items-center justify-center text-3xl mx-auto mb-4 z-10 relative text-black">
+                    <i class="fa-solid fa-user-graduate"></i>
                 </div>
-            </div>
-        </section>
+                <h2 class="text-2xl font-bold uppercase text-center mb-1 relative z-10">Scholar Max</h2>
+                <p class="text-center font-bold text-gray-500 mb-6 relative z-10">Lvl 12 <span class="bg-primary text-white px-2 py-0.5 ml-1 neo-border text-xs">Diamond</span></p>
+                
+                <!-- Streak Widget -->
+                <div class="bg-black text-white neo-border p-4 flex items-center justify-between mb-4 transform hover:scale-105 transition-transform">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-primary text-xl animate-pulse"></i>
+                        <span class="font-bold uppercase tracking-wider">Current Streak</span>
+                    </div>
+                    <span class="text-2xl font-heading font-black text-secondary">42 Days</span>
+                </div>
 
-        <section class="features">
-            <div class="container">
-                <div class="feature-grid">
-                    <div class="feature-card"><i class="fas fa-book"></i><h3>Curriculum Notes</h3><p>Chapter summaries and concept maps.</p></div>
-                    <div class="feature-card"><i class="fas fa-chart-line"></i><h3>Practice Tests</h3><p>MCQ & subjective questions with answers.</p></div>
-                    <div class="feature-card"><i class="fas fa-lightbulb"></i><h3>Smart Strategies</h3><p>Exam-taking tips and quick revision hacks.</p></div>
+                <!-- Achievements -->
+                <h3 class="font-bold uppercase mb-3 text-sm tracking-wider">Recent Badges</h3>
+                <div class="flex gap-3 justify-center">
+                    <div class="w-12 h-12 bg-white dark:bg-dark neo-border shadow-neo flex items-center justify-center text-primary text-xl" title="Math Wizard">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                    </div>
+                    <div class="w-12 h-12 bg-white dark:bg-dark neo-border shadow-neo flex items-center justify-center text-[#FFE900] text-xl" title="7-Day Streak">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div class="w-12 h-12 bg-white dark:bg-dark neo-border shadow-neo flex items-center justify-center text-secondary text-xl opacity-50" title="Locked: Quantum Leap">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
                 </div>
             </div>
-        </section>
+
+            <!-- AI Lumi Tutor Interaction Module -->
+            <div class="bg-black text-white neo-border shadow-neo p-6 transition-all" id="lumi-ai-widget">
+                <h3 class="font-bold uppercase mb-4 text-xs tracking-widest text-[#FFE900] flex items-center justify-between">
+                    <span><i class="fa-solid fa-brain mr-2"></i>AI Lumi Tutor</span>
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                </h3>
+                <div id="lumi-chat-display" class="text-sm border-l-4 border-primary pl-4 mb-4 max-h-[200px] overflow-y-auto leading-relaxed">
+                    Hello! I'm Lumi. Ready to master your curriculum? Ask me anything about your current class!
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="lumi-input" placeholder="Ask Lumi..." 
+                        class="flex-grow bg-[#1c1c1c] border-2 border-white/20 p-2 text-sm focus:border-primary outline-none font-bold uppercase">
+                    <button id="lumi-send" class="px-4 py-2 bg-primary neo-border shadow-[2px_2px_0px_#fff] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all text-white font-bold uppercase text-xs">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import { initAIAssistant, askLumi } from '../js/ai-assistant.js';
+            import { showToast } from '../js/common.js';
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                await initAIAssistant();
+                
+                const btn  = document.getElementById('lumi-send');
+                const inp  = document.getElementById('lumi-input');
+                const disp = document.getElementById('lumi-chat-display');
+
+                const handleLumi = async () => {
+                    const q = inp.value.trim();
+                    if (!q) return;
+                    
+                    inp.value = "";
+                    disp.innerHTML = `<span class="opacity-50 italic">Lumi is thinking...</span>`;
+                    
+                    try {
+                        const ans = await askLumi(q);
+                        disp.innerText = ans;
+                    } catch (err) {
+                        showToast("AI Error: Connection failed", "error");
+                        disp.innerText = "Sorry, I lost my connection to the AI hub.";
+                    }
+                };
+
+                btn.addEventListener('click', handleLumi);
+                inp.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLumi(); });
+            });
+        </script>
+
+        <!-- Main Content: Curriculum Matrix -->
+        <div class="lg:col-span-3">
+            <h1 class="text-5xl font-heading font-black uppercase mb-8">Curriculum <span class="bg-primary text-white px-3 neo-border">Matrix</span></h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="class-grid">
+                <!-- Dynamically generated through JS below for Class 1-12 -->
+            </div>
+        </div>
     </main>
 
-    <footer class="site-footer" id="contact">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand"><h3>TradeSovereign</h3><p>Empowering students and traders.</p></div>
-                <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="/student-zone/">Student Zone</a></li><li><a href="/trading-zone/">Trading Zone</a></li><li><a href="/trading-zone/blog.html">Blog</a></li><li><a href="/trading-zone/shop.html">Shop</a></li></ul></div>
-                <div class="footer-contact"><h4>Contact</h4><ul><li><i class="fas fa-envelope"></i> support@tradesovereign.com</li><li><i class="fas fa-phone"></i> +91 98765 43210</li><li><i class="fas fa-map-marker-alt"></i> Delhi, India</li></ul></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2025 TradeSovereign. All rights reserved.</p></div>
-        </div>
-    </footer>
+    <!-- Global Utilities & Theme -->
+    <script type="module" src="/js/common.js"></script>
 
-    <script src="../js/common.js"></script>
+    <script>
+        // Generate Classes 1 - 12 (Neubrutalism Layout)
+
+        const grid = document.getElementById('class-grid');
+        const colors = ['bg-primary hover:bg-[#e63e00]', 'bg-secondary hover:bg-[#00f0ff]', 'bg-[#FFE900] hover:bg-[#e6d200]', 'bg-white hover:bg-gray-100'];
+        const textColors = ['text-white', 'text-black', 'text-black', 'text-black'];
+
+        for(let i = 12; i >= 1; i--) {
+            // Pick a repeating style pattern
+            const colorIdx = (12 - i) % colors.length;
+            const bgClass = colors[colorIdx];
+            const txtClass = textColors[colorIdx];
+            const shadowType = colorIdx === 0 || i%2===0 ? 'shadow-neo' : 'shadow-neo dark:shadow-neo-dark'; // Interweave shadow contrasts
+
+            const classCard = document.createElement('a');
+            classCard.href = `class.html?class=${i}`;
+            classCard.className = `${bgClass} ${txtClass} p-8 neo-border ${shadowType} hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between gsap-stagger relative overflow-hidden group`;
+            
+            // Progress Bar Logic Map
+            const progress = i > 8 ? Math.floor(Math.random() * 80) + 10 : 0;
+            const progBar = progress > 0 ? `
+                <div class="w-full bg-black/10 neo-border h-4 mt-6">
+                    <div class="h-full bg-black" style="width: ${progress}%"></div>
+                </div>
+                <p class="text-xs font-bold uppercase mt-2">AI Mastered: ${progress}%</p>
+            ` : '<p class="text-xs font-bold uppercase mt-8 opacity-60">Locked / Enrolled</p>';
+
+            classCard.innerHTML = `
+                <div class="absolute -right-8 -top-8 text-black opacity-10 group-hover:scale-150 transition-transform duration-500">
+                    <i class="fa-solid fa-graduation-cap text-9xl"></i>
+                </div>
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-heading font-black tracking-tighter uppercase">Class ${i}</h2>
+                    <p class="font-bold text-sm uppercase mt-1 tracking-widest ${i > 8 ? 'opacity-100' : 'opacity-60'}">Standard Curriculum</p>
+                </div>
+                <div class="relative z-10">
+                    ${progBar}
+                </div>
+            `;
+            grid.appendChild(classCard);
+        }
+
+        // GSAP Animations
+        gsap.from('.gsap-stagger', {
+            y: 50,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "circ.out",
+            delay: 0.1
+        });
+    </script>
 </body>
 </html>

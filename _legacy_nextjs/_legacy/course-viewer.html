@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Viewer | TradeSovereign LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { gold: { DEFAULT: '#D4AF37' } } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F19; color: #F3F4F6; }
+        .glass-panel { background: rgba(31, 41, 55, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .gold-btn { background: linear-gradient(135deg, #D4AF37, #AA8C2C); color: #0B0F19; font-weight: 600; transition: transform 0.2s; }
+        .gold-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .quiz-option { border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(212,175,55,0.1); border-color: #D4AF37; }
+        .quiz-option.selected { background: rgba(212,175,55,0.2); border-color: #D4AF37; }
+        .quiz-option.correct { background: rgba(16, 185, 129, 0.2); border-color: #10B981; }
+        .quiz-option.wrong { background: rgba(239, 68, 68, 0.2); border-color: #EF4444; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <header class="glass-panel border-b border-gold-DEFAULT/20 p-4 flex justify-between items-center">
+        <a href="/courses.html" class="text-gray-400 hover:text-white flex items-center gap-2"><i class="fas fa-arrow-left"></i> Back to Courses</a>
+        <h1 id="courseTitleHeader" class="text-xl font-bold text-gold-DEFAULT hidden md:block">Loading Course...</h1>
+        <div class="user-name-display text-sm text-gray-400">Student</div>
+    </header>
+
+    <div class="flex-grow flex p-6 gap-6 max-w-[1600px] w-full mx-auto">
+        <!-- Sidebar: Lesson List -->
+        <aside class="w-80 glass-panel rounded-xl hidden lg:flex flex-col overflow-hidden h-[calc(100vh-120px)] sticky top-[90px]">
+            <div class="p-4 border-b border-white/10 font-bold bg-dark-800/50">Curriculum</div>
+            <div id="lessonList" class="flex-grow overflow-y-auto p-2 space-y-1">
+                <!-- Lessons populated by JS -->
+                <div class="p-3 text-sm text-gray-500 text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+            </div>
+        </aside>
+
+        <!-- Main Content area -->
+        <main class="flex-grow flex flex-col gap-6 max-w-5xl">
+            <!-- Video / Content Player -->
+            <div class="glass-panel rounded-xl aspect-video w-full flex items-center justify-center bg-black relative overflow-hidden" id="videoContainer">
+                <i class="fas fa-play-circle text-6xl text-gold-DEFAULT/50 mb-4 hover:text-gold-DEFAULT transition cursor-pointer"></i>
+                <img id="videoThumb" src="" class="absolute inset-0 w-full h-full object-cover opacity-30" style="display:none;">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <p class="text-sm font-semibold tracking-widest text-[#D4AF37] z-10">VIDEO PLAYER EMBED PLACEHOLDER</p>
+                </div>
+            </div>
+
+            <!-- Content Details -->
+            <div class="glass-panel rounded-xl p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 id="lessonTitle" class="text-3xl font-bold mb-2">Lesson Title</h2>
+                        <span id="lessonMeta" class="text-sm text-gray-400"><i class="fas fa-book-reader mr-2"></i> Reading time: 5 mins</span>
+                    </div>
+                </div>
+                <!-- Markdown content placeholder -->
+                <div id="lessonContent" class="prose prose-invert prose-gold max-w-none text-gray-300 leading-relaxed font-light">
+                    Loading curriculum content...
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quizSection" class="glass-panel rounded-xl p-8 hidden">
+                <h3 class="text-xl font-bold mb-4 text-gold-DEFAULT"><i class="fas fa-check-circle mr-2"></i> Knowledge Check</h3>
+                <p id="quizQuestion" class="mb-4 text-lg">Question placeholder?</p>
+                <div id="quizOptions" class="space-y-3 mb-6">
+                    <!-- Options populated by JS -->
+                </div>
+                <div class="flex justify-between items-center">
+                    <button id="checkAnswerBtn" class="px-6 py-2 rounded border border-white/20 hover:bg-white/10 text-gray-300 transition">Check Answer</button>
+                    <p id="quizFeedback" class="font-bold opacity-0 transition">Correct!</p>
+                </div>
+            </div>
+
+            <!-- Next actions -->
+            <div class="flex justify-between pb-12 mt-4">
+                <button class="px-6 py-3 rounded-lg border border-white/20 text-gray-400 hover:text-white transition"><i class="fas fa-step-backward mr-2"></i> Previous</button>
+                <button id="completeBtn" class="px-8 py-3 rounded-lg gold-btn flex items-center gap-2">Complete & Continue <i class="fas fa-step-forward"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!App.token) {
+                alert("Please log in to view premium courses.");
+                window.location.href = '/courses.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('id');
+            if(!courseId) { window.location.href = '/courses.html'; return; }
+
+            let courseData = null;
+            let currentLessonIdx = 0;
+
+            try {
+                courseData = await App.getCourseDetails(courseId);
+                document.getElementById('courseTitleHeader').textContent = courseData.title;
+                
+                // Fallback mockup lessons if database returns none
+                if(!courseData.lessons || courseData.lessons.length === 0) {
+                   courseData.lessons = [
+                       { _id: 'l1', title: 'Introduction', content: 'In this module we will cover the foundational principles of the curriculum. Ensure you take notes.', quiz: [{question: 'Are you taking notes?', options: ['Yes', 'No'], correctAnswerIndex: 0}] },
+                       { _id: 'l2', title: 'Advanced Concepts', content: 'Applying mathematical principles to market theory. Notice the correlations.', quiz: [] }
+                   ];
+                }
+
+                renderLessonList();
+                loadLesson(0);
+            } catch (e) {
+                document.getElementById('lessonContent').textContent = 'Error loading course details.';
+            }
+
+            function renderLessonList() {
+                const list = document.getElementById('lessonList');
+                list.innerHTML = '';
+                courseData.lessons.forEach((l, idx) => {
+                    const isCompleted = App.user?.progress?.some(p => p.courseId === courseId && p.completedLessons.includes(l._id));
+                    const icon = isCompleted ? '<i class="fas fa-check-circle text-green-500"></i>' : '<i class="far fa-circle text-gray-500"></i>';
+                    list.innerHTML += `
+                        <button onclick="loadLesson(${idx})" class="w-full text-left p-3 rounded-lg hover:bg-white/5 transition flex items-center gap-3 ${idx === currentLessonIdx ? 'bg-gold-DEFAULT/10 border border-gold-DEFAULT/30 text-gold-DEFAULT' : 'text-gray-300'}">
+                            ${icon} <span class="truncate">${idx + 1}. ${l.title}</span>
+                        </button>
+                    `;
+                });
+            }
+
+            window.loadLesson = (idx) => {
+                currentLessonIdx = idx;
+                const lesson = courseData.lessons[idx];
+                document.getElementById('lessonTitle').textContent = lesson.title;
+                document.getElementById('lessonContent').innerHTML = lesson.content || '<p>No content available.</p>';
+                
+                // Quiz handling
+                const qzSec = document.getElementById('quizSection');
+                if(lesson.quiz && lesson.quiz.length > 0) {
+                    qzSec.classList.remove('hidden');
+                    const q = lesson.quiz[0]; // Just showing first question for POC
+                    document.getElementById('quizQuestion').textContent = q.question;
+                    document.getElementById('quizOptions').innerHTML = q.options.map((opt, i) => `
+                        <div class="quiz-option p-4 rounded-lg flex items-center gap-3" data-idx="${i}">
+                            <div class="w-5 h-5 rounded-full border border-gray-500 flex-shrink-0"></div>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('');
+                    
+                    let selectedIdx = -1;
+                    document.querySelectorAll('.quiz-option').forEach(el => {
+                        el.addEventListener('click', function() {
+                            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedIdx = parseInt(this.getAttribute('data-idx'));
+                        });
+                    });
+
+                    document.getElementById('checkAnswerBtn').onclick = () => {
+                        const feedback = document.getElementById('quizFeedback');
+                        if(selectedIdx === -1) return;
+                        const opts = document.querySelectorAll('.quiz-option');
+                        if(selectedIdx === q.correctAnswerIndex) {
+                            opts[selectedIdx].classList.add('correct');
+                            feedback.textContent = 'Correct!';
+                            feedback.className = 'font-bold text-green-500 transition opacity-100';
+                        } else {
+                            opts[selectedIdx].classList.add('wrong');
+                            opts[q.correctAnswerIndex].classList.add('correct');
+                            feedback.textContent = 'Incorrect!';
+                            feedback.className = 'font-bold text-red-500 transition opacity-100';
+                        }
+                    };
+                } else {
+                    qzSec.classList.add('hidden');
+                }
+                renderLessonList(); // update active state in sidebar
+                window.scrollTo(0,0);
+            };
+
+            document.getElementById('completeBtn').addEventListener('click', async () => {
+                const lesson = courseData.lessons[currentLessonIdx];
+                await App.saveProgress(courseId, lesson._id || `idx-${currentLessonIdx}`);
+                // Refresh local user obj logic here if needed, or re-fetch me
+                if(currentLessonIdx < courseData.lessons.length - 1) {
+                    loadLesson(currentLessonIdx + 1);
+                } else {
+                    alert("Course Completed! 🎉");
+                    window.location.href = '/dashboard.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
