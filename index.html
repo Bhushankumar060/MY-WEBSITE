@@ -1,116 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeSovereign v9.2 | Pro-Grade AI & Trading Infrastructure</title>
+    <title>Sovereign | Student & Trader Learning Hub</title>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
-                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-
-    <!-- Sovereign Pro-Grade CSS Mesh -->
+    <!-- Pro-Grade Core -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/three-bg.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="antialiased selection:bg-primary selection:text-dark">
-
-    <!-- 3D Sovereign Matrix Background -->
-    <div id="matrix-canvas"></div>
-
-    <!-- Header -->
-    <header class="fixed w-full z-50 glass-nav h-24 flex items-center px-8">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <a href="#" class="text-3xl font-black font-heading tracking-tighter uppercase flex items-center gap-3">
-                <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
-                    <i class="fa-solid fa-crown text-primary text-xl"></i>
-                </div>
-                Sovereign <span class="text-primary opacity-50 font-medium">v9.2</span>
-            </a>
-            
-            <nav class="hidden lg:flex items-center gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
-                <a href="student-dashboard.html" class="hover:text-white transition-all">Learning</a>
-                <a href="trader-dashboard.html" class="hover:text-white transition-all">Trading</a>
-                <a href="store.html" class="hover:text-white transition-all">Store</a>
-                <a href="my-purchases.html" class="hover:text-white transition-all">My Vault</a>
-                <a href="admin.html" class="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-white hover:bg-primary hover:text-dark transition-all">Admin_Portal</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="relative z-10">
-        <!-- Hero -->
-        <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
-            <div class="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8 animate-pulse-glow">
-                PRO-GRADE_STATUS // MASTER_BUILD_V9.2
+<body class="bg-black text-white">
+    <!-- Sovereign matrix background -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <div class="relative z-10">
+        <nav class="flex justify-between p-6 backdrop-blur-md bg-black/30 border-b border-white/5">
+            <div class="text-2xl font-black tracking-tighter uppercase flex items-center gap-2">
+                <i class="fa-solid fa-crown text-green-500"></i> deSovereign
             </div>
-            <h1 class="text-6xl md:text-9xl font-black font-heading leading-tight tracking-tighter uppercase mb-8">
-                The Zenith of <br><span class="text-primary text-glow italic">Intelligence</span>
-            </h1>
-            <p class="max-w-2xl text-lg md:text-xl text-slate-400 font-medium mb-12">
-                Modularized for absolute structural perfection. Institutional trading orchestration meets adaptive global education in the Sovereign v9.2 ecosystem.
+            <div class="space-x-8 text-[11px] font-black uppercase tracking-widest">
+                <a href="student-dashboard.html" class="hover:text-green-400 transition-colors">Student Zone</a>
+                <a href="trader-dashboard.html" class="hover:text-green-400 transition-colors">Trading Zone</a>
+                <a href="store.html" class="hover:text-green-400 transition-colors">Store</a>
+                <a href="admin.html" class="px-4 py-2 bg-white/5 border border-white/10 rounded-full hover:bg-green-500 hover:text-black transition-all">Admin_Portal</a>
+            </div>
+        </nav>
+
+        <div class="flex flex-col items-center justify-center min-h-[85vh] text-center px-6">
+            <div class="inline-block px-4 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-500 text-[9px] font-black uppercase tracking-[0.3em] mb-8 animate-pulse">
+                SYSTEM_RESTORED // V9.2_PRODUCTION
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter uppercase leading-tight">Learn. Trade. <br><span class="text-green-500 italic">Succeed.</span></h1>
+            <p class="text-xl md:text-2xl mb-12 text-slate-400 font-medium max-w-2xl">
+                The high-authority ecosystem where institutional trading orchestration meets AI-powered global education.
             </p>
             <div class="flex flex-col sm:flex-row gap-6">
-                <a href="student-dashboard.html" class="px-12 py-5 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all shadow-2xl shadow-primary/20">Init_Curriculum</a>
-                <a href="trader-dashboard.html" class="px-12 py-5 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">Open_Terminal</a>
-            </div>
-        </section>
-
-        <!-- Ticker -->
-        <div class="w-full bg-primary/5 border-y border-white/5 py-5 overflow-hidden whitespace-nowrap">
-            <div class="animate-marquee">
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sentinel Algorithm Active</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Lumi AI Core Online</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Institutional Liquidity Captured</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sovereign Encryption: AES-256</span>
-                <!-- Duplicate for loop -->
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Sentinel Algorithm Active</span>
-                <span class="text-[10px] font-black uppercase tracking-[0.5em] mx-12 text-primary">Lumi AI Core Online</span>
+                <a href="student-dashboard.html" class="bg-green-500 text-black px-10 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-green-400 transition-all shadow-2xl shadow-green-500/20">Explore Student Hub</a>
+                <a href="trader-dashboard.html" class="bg-blue-600 px-10 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-2xl shadow-blue-500/20">Explore Trader Hub</a>
             </div>
         </div>
+    </div>
 
-        <!-- Features -->
-        <section class="max-w-7xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="glass p-12 card-hover space-y-6">
-                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl"><i class="fa-solid fa-graduation-cap"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Educational Pulse</h3>
-                <p class="text-slate-400 font-medium">Modular grade-matrix distribution powered by Lumi AI logic.</p>
-            </div>
-            <div class="glass p-12 card-hover space-y-6 border-primary/20">
-                <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-dark text-3xl"><i class="fa-solid fa-wave-square"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Trading Terminal</h3>
-                <p class="text-slate-200 font-medium">Institutional tradeOS with Chaplin AI for high-authority market forecasting.</p>
-            </div>
-            <div class="glass p-12 card-hover space-y-6">
-                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl"><i class="fa-solid fa-fingerprint"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Modular Vault</h3>
-                <p class="text-slate-400 font-medium">One-click SSO access to all premium assets and acquisitions.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="py-24 border-t border-white/5 relative z-10 text-center bg-dark">
-        <p class="text-[11px] font-black uppercase tracking-[0.6em] text-slate-500">Sovereign Platform © 2026 // PRO-GRADE BUILD V9.2</p>
-    </footer>
-
-    <!-- Sovereign Pro-Grade JS Mesh -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.min.js"></script>
+    <!-- Sovereign Module Mesh -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
+    <script type="module" src="js/three-bg.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/three-bg.js"></script>
     <script src="js/error-logger.js"></script>
 </body>
 </html>

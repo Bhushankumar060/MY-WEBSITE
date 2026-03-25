@@ -1,7 +1,9 @@
 /**
- * SOVEREIGN v9.2 - THREE.JS ENGINE
- * Initializes and manages the immersive Torus Knot background.
+ * SOVEREIGN v9.2 - THREE.JS ES-MODULE ENGINE
+ * Initializes and manages the immersive Torus Knot background using modern ES-Modules.
  */
+
+import * as THREE from 'three';
 
 const ThreeEngine = {
     scene: null,
@@ -9,24 +11,31 @@ const ThreeEngine = {
     renderer: null,
     torusKnot: null,
 
-    init(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container || typeof THREE === 'undefined') return;
+    init() {
+        const canvas = document.getElementById('bg-canvas');
+        if (!canvas) {
+            console.error("SOVEREIGN_THREE_ERROR: bg-canvas not found.");
+            return;
+        }
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        this.renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas,
+            antialias: true, 
+            alpha: true 
+        });
         
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(this.renderer.domElement);
 
         const geometry = new THREE.TorusKnotGeometry(12, 4, 150, 20);
         const material = new THREE.MeshPhongMaterial({ 
             color: 0x10b981, 
             wireframe: true,
             transparent: true,
-            opacity: 0.1,
+            opacity: 0.15,
             emissive: 0x064e3b,
             emissiveIntensity: 0.2
         });
@@ -35,7 +44,7 @@ const ThreeEngine = {
 
         const light = new THREE.PointLight(0xffffff, 100, 100);
         light.position.set(10, 10, 50);
-        this.scene.add(this.light);
+        this.scene.add(light);
         this.scene.add(new THREE.AmbientLight(0x404040, 3));
 
         this.camera.position.z = 45;
@@ -61,4 +70,5 @@ const ThreeEngine = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => ThreeEngine.init('matrix-canvas'));
+// Initialize on load
+ThreeEngine.init();
