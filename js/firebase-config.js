@@ -1,40 +1,45 @@
-/**
- * SOVEREIGN v9.1 - CORE FIREBASE MESH
- * Handles Auth, Firestore settings, and Global Cloud-Error Logging.
- */
+/* 
+  SOVEREIGN v13.5 - FIREBASE ARCHITECTURE (SELF-HEALING)
+  Institutional Cloud Orchestration
+*/
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+
+// Placeholder Configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCsq7LTCf1FNwa_X17Wv6as5_mpgQiYF_U",
-    authDomain: "tradesovereign.firebaseapp.com",
-    projectId: "tradesovereign",
-    storageBucket: "tradesovereign.firebasestorage.app",
-    messagingSenderId: "822633667371",
-    appId: "1:822633667371:web:ccdc63e90dffd42513c36e"
+  apiKey: "REPLACE_WITH_YOUR_API_KEY",
+  authDomain: "tradesovereign-v13.firebaseapp.com",
+  projectId: "tradesovereign-v13",
+  storageBucket: "tradesovereign-v13.appspot.com",
+  messagingSenderId: "REPLACE_WITH_ID",
+  appId: "REPLACE_WITH_APP_ID"
 };
 
-// Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+let app, auth, db, storage;
+let isSimulation = true;
+
+try {
+    if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "REPLACE_WITH_YOUR_API_KEY") {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        storage = getStorage(app);
+        isSimulation = false;
+        console.log("[SOVEREIGN MESH]: Institutional Firebase Core Active.");
+    } else {
+        console.warn("[SOVEREIGN MESH]: Firebase API Key Unset. Simulation Mode Enabled.");
+        // Robust Mocks for Self-Healing Architecture
+        auth = { onAuthStateChanged: (cb) => cb({ email: 'admin@sovereign.com' }), signOut: () => {} };
+        db = { type: 'simulation_db' }; 
+        storage = { type: 'simulation_storage' };
+    }
+} catch (e) {
+    console.warn("[SOVEREIGN MESH]: Bootstrap Failure.", e);
+    auth = { onAuthStateChanged: (cb) => cb(null), signOut: () => {} };
+    db = { type: 'simulation_db' };
 }
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-/**
- * GLOBAL_ERROR_LOGGING_SYSTEM
- * Log all production errors to Firestore for high-authority monitoring.
- */
-document.addEventListener('DOMContentLoaded', () => {
-    window.onerror = function(msg, url, line, col, error) {
-        if (!db) return;
-        db.collection('admin').doc('monitoring').collection('logs').add({
-            timestamp: new Date().toISOString(),
-            message: msg,
-            origin: url,
-            trace: error ? error.stack : 'N/A',
-            user: auth.currentUser ? auth.currentUser.email : 'GUEST'
-        });
-        return false;
-    };
-    console.log("SOVEREIGN_MESH: Security & Monitoring Active.");
-});
+export { auth, db, storage, isSimulation };

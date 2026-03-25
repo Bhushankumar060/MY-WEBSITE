@@ -1,61 +1,66 @@
-/**
- * SOVEREIGN v9.2 - PAYMENT NEXUS
- * Handles Razorpay checkout and Supabase transaction logging.
- */
+/* 
+  SOVEREIGN v12.0 - PAYMENT NEXUS (RAZORPAY + SUPABASE)
+  Institutional FinOps Orchestration
+*/
 
-const PaymentNexus = {
-    razorpayKey: null,
+import { db } from './firebase-config.js';
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+class PaymentNexus {
+    constructor() {
+        this.razorpayKey = null;
+        this.init();
+    }
 
     async init() {
-        if (this.razorpayKey) return;
-        try {
-            const doc = await db.collection('admin').doc('settings').get();
-            if (doc.exists) {
-                this.razorpayKey = doc.data().RAZORPAY_KEY_ID;
-                console.log("PAYMENT_NEXUS: Dynamic Cloud-Key Loaded.");
-            }
-        } catch (e) {
-            console.error("PAYMENT_INIT_ERROR:", e);
+        const settings = await getDoc(doc(db, "admin", "settings"));
+        if (settings.exists()) {
+            this.razorpayKey = settings.data().razorpayKey;
         }
-    },
+    }
 
-    async checkout(product) {
-        await this.init();
+    async startCheckout(amount, itemName) {
         if (!this.razorpayKey) {
-            alert("SYSTEM_OFFLINE: Payment keys unavailable.");
+            alert("Payment Nexus Offline: Orchestration Failure.");
             return;
         }
 
         const options = {
             key: this.razorpayKey,
-            amount: product.price * 100,
+            amount: amount * 100, // Convert to Paisa
             currency: "INR",
-            name: "TradeSovereign v9.2",
-            description: `Unlocking ${product.name}`,
-            handler: (res) => this.record(product, res),
-            theme: { color: "#10b981" }
+            name: "SOVEREIGN v12.0",
+            description: `Provisioning: ${itemName}`,
+            theme: { color: "#d4af37" },
+            handler: (response) => this.handleSuccess(response, itemName, amount)
         };
 
         const rzp = new Razorpay(options);
         rzp.open();
-    },
+    }
 
-    async record(product, response) {
-        console.log("TX_SUCCESS:", response.razorpay_payment_id);
-        
+    async handleSuccess(response, itemName, amount) {
+        console.log("[FINOPS]: Transaction Validated.", response);
+        // Sync with Supabase for persistent transaction history
         try {
-            const { data, error } = await supabase
-                .from('purchases')
-                .insert([{
-                    item_id: product.id,
-                    tx_id: response.razorpay_payment_id,
-                    status: 'completed',
-                    timestamp: new Date().toISOString()
+            const { error } = await supabase
+                .from('transactions')
+                .insert([{ 
+                    payment_id: response.razorpay_payment_id,
+                    asset: itemName,
+                    value: amount,
+                    status: 'PROVISIONED'
                 }]);
-
-            if (!error) alert(`ACCESS_GRANTED: ${product.name} is now in your Vault.`);
+            
+            if (error) throw error;
+            alert(`Sovereign Asset Provisioned: ${itemName}`);
+            window.location.reload();
         } catch (e) {
-            console.error("TX_LOG_FAIL:", e);
+            console.error("[FINOPS]: Vault Sync Failure.", e);
         }
     }
-};
+}
+
+const nexus = new PaymentNexus();
+export default nexus;
+window.initiatePayment = (a, n) => nexus.startCheckout(a, n);

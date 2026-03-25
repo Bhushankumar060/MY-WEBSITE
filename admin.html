@@ -3,97 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Admin | Pro-Grade Command Center</title>
+    <title>Sovereign | Command Center</title>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
-                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
-                }
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/three-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
             }
         }
     </script>
-
-    <!-- Sovereign Pro-Grade CSS Mesh -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    
-    <style>
-        body { height: 100vh; overflow: hidden; }
-        .sidebar { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.05); }
-        .nav-item { transition: all 0.2s; border-radius: 12px; margin-bottom: 4px; border: 1px solid transparent; }
-        .nav-item:hover { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.1); }
-        .nav-item.active { background: #10b981; color: #020617; font-weight: 800; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-    </style>
 </head>
-<body class="flex">
+<body class="bg-black text-white font-body selection:bg-yellow-500 selection:text-black overflow-hidden">
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Sidebar -->
-    <aside class="w-72 sidebar flex flex-col p-6">
-        <div class="mb-10 flex items-center gap-3 px-2">
-            <i class="fa-solid fa-crown text-primary text-2xl"></i>
-            <h1 class="text-xl font-black font-heading tracking-tighter uppercase">Command <span class="text-primary opacity-50">Center</span></h1>
-        </div>
-
-        <nav class="flex-grow space-y-1 overflow-y-auto">
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 px-2">Core_Systems</p>
-            <button onclick="AdminController.showTab('dashboard')" class="w-full flex items-center gap-4 p-4 nav-item active" id="btn-dashboard">
-                <i class="fa-solid fa-house-chimney w-5"></i> Dashboard
-            </button>
-            <button onclick="AdminController.showTab('content')" class="w-full flex items-center gap-4 p-4 nav-item" id="btn-content">
-                <i class="fa-solid fa-folder-open w-5"></i> Content
-            </button>
-            <button onclick="AdminController.showTab('store')" class="w-full flex items-center gap-4 p-4 nav-item" id="btn-store">
-                <i class="fa-solid fa-shop w-5"></i> Store_Mgr
-            </button>
-            <button onclick="AdminController.showTab('api')" class="w-full flex items-center gap-4 p-4 nav-item" id="btn-api">
-                <i class="fa-solid fa-key w-5"></i> API_Matrix
-            </button>
-            
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-10 mb-4 px-2">Monitoring</p>
-            <button onclick="AdminController.showTab('monitoring')" class="w-full flex items-center gap-4 p-4 nav-item" id="btn-monitoring">
-                <i class="fa-solid fa-microchip w-5"></i> Performance
-            </button>
-            <button onclick="AdminController.showTab('security')" class="w-full flex items-center gap-4 p-4 nav-item" id="btn-security">
-                <i class="fa-solid fa-shield-halved w-5"></i> Security
-            </button>
-        </nav>
-
-        <div class="mt-auto pt-6 border-t border-white/5">
-            <button onclick="AdminController.logout()" class="w-full flex items-center gap-4 p-4 text-slate-400 hover:text-red-400 transition-colors text-xs font-black uppercase tracking-widest">
-                <i class="fa-solid fa-power-off"></i> Terminate_Session
-            </button>
-        </div>
-    </aside>
-
-    <!-- Main Viewport -->
-    <main class="flex-grow flex flex-col overflow-y-auto">
-        <header class="h-20 border-b border-white/5 flex items-center justify-between px-10">
-            <h2 id="tab-title" class="text-xs font-black uppercase tracking-[0.4em] text-slate-400">System_Overview</h2>
-            <div class="flex items-center gap-4">
-                <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                <span class="text-[10px] font-black uppercase text-primary">Production_Live_V9.2</span>
+    <!-- Institutional Auth Layer -->
+    <div id="admin-auth-overlay" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex items-center justify-center transition-opacity duration-1000">
+        <div class="glass-panel p-12 text-center max-w-md w-full border-yellow-500/30 animate-glow relative">
+            <div id="login-stage-1" class="block">
+                <i class="fas fa-shield-alt text-6xl text-gold mb-8"></i>
+                <h2 class="text-3xl font-extrabold font-heading mb-4">Command Entry</h2>
+                <p class="text-muted mb-8 text-sm uppercase tracking-widest font-bold">Standard Sovereign Credentials</p>
+                <button id="admin-login-btn" class="btn-gold w-full py-4 text-lg mb-4">INITIALIZE AUTH</button>
             </div>
-        </header>
-
-        <div id="tab-container" class="p-10 space-y-8">
-            <!-- Dynamic Content Injected by js/admin.js -->
+            
+            <div id="login-stage-2" class="hidden">
+                <i class="fas fa-key text-5xl text-gold-bright mb-6 animate-pulse"></i>
+                <h2 class="text-2xl font-bold mb-4">MFA REQUIRED</h2>
+                <p class="text-xs text-muted mb-6 uppercase tracking-widest">Enter Institutional Token v13.0</p>
+                <input type="password" id="mfa-token-input" class="w-full bg-black/60 border border-gold/40 text-center text-xl tracking-[0.5em] py-3 rounded mb-6 outline-none focus:border-gold-bright" placeholder="········">
+                <button id="mfa-verify-btn" class="btn-gold w-full py-3 font-bold">VERIFY PROTOCOL</button>
+            </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Sovereign Pro-Grade JS Mesh -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/admin.js"></script>
-    <script src="js/error-logger.js"></script>
+    <div class="flex h-screen opacity-0" id="admin-main">
+        <!-- Vertical Command Bar -->
+        <aside class="w-24 bg-black/80 backdrop-blur-xl border-r border-yellow-500/10 flex flex-col items-center py-8 space-y-8 z-50">
+            <div class="w-12 h-12 bg-brand-gold rounded-xl flex items-center justify-center mb-8 shadow-lg shadow-yellow-500/20">
+                <i class="fas fa-crown text-black"></i>
+            </div>
+            
+            <nav class="flex-1 space-y-6 flex flex-col items-center">
+                <button class="admin-tab-btn active text-gold" data-tab="dashboard" title="Nexus Dashboard"><i class="fas fa-th-large text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="users" title="User Registry"><i class="fas fa-users text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="store" title="Digital Storefront"><i class="fas fa-shopping-bag text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="payments" title="FinOps Nexus"><i class="fas fa-credit-card text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="ai" title="Intelligence Control"><i class="fas fa-robot text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="security" title="Vault Security"><i class="fas fa-user-shield text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="analytics" title="Market Prediction"><i class="fas fa-chart-pie text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="messages" title="Executive Comms"><i class="fas fa-envelope-open-text text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="settings" title="Core Overrides"><i class="fas fa-sliders-h text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="logs" title="System Triage"><i class="fas fa-bug text-xl"></i></button>
+                <button class="admin-tab-btn text-muted hover:text-gold" data-tab="terminal" title="Root Shell"><i class="fas fa-terminal text-xl"></i></button>
+            </nav>
+
+            <button class="text-red-500 hover:text-red-400 mt-auto" id="admin-logout"><i class="fas fa-power-off text-xl"></i></button>
+        </aside>
+
+        <!-- Command Workspace -->
+        <main class="flex-1 flex flex-col overflow-hidden relative z-10">
+            <!-- Top Status Bar -->
+            <header class="glass-nav py-4 px-12 flex justify-between items-center">
+                <div class="flex items-center space-x-6">
+                    <h2 class="text-2xl font-extrabold font-heading tracking-tighter" id="current-tab-title">Nexus Dashboard</h2>
+                    <span class="px-3 py-1 bg-green-500/10 text-green-500 text-[10px] font-bold tracking-widest uppercase border border-green-500/20 rounded">Service Mesh Active</span>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <div class="text-right hidden md:block">
+                        <p class="text-[10px] text-muted font-bold uppercase tracking-widest leading-none">Global Revenue</p>
+                        <p class="text-xl font-bold font-mono text-gold-bright">₹ 42,50,000.00</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center border border-yellow-500/30">
+                        <i class="fas fa-bell text-gold"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab Content Matrix -->
+            <section class="flex-1 overflow-y-auto p-12" id="admin-content-nexus">
+                <!-- Dashboard Tab (Default) -->
+                <div class="admin-tab-content block" id="tab-dashboard">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                        <div class="glass-panel p-8 border-yellow-500/20">
+                            <p class="text-xs text-muted uppercase font-bold tracking-widest mb-2">Total Students</p>
+                            <p class="text-4xl font-bold font-heading">1,248</p>
+                        </div>
+                        <div class="glass-panel p-8 border-yellow-500/20">
+                            <p class="text-xs text-muted uppercase font-bold tracking-widest mb-2">Active Traders</p>
+                            <p class="text-4xl font-bold font-heading">582</p>
+                        </div>
+                        <div class="glass-panel p-8 border-yellow-500/20">
+                            <p class="text-xs text-muted uppercase font-bold tracking-widest mb-2">Vault Assets</p>
+                            <p class="text-4xl font-bold font-heading">₹ 28.4M</p>
+                        </div>
+                        <div class="glass-panel p-8 border-yellow-500/20">
+                            <p class="text-xs text-muted uppercase font-bold tracking-widest mb-2">Health Index</p>
+                            <p class="text-4xl font-bold font-heading text-green-500">99.8%</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="glass-panel p-8 min-h-[400px]">
+                            <h3 class="font-bold mb-8">Intelligence Performance</h3>
+                            <div class="flex items-center justify-center h-full opacity-20 border-2 border-dashed border-white/10 rounded-xl uppercase tracking-widest text-xs">
+                                Telemetry Visualizer Initializing...
+                            </div>
+                        </div>
+                        <div class="glass-panel p-8 min-h-[400px]">
+                            <h3 class="font-bold mb-8">Executive Audit Log</h3>
+                            <div class="space-y-4" id="mini-audit-log">
+                                <!-- Populated by admin.js -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Storefront Tab -->
+                <div class="admin-tab-content hidden" id="tab-store">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                        <!-- File Upload Zone -->
+                        <div class="lg:col-span-2 glass-panel p-8 border-gold/20">
+                            <h3 class="text-xl font-bold mb-6 flex items-center">
+                                <i class="fas fa-cloud-upload-alt text-gold mr-3"></i> INSTITUTIONAL ASSET REPOSITORY
+                            </h3>
+                            <div id="drop-zone" class="border-2 border-dashed border-gold/10 rounded-2xl p-12 text-center hover:border-gold/40 transition-all cursor-pointer bg-white/5">
+                                <i class="fas fa-file-pdf text-4xl text-muted/40 mb-4"></i>
+                                <p class="text-sm text-muted mb-4 uppercase tracking-widest font-bold">Drag & Drop Institutional Assets</p>
+                                <input type="file" id="admin-file-input" class="hidden">
+                                <button onclick="document.getElementById('admin-file-input').click()" class="btn-gold px-8 py-2 text-xs">SELECT FILE</button>
+                            </div>
+                            
+                            <!-- Upload Progress -->
+                            <div id="upload-status" class="mt-8 hidden">
+                                <div class="flex justify-between mb-2">
+                                    <span id="upload-filename" class="text-xs font-bold text-muted truncate max-w-xs">asset.pdf</span>
+                                    <span id="upload-percent" class="text-gold font-mono text-xs">0%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                                    <div id="upload-bar" class="bg-gold h-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Asset Inventory Stats -->
+                        <div class="glass-panel p-8">
+                            <h3 class="font-bold mb-6">Inventory Overview</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-muted uppercase">Active Assets</span>
+                                    <span class="font-bold text-gold" id="asset-count">12</span>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-muted uppercase">Storage Used</span>
+                                    <span class="font-bold text-gold">4.2 GB / 10 GB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Vault Assets List -->
+                    <div class="glass-panel p-8">
+                        <h3 class="font-bold mb-8">Active Vault Assets</h3>
+                        <div id="vault-assets-list" class="space-y-4">
+                            <!-- Populated by admin.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other tabs will be dynamically populated/managed by admin.js -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Modular Services -->
+    <script type="module" src="js/three-bg.js"></script>
+    <script type="module" src="js/admin.js"></script>
+    <script type="module" src="js/error-logger.js"></script>
 </body>
 </html>

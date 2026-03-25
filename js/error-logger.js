@@ -1,27 +1,55 @@
-/**
- * SOVEREIGN v9.2 - GLOBAL ERROR MONITORING
- * Automatically logs all runtime errors to Firestore for high-authority analysis.
- */
+/* 
+  SOVEREIGN v12.0 - GLOBAL ERROR TRIAGE
+  Institutional Error Monitoring
+*/
 
-const ErrorLogger = {
-    init() {
-        window.onerror = (msg, url, line, col, error) => {
-            if (typeof db === 'undefined') return false;
-            
-            db.collection('admin').doc('monitoring').collection('logs').add({
-                timestamp: new Date().toISOString(),
-                message: msg,
-                origin: url,
-                line: line,
-                trace: error ? error.stack : 'N/A',
-                user: (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.email : 'GUEST',
-                platform: navigator.userAgent
-            }).catch(e => console.error("LOGGER_FAIL:", e));
-            
-            return false; // Let browser process normally
-        };
-        console.log("ERROR_LOGGER: Global Monitoring Active.");
+import { db } from './firebase-config.js';
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+class SovereignLogger {
+    constructor() {
+        this.init();
     }
-};
 
-document.addEventListener('DOMContentLoaded', () => ErrorLogger.init());
+    init() {
+        window.onerror = (msg, url, lineNo, columnNo, error) => {
+            this.reportError({
+                message: msg,
+                url: url,
+                line: lineNo,
+                column: columnNo,
+                stack: error ? error.stack : 'N/A',
+                type: 'RUNTIME_ERROR'
+            });
+            return false;
+        };
+
+        window.onunhandledrejection = (event) => {
+            this.reportError({
+                message: event.reason,
+                type: 'PROMISE_REJECTION'
+            });
+        };
+    }
+
+    async reportError(details) {
+        console.error("[SOVEREIGN ERROR]:", details);
+        try {
+            await addDoc(collection(db, "logs", "errors", "entries"), {
+                ...details,
+                timestamp: serverTimestamp(),
+                userAgent: navigator.userAgent,
+                location: window.location.href
+            });
+        } catch (e) {
+            console.warn("Failed to log error to Firestore:", e);
+        }
+    }
+
+    logEvent(name, data) {
+        console.log(`[SOVEREIGN EVENT]: ${name}`, data);
+    }
+}
+
+const logger = new SovereignLogger();
+export default logger;

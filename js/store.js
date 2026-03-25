@@ -1,36 +1,41 @@
-/**
- * SOVEREIGN v9.2 - STORE LOGISTICS
- * Manages product rendering and category filtering.
- */
+/* 
+  SOVEREIGN v12.0 - DIGITAL STORE CONTROLLER
+  Institutional Asset Distribution
+*/
 
-const StoreController = {
-    init() {
-        console.log("STORE_CONTROLLER: Initializing Logistics.");
-        this.renderProducts();
-    },
+import nexus from './payment.js';
 
-    renderProducts() {
-        // Dynamic product rendering logic
-        const container = document.getElementById('product-grid');
-        if (!container) return;
-        
-        // Mock products for v9.2 restoration
-        const products = [
-            { id: 'STRAT_SENTINEL', name: 'Sentinel Alpha Pack', price: 4999, category: 'Trading' },
-            { id: 'COURSE_QUANTUM', name: 'Quantum Orderflow', price: 9999, category: 'Course' }
+class StoreController {
+    constructor() {
+        this.products = [
+            { id: 'sov-algo-v1', name: 'Sovereign Algo Runner', price: 4999, category: 'Trading' },
+            { id: 'sov-macro-pro', name: 'Institutional Macro Suite', price: 12999, category: 'Education' },
+            { id: 'sov-vault-pass', name: 'Elite Vault Access', price: 25000, category: 'Access' }
         ];
-
-        products.forEach(p => {
-            const card = `
-                <div class="vault-card p-10 space-y-6 glass card-hover group">
-                    <h3 class="text-2xl font-black uppercase tracking-tighter">${p.name}</h3>
-                    <p class="text-slate-400 text-sm">₹${p.price}</p>
-                    <button onclick="PaymentNexus.checkout({id: '${p.id}', name: '${p.name}', price: ${p.price}})" class="w-full py-4 bg-primary text-dark font-black uppercase tracking-widest rounded-xl hover:bg-emerald-400">Purchase_Asset</button>
-                </div>
-            `;
-            container.innerHTML += card;
-        });
+        this.init();
     }
-};
 
-document.addEventListener('DOMContentLoaded', () => StoreController.init());
+    init() {
+        this.renderCatalog();
+    }
+
+    renderCatalog() {
+        const catalog = document.getElementById('store-catalog');
+        if (!catalog) return;
+
+        catalog.innerHTML = this.products.map(p => `
+            <div class="glass-panel p-8 card-hover border-yellow-500/10 flex flex-col h-full">
+                <div class="mb-4 text-xs font-bold text-gold uppercase tracking-widest">${p.category}</div>
+                <h3 class="text-xl font-extrabold font-heading mb-4">${p.name}</h3>
+                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                    <span class="text-2xl font-bold font-mono">₹${p.price.toLocaleString()}</span>
+                    <button onclick="initiatePayment(${p.price}, '${p.name}')" class="btn-gold px-6 py-2 text-xs">ACQUIRE</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.storeNexus = new StoreController();
+});

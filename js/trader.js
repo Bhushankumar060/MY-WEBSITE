@@ -1,76 +1,62 @@
-/**
- * SOVEREIGN v9.2 - TRADER TERMINAL LOGIC
- * Handles the Pulse chart, watchlist, and Chaplin AI signals.
- */
+/* 
+  SOVEREIGN v12.0 - TRADER TERMINAL CONTROLLER
+  High-Frequency Market Telemetry
+*/
 
-const TraderController = {
-    canvas: null,
-    ctx: null,
-    points: [],
+class TraderController {
+    constructor() {
+        this.watchlist = [
+            { symbol: 'NIFTY 50', price: 22450.25, change: '+1.20%', vol: '1.2M', trend: 'up' },
+            { symbol: 'BANKNIFTY', price: 48200.50, change: '-0.45%', vol: '840K', trend: 'down' },
+            { symbol: 'SOV-TREASURY', price: 104.20, change: '+0.15%', vol: '2.5M', trend: 'up' },
+            { symbol: 'RELIANCE', price: 2980.00, change: '+2.10%', vol: '4.1M', trend: 'up' }
+        ];
+        this.init();
+    }
 
     init() {
-        this.canvas = document.getElementById('sentinel-canvas');
-        if (!this.canvas) return;
-        
-        this.ctx = this.canvas.getContext('2d');
-        this.resize();
-        this.points = Array(100).fill(0).map(() => this.canvas.height / 2);
-        
-        window.addEventListener('resize', () => this.resize());
-        this.draw();
-        this.initWatchlist();
-    },
-
-    resize() {
-        if (!this.canvas) return;
-        this.canvas.width = this.canvas.offsetWidth;
-        this.canvas.height = this.canvas.offsetHeight;
-    },
-
-    draw() {
-        if (!this.ctx) return;
-        requestAnimationFrame(() => this.draw());
-        
-        const w = this.canvas.width;
-        const h = this.canvas.height;
-        
-        this.ctx.clearRect(0, 0, w, h);
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = '#f59e0b';
-        this.ctx.lineWidth = 3;
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = '#f59e0b';
-        
-        const step = w / (this.points.length - 1);
-        this.ctx.moveTo(0, this.points[0]);
-        for (let i = 1; i < this.points.length; i++) {
-            this.ctx.lineTo(i * step, this.points[i]);
-        }
-        this.ctx.stroke();
-
-        this.points.shift();
-        this.points.push(this.points[this.points.length - 1] + (Math.random() - 0.5) * 30);
-        
-        if (Math.random() > 0.95) {
-            const price = document.getElementById('hero-price');
-            if (price) price.innerText = '₹' + (22450 + (Math.random() - 0.5) * 50).toFixed(2);
-        }
-    },
-
-    initWatchlist() {
-        const sectors = ["FINANCE", "METAL", "TECH", "ENERGY"];
-        const list = document.getElementById('watchlist');
-        if (list) {
-            sectors.forEach(s => {
-                list.innerHTML += `
-                    <div class="p-3 bg-white/5 rounded-xl border border-white/5 flex justify-between items-center glass">
-                        <span class="text-[10px] font-black uppercase text-white">${s}_CLUSTER</span>
-                        <span class="text-[10px] font-black text-green uppercase">+1.2%</span>
-                    </div>
-                `;
-            });
-        }
+        this.startPulse();
+        this.renderWatchlist();
     }
-};
 
-document.addEventListener('DOMContentLoaded', () => TraderController.init());
+    startPulse() {
+        const ticker = document.getElementById('pulse-ticker');
+        if (!ticker) return;
+
+        setInterval(() => {
+            const data = this.watchlist.map(item => {
+                const noise = (Math.random() - 0.5) * 2;
+                const newPrice = (item.price + noise).toFixed(2);
+                return `<span class="flex items-center space-x-2">
+                    <span class="text-white">${item.symbol}</span>
+                    <span class="${noise > 0 ? 'text-green-500' : 'text-red-500'}">${newPrice}</span>
+                </span>`;
+            }).join('<span class="text-muted mx-4 opacity-30">|</span>');
+            
+            ticker.innerHTML = data;
+        }, 800);
+    }
+
+    renderWatchlist() {
+        const body = document.getElementById('watchlist-body');
+        if (!body) return;
+
+        body.innerHTML = this.watchlist.map(item => `
+            <tr class="border-b border-white/5 hover:bg-yellow-500/5 transition-colors group">
+                <td class="p-4 font-bold text-white">${item.symbol}</td>
+                <td class="p-4 font-mono">${item.price.toFixed(2)}</td>
+                <td class="p-4 ${item.trend === 'up' ? 'text-green-500' : 'text-red-500'}">${item.change}</td>
+                <td class="p-4 text-muted">${item.vol}</td>
+                <td class="p-4 text-right">
+                    <button class="text-gold text-[10px] font-bold uppercase tracking-widest px-4 py-2 border border-gold/30 rounded hover:bg-gold hover:text-black transition-all">
+                        DEPLOY
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.traderNexus = new TraderController();
+});

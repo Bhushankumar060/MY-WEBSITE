@@ -1,0 +1,16 @@
+{
+  "name": "sovereign-v13",
+  "version": "13.0.0",
+  "description": "Institutional-Grade Intelligence Platform",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "axios": "^1.6.0",
+    "firebase-admin": "^11.0.0",
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "scripts": {
+    "build": "echo 'Building Sovereign v13.0...'",
+    "zip": "powershell Compress-Archive -Path ./ -DestinationPath ./sovereign-platform.zip -Force"
+  }
+}

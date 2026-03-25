@@ -1,30 +1,28 @@
-/* SOVEREIGN v9.2 - KEYFRAME ANIMATIONS */
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+/* 
+  SOVEREIGN v12.0 - ANIMATION SUITE
+*/
+
+@keyframes gold-glow {
+    0% { filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.4)); }
+    50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8)); }
+    100% { filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.4)); }
 }
 
-.animate-marquee {
-    display: inline-block;
-    animation: marquee 20s linear infinite;
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
-@keyframes shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
+@keyframes slide-in-top {
+    0% { transform: translateY(-30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
-.shake {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
+.animate-glow { animation: gold-glow 3s infinite ease-in-out; }
+.animate-float { animation: float 6s infinite ease-in-out; }
+.animate-slide-in { animation: slide-in-top 0.8s ease-out forwards; }
 
-@keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-}
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }

@@ -3,108 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Student | Pro-Grade Learning Matrix</title>
+    <title>Sovereign | Student Hub</title>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#10b981', dark: '#020617', surface: '#0f172a' },
-                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
-                }
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/three-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
             }
         }
     </script>
-
-    <!-- Sovereign Pro-Grade CSS Mesh -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <style>
-        .grade-badge { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981; }
-    </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="bg-black text-white">
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Navbar -->
-    <nav class="h-24 flex items-center px-8 border-b border-white/5 bg-dark sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-black font-heading tracking-tighter uppercase flex items-center gap-3">
-                <i class="fa-solid fa-crown text-primary"></i> Sovereign <span class="opacity-50 text-primary">Pulse</span>
-            </a>
-            <div class="flex items-center gap-6">
-                <div class="px-4 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span> SYSTEM_V9.2
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-20 md:w-64 glass-nav border-r border-yellow-500/10 flex flex-col p-6 sticky top-0 h-screen">
+            <div class="mb-12 flex items-center space-x-3">
+                <div class="w-8 h-8 bg-brand-gold rounded flex items-center justify-center">
+                    <i class="fas fa-crown text-black text-sm"></i>
                 </div>
-                <a href="index.html" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-house"></i></a>
+                <span class="hidden md:inline font-heading font-extrabold text-xl">SOVEREIGN</span>
             </div>
-        </div>
-    </nav>
 
-    <main class="max-w-7xl mx-auto px-8 pt-16">
-        <header class="mb-16">
-            <h1 class="text-5xl font-black font-heading tracking-tighter uppercase mb-4">Educational <span class="text-primary italic">Matrix</span></h1>
-            <p class="text-slate-400 font-medium">Select your grade level to initialize the v9.2 adaptive curriculum.</p>
-        </header>
+            <nav class="flex-1 space-y-6">
+                <a href="index.html" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-yellow-500/10 text-muted hover:text-gold transition-all">
+                    <i class="fas fa-home w-6"></i>
+                    <span class="hidden md:inline font-bold">Home</span>
+                </a>
+                <a href="#" class="flex items-center space-x-4 p-3 rounded-lg bg-yellow-500/10 text-gold shadow-lg shadow-yellow-500/5 transition-all">
+                    <i class="fas fa-graduation-cap w-6"></i>
+                    <span class="hidden md:inline font-bold">Curriculum</span>
+                </a>
+                <a href="store.html" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-yellow-500/10 text-muted hover:text-gold transition-all">
+                    <i class="fas fa-shopping-bag w-6"></i>
+                    <span class="hidden md:inline font-bold">Store</span>
+                </a>
+                <a href="my-purchases.html" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-yellow-500/10 text-muted hover:text-gold transition-all">
+                    <i class="fas fa-vault w-6"></i>
+                    <span class="hidden md:inline font-bold">Vault</span>
+                </a>
+            </nav>
 
-        <!-- Grade Selection Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-20">
-            <script>
-                for (let i = 1; i <= 12; i++) {
-                    document.write(`
-                        <button class="glass p-6 rounded-3xl text-center card-hover group grade-btn" data-grade="${i}">
-                            <p class="text-[10px] font-black text-slate-500 uppercase mb-2">Level</p>
-                            <p class="text-3xl font-black group-hover:text-primary transition-colors">${i}</p>
-                            <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">Initialize_Data</p>
-                        </button>
-                    `);
-                }
-            </script>
-        </div>
+            <div class="mt-auto pt-6 border-t border-yellow-500/10">
+                <div class="flex items-center space-x-3 mb-6 px-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-500 to-yellow-800 border border-gold/30"></div>
+                    <div class="hidden md:block">
+                        <p class="text-sm font-bold truncate">Executive User</p>
+                        <p class="text-xs text-muted">Tier: Sovereign</p>
+                    </div>
+                </div>
+                <button class="w-full btn-outline flex items-center justify-center space-x-2 py-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="hidden md:inline">Log Out</span>
+                </button>
+            </div>
+        </aside>
 
-        <!-- Subjects Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover">
-                <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-atom"></i></div>
-                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-atom"></i></div>
-                <h3 class="text-2xl font-black uppercase tracking-tighter">Physics Matrix</h3>
-                <p class="text-slate-400 text-sm leading-relaxed font-bold">Quantum mechanics and high-authority constants.</p>
-                <div class="pt-4 flex items-center justify-between border-t border-white/5">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-primary">8 Modules Available</span>
-                    <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
+        <!-- Main Workspace -->
+        <main class="flex-1 p-8 md:p-12 overflow-y-auto relative z-10">
+            <!-- Header -->
+            <header class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-extrabold font-heading mb-2">Curriculum Matrix</h2>
+                    <p class="text-muted">Adaptive Intelligence Learning Path</p>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <div class="glass-panel px-6 py-3 flex items-center space-x-4 border-yellow-500/30">
+                        <i class="fas fa-fire text-gold-bright"></i>
+                        <div>
+                            <p class="text-xs text-muted uppercase tracking-widest font-bold">Daily Streak</p>
+                            <p class="text-lg font-bold">12 Days</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Intelligence Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <div class="glass-panel p-8 card-hover border-yellow-500/30 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-yellow-500/5 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <i class="fas fa-brain text-4xl text-gold mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">Sovereign Tutor</h3>
+                    <p class="text-muted text-sm mb-6">Ask anything about your curriculum. Powered by Gemini 1.5 Pro.</p>
+                    <button class="btn-gold w-full text-sm">LAUNCH ASSISTANT</button>
+                </div>
+
+                <div class="glass-panel p-8 card-hover border-yellow-500/30">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fas fa-tasks text-4xl text-gold"></i>
+                        <span class="text-xs font-bold text-gold">78% COMPLETE</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Advanced Macro</h3>
+                    <div class="w-full bg-black/50 h-2 rounded-full mb-6">
+                        <div class="bg-brand-gold h-full rounded-full" style="width: 78%"></div>
+                    </div>
+                    <button class="btn-outline w-full text-sm font-bold">RESUME SESSION</button>
+                </div>
+
+                <div class="glass-panel p-8 flex flex-col items-center justify-center text-center border-yellow-500/10 opacity-60">
+                    <i class="fas fa-lock text-4xl mb-4 text-muted"></i>
+                    <p class="text-sm font-bold uppercase tracking-widest mb-1">Coming Soon</p>
+                    <p class="text-xs text-muted">Institutional Mastery Phase</p>
                 </div>
             </div>
 
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover">
-               <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-dna"></i></div>
-               <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl"><i class="fa-solid fa-dna"></i></div>
-               <h3 class="text-2xl font-black uppercase tracking-tighter">Biological Logic</h3>
-               <p class="text-slate-400 text-sm leading-relaxed font-bold">Evolutionary systems and genetic protocols.</p>
-               <div class="pt-4 flex items-center justify-between border-t border-white/5">
-                   <span class="text-[10px] font-black uppercase tracking-widest text-primary">12 Modules Available</span>
-                   <button class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-dark transition-all"><i class="fa-solid fa-arrow-right"></i></button>
-               </div>
+            <!-- Intelligence Matrix -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div id="ai-recommendations-students">
+                    <!-- Populated by recommendations.js -->
+                </div>
+                <div class="glass-panel p-6 border-yellow-500/10 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] text-muted uppercase font-bold tracking-widest">Goal Forecast</p>
+                        <p class="text-sm font-bold" id="goal-prediction">Calculating Velocity...</p>
+                    </div>
+                    <i class="fas fa-magic text-gold opacity-40"></i>
+                </div>
             </div>
 
-            <div class="glass p-10 rounded-[2.5rem] space-y-6 relative overflow-hidden group card-hover border-primary/20">
-               <div class="absolute top-0 right-0 p-8 opacity-10 text-8xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain"></i></div>
-               <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-dark text-2xl"><i class="fa-solid fa-brain"></i></div>
-               <h3 class="text-2xl font-black uppercase tracking-tighter">Lumi AI Assistant</h3>
-               <p class="text-slate-100 text-sm leading-relaxed font-bold italic">"Ready to optimize your cognitive growth."</p>
-               <div class="pt-4">
-                   <button onclick="StudentController.openLumiSession()" class="w-full py-4 bg-primary text-dark font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-400 transition-all shadow-xl shadow-primary/20">Launch_AI_Session</button>
-               </div>
+            <!-- Subject Grid -->
+            <h3 class="text-2xl font-bold font-heading mb-8 flex items-center">
+                <span class="w-8 h-1 bg-gold mr-4"></span>
+                ACTIVE SUBJECTS
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="subject-matrix">
+                <!-- Dynamically Populated by student.js -->
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
-    <!-- Sovereign Pro-Grade JS Mesh -->
-    <script src="js/utils.js"></script>
-    <script src="js/ai-assistant.js"></script>
-    <script src="js/student.js"></script>
-    <script src="js/error-logger.js"></script>
+    <!-- Core Services -->
+    <script type="module" src="js/three-bg.js"></script>
+    <script type="module" src="js/student.js"></script>
+    <script type="module" src="js/ai-assistant.js"></script>
+    <script type="module" src="js/recommendations.js"></script>
+    <script type="module" src="js/analytics.js"></script>
+    <script type="module" src="js/error-logger.js"></script>
 </body>
 </html>

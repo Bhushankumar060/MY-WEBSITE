@@ -1,74 +1,79 @@
-/**
- * SOVEREIGN v9.2 - THREE.JS ES-MODULE ENGINE
- * Initializes and manages the immersive Torus Knot background using modern ES-Modules.
- */
+/* 
+  SOVEREIGN v12.0 - THREE.JS ENGINE (ES-MODULE)
+  Modular and Performance-Optimized
+*/
 
 import * as THREE from 'three';
 
-const ThreeEngine = {
-    scene: null,
-    camera: null,
-    renderer: null,
-    torusKnot: null,
-
-    init() {
-        const canvas = document.getElementById('bg-canvas');
-        if (!canvas) {
-            console.error("SOVEREIGN_THREE_ERROR: bg-canvas not found.");
-            return;
-        }
+class ThreeBackground {
+    constructor() {
+        this.canvas = document.getElementById('bg-canvas');
+        if (!this.canvas) return;
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        this.renderer = new THREE.WebGLRenderer({ 
-            canvas: canvas,
-            antialias: true, 
-            alpha: true 
+        this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            alpha: true,
+            antialias: true
         });
-        
+
+        this.init();
+        this.animate();
+        this.handleResize();
+    }
+
+    init() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        const geometry = new THREE.TorusKnotGeometry(12, 4, 150, 20);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x10b981, 
+        // Geometry: Torus Knot (Sovereign Torque)
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xd4af37,
             wireframe: true,
             transparent: true,
-            opacity: 0.15,
-            emissive: 0x064e3b,
-            emissiveIntensity: 0.2
+            opacity: 0.4
         });
-        this.torusKnot = new THREE.Mesh(geometry, material);
-        this.scene.add(this.torusKnot);
 
-        const light = new THREE.PointLight(0xffffff, 100, 100);
-        light.position.set(10, 10, 50);
-        this.scene.add(light);
-        this.scene.add(new THREE.AmbientLight(0x404040, 3));
+        this.mesh = new THREE.Mesh(geometry, this.material);
+        this.scene.add(this.mesh);
 
-        this.camera.position.z = 45;
-        this.animate();
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        this.scene.add(ambientLight);
 
-        window.addEventListener('resize', () => this.handleResize());
-    },
+        const pointLight = new THREE.PointLight(0xd4af37, 2);
+        pointLight.position.set(20, 20, 20);
+        this.scene.add(pointLight);
+
+        this.camera.position.z = 30;
+    }
 
     animate() {
         requestAnimationFrame(() => this.animate());
-        if (this.torusKnot) {
-            this.torusKnot.rotation.x += 0.005;
-            this.torusKnot.rotation.y += 0.003;
+
+        if (this.mesh) {
+            this.mesh.rotation.x += 0.005;
+            this.mesh.rotation.y += 0.005;
+            this.mesh.rotation.z += 0.002;
         }
+
         this.renderer.render(this.scene, this.camera);
-    },
+    }
 
     handleResize() {
-        if (!this.camera || !this.renderer) return;
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        window.addEventListener('resize', () => {
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     }
-};
+}
 
-// Initialize on load
-ThreeEngine.init();
+// Initialize on Load
+document.addEventListener('DOMContentLoaded', () => {
+    window.sovereignBg = new ThreeBackground();
+});
+
+export default ThreeBackground;

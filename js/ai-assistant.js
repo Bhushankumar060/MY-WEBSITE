@@ -1,55 +1,56 @@
-/**
- * SOVEREIGN v9.2 - AI ASSISTANT ORCHESTRATION
- * Interfaces with OpenRouter to provide Lumi (Tutor) and Chaplin (Trader) intelligence.
- */
+/* 
+  SOVEREIGN v13.0 - AI ASSISTANT (SECURE PROXY)
+  Institutional Logic Mesh
+*/
 
-const AIAssistant = {
-    apiKey: null,
-
-    async init() {
-        if (this.apiKey) return;
-        try {
-            // Retrieve from Firestore admin/settings
-            const doc = await db.collection('admin').doc('settings').get();
-            if (doc.exists) {
-                this.apiKey = doc.data().OPENROUTER_API_KEY;
-                console.log("AI_ASSISTANT: Dynamic Cloud-Key Loaded.");
-            }
-        } catch (e) {
-            console.error("AI_INIT_ERROR:", e);
-        }
-    },
-
-    async ask(agent, prompt) {
-        await this.init();
-        if (!this.apiKey) throw new Error("AI_KEY_UNAVAILABLE");
-
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${this.apiKey}`,
-                "Content-Type": "application/json",
-                "HTTP-Referer": window.location.origin,
-                "X-Title": "TradeSovereign v9.2"
-            },
-            body: JSON.stringify({
-                model: "openai/gpt-3.5-turbo",
-                messages: [
-                    { role: "system", content: this.getRole(agent) },
-                    { role: "user", content: prompt }
-                ]
-            })
-        });
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-    },
-
-    getRole(agent) {
-        const roles = {
-            lumi: "You are Lumi, a high-authority AI tutor for students class 1-12. Be adaptive, encouraging, and highly educational.",
-            chaplin: "You are Chaplin, an institutional trading forecaster. Provide macro-driven, objective, and strategic market analysis."
-        };
-        return roles[agent] || "You are a Sovereign AI assistant.";
+class AIAssistant {
+    constructor() {
+        this.proxyUrl = "/.netlify/functions/ai-proxy";
     }
-};
+
+    async ask(prompt, context = "generic") {
+        console.log(`[SOVEREIGN AI]: Routing prompt via Secure Proxy (${context})...`);
+        
+        // 1. Local Host Logic (Mocking for v13.0 Autonomy)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return this.getMockResponse(prompt, context);
+        }
+
+        const systemPrompt = this.getSystemPrompt(context);
+        
+        try {
+            const response = await fetch(this.proxyUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt, systemPrompt })
+            });
+
+            if (!response.ok) throw new Error("Proxy Synchronization Failure");
+
+            const data = await response.json();
+            return data.content;
+        } catch (e) {
+            console.error("[AI]: Orchestration failure.", e);
+            return "Cognitive Failure: Connection to Neural Mesh severed.";
+        }
+    }
+
+    getMockResponse(prompt, context) {
+        console.log("[SOVEREIGN AI]: MOCKED RESPONSE (Local Dev Mode Active)");
+        if (context === 'trader') return "Analysis: Volatility shows institutional absorption. Bullish bias remains.";
+        if (context === 'student') return "Insight: Mastery of this module correlates with higher portfolio performance.";
+        return "Local logic mesh initialized. Systems nominal.";
+    }
+
+    getSystemPrompt(context) {
+        switch(context) {
+            case 'student': return "You are the Sovereign Executive Tutor. Provide high-level academic analysis.";
+            case 'trader': return "You are the Sovereign Trading Assistant. Provide market telemetry.";
+            default: return "You are the Sovereign Platform Intelligence. Professional and concise.";
+        }
+    }
+}
+
+const sovereignAI = new AIAssistant();
+export default sovereignAI;
+window.askAI = (p, c) => sovereignAI.ask(p, c);

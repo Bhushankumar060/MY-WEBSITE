@@ -3,113 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeOS Terminal | v9.2 Modular Institutional Intelligence</title>
+    <title>Sovereign | Trader Hub</title>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#f59e0b', dark: '#020617', green: '#10b981', red: '#ef4444' },
-                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }
-                }
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/three-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
             }
         }
     </script>
-
-    <!-- Sovereign Pro-Grade CSS Mesh -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    
-    <style>
-        body { height: 100vh; overflow: hidden; }
-        .terminal-grid { background-image: linear-gradient(rgba(245, 158, 11, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 158, 11, 0.05) 1px, transparent 1px); background-size: 30px 30px; }
-        .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .ticker-glow { text-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
-    </style>
 </head>
-<body class="flex flex-col h-screen terminal-grid select-none">
+<body class="bg-black text-white font-body selection:bg-yellow-500 selection:text-black">
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Header -->
-    <header class="h-16 border-b border-white/5 bg-dark/80 px-6 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <div class="w-8 h-8 bg-primary/20 rounded flex items-center justify-center border border-primary/30">
-                <i class="fa-solid fa-chart-line text-primary"></i>
-            </div>
-            <h1 class="text-sm font-black font-heading tracking-widest uppercase">TradeOS <span class="text-primary italic">Sentinel</span> v9.2</h1>
+    <!-- Pulse Ticker -->
+    <div class="fixed top-0 w-full z-50 glass-nav border-b border-yellow-500/10 py-2 px-6 flex items-center overflow-x-hidden">
+        <div class="flex items-center space-x-2 mr-8">
+            <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-bold tracking-widest uppercase">Live Market Pulse</span>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/5 text-[9px] font-bold uppercase tracking-widest text-primary ticker-glow">
-                <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span> SYSTEM_LIVE_FEED
-            </div>
-            <a href="index.html" class="text-slate-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest">Disconnect</a>
+        <div id="pulse-ticker" class="flex space-x-8 font-mono text-xs whitespace-nowrap">
+            <!-- Populated by trader.js -->
         </div>
-    </header>
-
-    <div class="flex-grow flex overflow-hidden">
-        <!-- Watchlist -->
-        <aside class="w-64 border-r border-white/5 glass-panel p-4 flex flex-col">
-            <p class="text-[9px] font-black uppercase tracking-widest text-slate-500 mb-6 px-2">Institutional_Watch</p>
-            <div id="watchlist" class="space-y-2">
-                <!-- Data from js/trader.js -->
-            </div>
-        </aside>
-
-        <!-- Main Chart -->
-        <main class="flex-grow flex flex-col relative bg-dark/50 p-6">
-            <div class="flex-grow glass-panel rounded-3xl relative overflow-hidden flex items-center justify-center">
-                <canvas id="sentinel-canvas" class="absolute inset-0 w-full h-full opacity-40"></canvas>
-                <div class="relative z-10 text-center space-y-4">
-                    <div class="inline-block px-4 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black text-primary tracking-widest">SENTINEL_PRO_ACTIVE</div>
-                    <div class="text-7xl font-heading font-black tracking-tighter tabular-nums" id="hero-price">₹22,450.00</div>
-                    <div class="text-xs font-black text-green uppercase tracking-widest">+1.24% Institutional Delta</div>
-                </div>
-            </div>
-
-            <!-- Trade Execution -->
-            <div class="h-28 mt-6 glass-panel rounded-3xl p-6 flex items-center gap-8">
-                <div>
-                   <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Available_Capital</p>
-                   <p class="text-2xl font-heading font-black">₹1,24,000.00</p>
-                </div>
-                <div class="ml-auto flex gap-4">
-                    <button class="px-10 py-4 bg-green text-dark font-black uppercase tracking-widest rounded-xl hover:bg-emerald-400 transition-all shadow-xl shadow-green/20">Buy_Matrix</button>
-                    <button class="px-10 py-4 bg-red text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-600 transition-all">Short_Nexus</button>
-                </div>
-            </div>
-        </main>
-
-        <!-- Chaplin AI Analysis -->
-        <aside class="w-96 border-l border-white/5 glass-panel flex flex-col">
-            <div class="p-6 border-b border-white/5 flex items-center gap-3">
-                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-dark"><i class="fa-solid fa-bolt"></i></div>
-                <div>
-                    <h4 class="text-sm font-black text-white">AI CHAPLIN</h4>
-                    <p class="text-[9px] font-black uppercase text-primary tracking-widest">Macro_Intelligence_V9.2</p>
-                </div>
-            </div>
-            <div id="chaplin-feed" class="flex-grow p-6 overflow-y-auto space-y-6">
-                <!-- Chaplin signals from js/trader.js -->
-            </div>
-        </aside>
     </div>
 
-    <!-- Ticker -->
-    <footer class="h-10 bg-dark border-t border-white/5 flex items-center px-6 gap-8 overflow-hidden text-[9px] font-black uppercase text-slate-500">
-        <div>Latency: <span class="text-green">14ms</span></div>
-        <div class="flex-grow overflow-hidden whitespace-nowrap">
-            <marquee scrollamount="4">DOW_JONES +0.45% /// NIFTY50 +1.24% /// RELIANCE -0.22% /// BTC +1.1% /// TATASTEEL +3.4% /// ETH -0.4%</marquee>
-        </div>
-        <div>Status: <span class="text-primary ticker-glow font-black">PRO_CONNECTED</span></div>
-    </footer>
+    <div class="flex min-h-screen pt-12">
+        <!-- Dashboard Sidebar -->
+        <aside class="w-20 md:w-64 glass-nav border-r border-yellow-500/10 flex flex-col p-6 sticky top-12 h-[calc(100vh-3rem)]">
+            <nav class="flex-1 space-y-6 pt-8">
+                <a href="index.html" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-yellow-500/10 text-muted hover:text-gold transition-all">
+                    <i class="fas fa-home w-6"></i>
+                    <span class="hidden md:inline font-bold">Home</span>
+                </a>
+                <a href="#" class="flex items-center space-x-4 p-3 rounded-lg bg-yellow-500/10 text-gold shadow-lg shadow-yellow-500/5 transition-all">
+                    <i class="fas fa-terminal w-6"></i>
+                    <span class="hidden md:inline font-bold">Terminal</span>
+                </a>
+                <a href="store.html" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-yellow-500/10 text-muted hover:text-gold transition-all">
+                    <i class="fas fa-shopping-cart w-6"></i>
+                    <span class="hidden md:inline font-bold">Store</span>
+                </a>
+            </nav>
 
-    <!-- Sovereign Pro-Grade JS Mesh -->
-    <script src="js/utils.js"></script>
-    <script src="js/ai-assistant.js"></script>
-    <script src="js/trader.js"></script>
-    <script src="js/error-logger.js"></script>
+            <div class="mt-auto border-t border-yellow-500/10 pt-6">
+                <button class="w-full btn-gold shadow-lg text-xs py-3">
+                    <i class="fas fa-plus mr-2"></i> NEW WATCHLIST
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Terminal -->
+        <main class="flex-1 p-8 overflow-y-auto relative z-10">
+            <header class="mb-12 flex justify-between items-start">
+                <div>
+                    <h2 class="text-4xl font-extrabold font-heading mb-2 tracking-tighter">Trader Hub v12.0</h2>
+                    <p class="text-muted font-mono text-sm">System Status: <span class="text-gold">NOMINAL</span> | Latency: 12ms</p>
+                </div>
+                <div class="glass-panel px-6 py-4 flex items-center space-x-6 border-yellow-500/20">
+                    <div class="text-right">
+                        <p class="text-[10px] text-muted uppercase font-bold tracking-widest">Sovereign Wallet</p>
+                        <p class="text-xl font-bold font-mono">₹ 1,24,500.00</p>
+                    </div>
+                    <i class="fas fa-wallet text-2xl text-gold"></i>
+                </div>
+            </header>
+
+            <!-- Market Matrix -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+                <div class="lg:col-span-3 glass-panel p-6 border-yellow-500/30">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold font-heading">Sovereign Pulse Index</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 bg-yellow-500/20 rounded text-[10px] font-bold text-gold">1H</button>
+                            <button class="px-3 py-1 bg-black/40 rounded text-[10px] font-bold text-muted">1D</button>
+                        </div>
+                    </div>
+                    <div class="h-64 bg-black/40 rounded-lg flex items-center justify-center border border-dashed border-white/10">
+                        <p class="text-muted text-xs uppercase tracking-widest">Rendering High-Frequency Chart...</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 bg-gradient-to-br from-yellow-500/10 to-transparent border-yellow-500/30">
+                    <h3 class="font-bold mb-6 flex items-center">
+                        <i class="fas fa-robot text-gold mr-3"></i> AI ASSISTANT
+                    </h3>
+                    <div id="ai-recommendations-traders" class="mb-4">
+                        <!-- Populated by recommendations.js -->
+                    </div>
+                    <div class="space-y-4 mb-6" id="ai-chatter">
+                        <div class="bg-black/50 p-3 rounded-lg border border-white/5">
+                            <p class="text-[10px] text-gold font-bold mb-1 uppercase tracking-tighter italic">Sovereign AI:</p>
+                            <p class="text-xs text-muted leading-relaxed">System ready. Awaiting trade telemetry for analysis.</p>
+                        </div>
+                    </div>
+                    <input type="text" class="w-full bg-black/60 border border-white/10 rounded p-3 text-xs focus:border-gold outline-none transition-all" placeholder="Ask AI... (e.g. 'Analyze NIFTY')">
+                </div>
+            </div>
+
+            <!-- Watchlist -->
+            <h3 class="text-xl font-bold font-heading mb-6">ACTIVE WATCHLIST</h3>
+            <div class="glass-panel overflow-hidden">
+                <table class="w-full text-left text-sm font-mono">
+                    <thead class="bg-yellow-500/5 border-b border-yellow-500/20">
+                        <tr>
+                            <th class="p-4 text-gold-bright">INSTRUMENT</th>
+                            <th class="p-4">PRICE</th>
+                            <th class="p-4">CHANGE</th>
+                            <th class="p-4">VOL</th>
+                            <th class="p-4 text-right">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="watchlist-body">
+                        <!-- Populated by trader.js -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Services -->
+    <script type="module" src="js/three-bg.js"></script>
+    <script type="module" src="js/trader.js"></script>
+    <script type="module" src="js/ai-assistant.js"></script>
+    <script type="module" src="js/recommendations.js"></script>
+    <script type="module" src="js/analytics.js"></script>
+    <script type="module" src="js/error-logger.js"></script>
 </body>
 </html>

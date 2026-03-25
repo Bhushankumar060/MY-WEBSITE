@@ -1,33 +1,44 @@
-/**
- * SOVEREIGN v9.2 - VAULT LOGISTICS
- * Manages purchased asset rendering and secure download links.
- */
+/* 
+  SOVEREIGN v12.0 - VAULT CONTROLLER
+  Institutional Asset Distribution
+*/
 
-const VaultController = {
+class VaultController {
+    constructor() {
+        this.assets = [
+            { id: 'sov-token-01', name: 'Mastery Certificate: Macro', type: 'Credential', date: '2026-03-20' },
+            { id: 'sov-algo-runner', name: 'Sovereign Algo v1.2', type: 'Software', date: '2026-03-24' }
+        ];
+        this.init();
+    }
+
     init() {
-        console.log("VAULT_CONTROLLER: Initializing Secure Uplink.");
         this.renderVault();
-    },
+    }
 
     renderVault() {
-        // Fetch from Supabase (mock for refactor)
-        const container = document.getElementById('vault-grid');
-        if (!container) return;
+        const vault = document.getElementById('vault-matrix');
+        if (!vault) return;
 
-        const assets = [
-            { id: '1', name: 'Sentinel Alpha Pack', type: 'PDF', icon: 'fa-file-pdf' }
-        ];
-
-        assets.forEach(a => {
-            container.innerHTML += `
-                <div class="vault-card p-10 space-y-6 glass card-hover group">
-                    <h3 class="text-2xl font-black uppercase tracking-tighter">${a.name}</h3>
-                    <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">${a.type}_ASSET</p>
-                    <button class="w-full py-4 bg-white/5 border border-white/10 text-primary font-black uppercase tracking-widest rounded-xl hover:bg-primary hover:text-dark transition-all">Download_Secure</button>
+        vault.innerHTML = this.assets.map(a => `
+            <div class="glass-panel p-6 border-yellow-500/10 flex items-center justify-between group">
+                <div class="flex items-center space-x-6">
+                    <div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-gold opacity-60 group-hover:opacity-100 transition-all">
+                        <i class="fas fa-file-contract text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">${a.name}</h4>
+                        <p class="text-[10px] text-muted uppercase tracking-widest">${a.type} | Issued: ${a.date}</p>
+                    </div>
                 </div>
-            `;
-        });
+                <button class="text-gold hover:text-gold-bright transition-all">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        `).join('');
     }
-};
+}
 
-document.addEventListener('DOMContentLoaded', () => VaultController.init());
+document.addEventListener('DOMContentLoaded', () => {
+    window.vaultNexus = new VaultController();
+});

@@ -1,43 +1,113 @@
-/* SOVEREIGN v9.2 - CORE STYLES */
+/* 
+  SOVEREIGN v12.0 - INSTITUTIONAL GOLD DESIGN SYSTEM
+  Refactor: Modular Service Mesh
+*/
+
 :root {
-    --primary: #10b981;
-    --dark: #020617;
-    --surface: #0f172a;
-    --glass: rgba(15, 23, 42, 0.6);
-    --border: rgba(255, 255, 255, 0.05);
+    --bg-deep: #050505;
+    --bg-surface: #121212;
+    --brand-gold: #d4af37;
+    --brand-gold-bright: #ffd700;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --glass-border: rgba(212, 175, 55, 0.2);
+    --glass-bg: rgba(18, 18, 18, 0.7);
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--dark);
-    color: #f8fafc;
-    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    font-family: var(--font-body);
     overflow-x: hidden;
-    margin: 0;
+    line-height: 1.6;
 }
 
-.glass {
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 20px;
+/* Glassmorphism Classes */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
 }
 
 .glass-nav {
-    background: rgba(2, 6, 23, 0.7);
+    background: rgba(5, 5, 5, 0.8);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--glass-border);
 }
 
-.text-glow {
-    text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+/* Typography */
+h1, h2, h3, .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
 }
 
+.text-gold { color: var(--brand-gold); }
+.text-gold-bright { color: var(--brand-gold-bright); }
+
+/* Buttons */
+.btn-gold {
+    background: var(--brand-gold);
+    color: black;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-gold:hover {
+    background: var(--brand-gold-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-outline {
+    border: 1px solid var(--brand-gold);
+    color: var(--brand-gold);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+/* UI Components */
 .card-hover {
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-hover:hover {
-    border-color: var(--primary);
-    transform: translateY(-10px);
-    background: rgba(16, 185, 129, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-color: var(--brand-gold);
+}
+
+/* Layout Utils */
+.container-vault {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--brand-gold);
+    border-radius: 10px;
 }

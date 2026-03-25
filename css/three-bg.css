@@ -1,17 +1,22 @@
-/* SOVEREIGN v9.2 - THREE.JS BACKGROUND STYLES */
-#matrix-canvas {
+/* 
+  SOVEREIGN v12.0 - THREE.JS CANVAS STYLES
+*/
+
+#bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
     pointer-events: none;
     opacity: 0.6;
+    background: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
 }
 
-#matrix-canvas canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
+.canvas-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
