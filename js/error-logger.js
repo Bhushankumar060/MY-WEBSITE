@@ -34,7 +34,12 @@ class SovereignLogger {
 
     async reportError(details) {
         console.error("[SOVEREIGN ERROR]:", details);
+        
+        // Skip cloud logging in simulation mode to avoid SDK validation errors
         try {
+            const { isSimulation } = await import('./firebase-config.js');
+            if (isSimulation) return;
+
             await addDoc(collection(db, "logs", "errors", "entries"), {
                 ...details,
                 timestamp: serverTimestamp(),
@@ -42,7 +47,7 @@ class SovereignLogger {
                 location: window.location.href
             });
         } catch (e) {
-            console.warn("Failed to log error to Firestore:", e);
+            console.warn("Cloud logging bypassed or failed.", e);
         }
     }
 
